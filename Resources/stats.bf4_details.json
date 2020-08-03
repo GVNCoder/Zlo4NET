@@ -1,0 +1,858 @@
+{
+  "0": {
+    "Rank": 0,
+    "Rank Title": "Recruit",
+    "XP Min Relative": 0,
+    "XP Min Total": 0
+  },
+  "1": {
+    "Rank": 1,
+    "Rank Title": "Private First Class",
+    "XP Min Relative": 3000,
+    "XP Min Total": 3000
+  },
+  "2": {
+    "Rank": 2,
+    "Rank Title": "Private First Class II",
+    "XP Min Relative": 8000,
+    "XP Min Total": 11000
+  },
+  "3": {
+    "Rank": 3,
+    
+    "Rank Title": "Private First Class III",
+    "Unlocks": [
+      "Bronze Battlepack"
+    ],
+    "XP Min Relative": 11000,
+    "XP Min Total": 22000
+  },
+  "4": {
+    "Rank": 4,
+    "Rank Title": "Private First Class IV",
+    "XP Min Relative": 13000,
+    "XP Min Total": 35000
+  },
+  "5": {
+    "Rank": 5,
+    "Rank Title": "Private First Class V",
+    "XP Min Relative": 17000,
+    "XP Min Total": 52000
+  },
+  "6": {
+    "Rank": 6,
+    "Rank Title": "Lance Corporal",
+    "XP Min Relative": 18000,
+    "XP Min Total": 70000
+  },
+  "7": {
+    "Rank": 7,
+    "Rank Title": "Lance Corporal II",
+    "XP Min Relative": 21000,
+    "XP Min Total": 91000
+  },
+  "8": {
+    "Rank": 8,
+    "Rank Title": "Lance Corporal III",
+    "XP Min Relative": 24000,
+    "XP Min Total": 115000
+  },
+  "9": {
+    "Rank": 9,
+    "Rank Title": "Lance Corporal IV",
+    "XP Min Relative": 25000,
+    "XP Min Total": 140000
+  },
+  "10": {
+    "Rank": 10,
+    "Rank Title": "Lance Corporal V",
+    "XP Min Relative": 28000,
+    "XP Min Total": 168000
+  },
+  "11": {
+    "Rank": 11,
+    "Rank Title": "Corporal",
+    "XP Min Relative": 29000,
+    "XP Min Total": 197000
+  },
+  "12": {
+    "Rank": 12,
+    "Rank Title": "Corporal II",
+    "XP Min Relative": 32000,
+    "XP Min Total": 229000
+  },
+  "13": {
+    "Rank": 13,
+    "Rank Title": "Corporal III",
+    "XP Min Relative": 33000,
+    "XP Min Total": 262000
+  },
+  "14": {
+    "Rank": 14,
+    "Rank Title": "Corporal IV",
+    "XP Min Relative": 35000,
+    "XP Min Total": 297000
+  },
+  "15": {
+    "Rank": 15,
+    "Rank Title": "Corporal V",
+    "XP Min Relative": 37000,
+    "XP Min Total": 334000
+  },
+  "16": {
+    "Rank": 16,
+    "Rank Title": "Sergeant",
+    "XP Min Relative": 39000,
+    "XP Min Total": 373000
+  },
+  "17": {
+    "Rank": 17,
+    "Rank Title": "Sergeant II",
+    "XP Min Relative": 40000,
+    "XP Min Total": 413000
+  },
+  "18": {
+    "Rank": 18,
+    "Rank Title": "Sergeant III",
+    "XP Min Relative": 42000,
+    "XP Min Total": 455000
+  },
+  "19": {
+    "Rank": 19,
+    "Rank Title": "Sergeant IV",
+    "XP Min Relative": 44000,
+    "XP Min Total": 499000
+  },
+  "20": {
+    "Rank": 20,
+    "Rank Title": "Sergeant V",
+    "XP Min Relative": 46000,
+    "XP Min Total": 545000
+  },
+  "21": {
+    "Rank": 21,
+    "Rank Title": "Staff Sergeant",
+    "XP Min Relative": 47000,
+    "XP Min Total": 592000
+  },
+  "22": {
+    "Rank": 22,
+    "Rank Title": "Staff Sergeant II",
+    "XP Min Relative": 48000,
+    "XP Min Total": 640000
+  },
+  "23": {
+    "Rank": 23,
+    "Rank Title": "Staff Sergeant III",
+    "XP Min Relative": 51000,
+    "XP Min Total": 691000
+  },
+  "24": {
+    "Rank": 24,
+    "Rank Title": "Staff Sergeant IV",
+    "XP Min Relative": 51000,
+    "XP Min Total": 742000
+  },
+  "25": {
+    "Rank": 25,
+    "Rank Title": "Staff Sergeant V",
+    "XP Min Relative": 54000,
+    "XP Min Total": 796000
+  },
+  "26": {
+    "Rank": 26,
+    "Rank Title": "Gunnery Sergeant",
+    "XP Min Relative": 55000,
+    "XP Min Total": 851000
+  },
+  "27": {
+    "Rank": 27,
+    "Rank Title": "Gunnery Sergeant II",
+    "XP Min Relative": 56000,
+    "XP Min Total": 907000
+  },
+  "28": {
+    "Rank": 28,
+    "Rank Title": "Gunnery Sergeant III",
+    "XP Min Relative": 58000,
+    "XP Min Total": 965000
+  },
+  "29": {
+    "Rank": 29,
+    "Rank Title": "Gunnery Sergeant IV",
+    "XP Min Relative": 58000,
+    "XP Min Total": 1023000
+  },
+  "30": {
+    "Rank": 30,
+    "Rank Title": "Gunnery Sergeant V",
+    "XP Min Relative": 58000,
+    "XP Min Total": 1081000
+  },
+  "31": {
+    "Rank": 31,
+    "Rank Title": "Master Sergeant",
+    "XP Min Relative": 69000,
+    "XP Min Total": 1150000
+  },
+  "32": {
+    "Rank": 32,
+    "Rank Title": "Master Sergeant II",
+    "XP Min Relative": 65000,
+    "XP Min Total": 1215000
+  },
+  "33": {
+    "Rank": 33,
+    "Rank Title": "Master Sergeant III",
+    "XP Min Relative": 65000,
+    "XP Min Total": 1280000
+  },
+  "34": {
+    "Rank": 34,
+    "Rank Title": "Master Sergeant IV",
+    "XP Min Relative": 65000,
+    "XP Min Total": 1345000
+  },
+  "35": {
+    "Rank": 35,
+    "Rank Title": "Master Sergeant V",
+    "XP Min Relative": 65000,
+    "XP Min Total": 1410000
+  },
+  "36": {
+    "Rank": 36,
+    "Rank Title": "First Sergeant",
+    "XP Min Relative": 70000,
+    "XP Min Total": 1480000
+  },
+  "37": {
+    "Rank": 37,
+    "Rank Title": "First Sergeant II",
+    "XP Min Relative": 70000,
+    "XP Min Total": 1550000
+  },
+  "38": {
+    "Rank": 38,
+    "Rank Title": "First Sergeant III",
+    "XP Min Relative": 70000,
+    "XP Min Total": 1620000
+  },
+  "39": {
+    "Rank": 39,
+    "Rank Title": "First Sergeant IV",
+    "XP Min Relative": 70000,
+    "XP Min Total": 1690000
+  },
+  "40": {
+    "Rank": 40,
+    "Rank Title": "First Sergeant V",
+    "XP Min Relative": 80000,
+    "XP Min Total": 1770000
+  },
+  "41": {
+    "Rank": 41,
+    "Rank Title": "Master Gunnery Sergeant",
+    "XP Min Relative": 80000,
+    "XP Min Total": 1850000
+  },
+  "42": {
+    "Rank": 42,
+    "Rank Title": "Master Gunnery Sergeant II",
+    "XP Min Relative": 75000,
+    "XP Min Total": 1925000
+  },
+  "43": {
+    "Rank": 43,
+    "Rank Title": "Master Gunnery Sergeant III",
+    "XP Min Relative": 75000,
+    "XP Min Total": 2000000
+  },
+  "44": {
+    "Rank": 44,
+    "Rank Title": "Master Gunnery Sergeant IV",
+    "XP Min Relative": 80000,
+    "XP Min Total": 2080000
+  },
+  "45": {
+    "Rank": 45,
+    "Rank Title": "Master Gunnery Sergeant V",
+    "XP Min Relative": 80000,
+    "XP Min Total": 2160000
+  },
+  "46": {
+    "Rank": 46,
+    "Rank Title": "Sergeant Major",
+    "XP Min Relative": 80000,
+    "XP Min Total": 2240000
+  },
+  "47": {
+    "Rank": 47,
+    "Rank Title": "Sergeant Major II",
+    "XP Min Relative": 90000,
+    "XP Min Total": 2330000
+  },
+  "48": {
+    "Rank": 48,
+    "Rank Title": "Sergeant Major III",
+    "XP Min Relative": 80000,
+    "XP Min Total": 2410000
+  },
+  "49": {
+    "Rank": 49,
+    "Rank Title": "Sergeant Major IV",
+    "XP Min Relative": 90000,
+    "XP Min Total": 2500000
+  },
+  "50": {
+    "Rank": 50,
+    "Rank Title": "Sergeant Major V",
+    "XP Min Relative": 90000,
+    "XP Min Total": 2590000
+  },
+  "51": {
+    "Rank": 51,
+    "Rank Title": "Warrant Officer One",
+    "XP Min Relative": 80000,
+    "XP Min Total": 2670000
+  },
+  "52": {
+    "Rank": 52,
+    "Rank Title": "Warrant Officer One II",
+    "XP Min Relative": 90000,
+    "XP Min Total": 2760000
+  },
+  "53": {
+    "Rank": 53,
+    "Rank Title": "Warrant Officer One III",
+    "XP Min Relative": 100000,
+    "XP Min Total": 2860000
+  },
+  "54": {
+    "Rank": 54,
+    "Rank Title": "Warrant Officer One IV",
+    "XP Min Relative": 100000,
+    "XP Min Total": 2960000
+  },
+  "55": {
+    "Rank": 55,
+    "Rank Title": "Warrant Officer One V",
+    "XP Min Relative": 90000,
+    "XP Min Total": 3050000
+  },
+  "56": {
+    "Rank": 56,
+    "Rank Title": "Chief Warrant Officer Two",
+    "XP Min Relative": 90000,
+    "XP Min Total": 3140000
+  },
+  "57": {
+    "Rank": 57,
+    "Rank Title": "Chief Warrant Officer Two II",
+    "XP Min Relative": 90000,
+    "XP Min Total": 3230000
+  },
+  "58": {
+    "Rank": 58,
+    "Rank Title": "Chief Warrant Officer Two III",
+    "XP Min Relative": 100000,
+    "XP Min Total": 3330000
+  },
+  "59": {
+    "Rank": 59,
+    "Rank Title": "Chief Warrant Officer Two IV",
+    "XP Min Relative": 100000,
+    "XP Min Total": 3430000
+  },
+  "60": {
+    "Rank": 60,
+    "Rank Title": "Chief Warrant Officer Two V",
+    "XP Min Relative": 90000,
+    "XP Min Total": 3520000
+  },
+  "61": {
+    "Rank": 61,
+    "Rank Title": "Chief Warrant Officer Three",
+    "XP Min Relative": 110000,
+    "XP Min Total": 3630000
+  },
+  "62": {
+    "Rank": 62,
+    "Rank Title": "Chief Warrant Officer Three II",
+    "XP Min Relative": 100000,
+    "XP Min Total": 3730000
+  },
+  "63": {
+    "Rank": 63,
+    "Rank Title": "Chief Warrant Officer Three III",
+    "XP Min Relative": 100000,
+    "XP Min Total": 3830000
+  },
+  "64": {
+    "Rank": 64,
+    "Rank Title": "Chief Warrant Officer Three IV",
+    "XP Min Relative": 110000,
+    "XP Min Total": 3940000
+  },
+  "65": {
+    "Rank": 65,
+    "Rank Title": "Chief Warrant Officer Three V",
+    "XP Min Relative": 110000,
+    "XP Min Total": 4050000
+  },
+  "66": {
+    "Rank": 66,
+    "Rank Title": "Chief Warrant Officer Four",
+    "XP Min Relative": 90000,
+    "XP Min Total": 4140000
+  },
+  "67": {
+    "Rank": 67,
+    "Rank Title": "Chief Warrant Officer Four II",
+    "XP Min Relative": 110000,
+    "XP Min Total": 4250000
+  },
+  "68": {
+    "Rank": 68,
+    "Rank Title": "Chief Warrant Officer Four III",
+    "XP Min Relative": 110000,
+    "XP Min Total": 4360000
+  },
+  "69": {
+    "Rank": 69,
+    "Rank Title": "Chief Warrant Officer Four IV",
+    "XP Min Relative": 120000,
+    "XP Min Total": 4480000
+  },
+  "70": {
+    "Rank": 70,
+    "Rank Title": "Chief Warrant Officer Four V",
+    "XP Min Relative": 110000,
+    "XP Min Total": 4590000
+  },
+  "71": {
+    "Rank": 71,
+    "Rank Title": "Chief Warrant Officer Five",
+    "XP Min Relative": 110000,
+    "XP Min Total": 4700000
+  },
+  "72": {
+    "Rank": 72,
+    "Rank Title": "Chief Warrant Officer Five II",
+    "XP Min Relative": 110000,
+    "XP Min Total": 4810000
+  },
+  "73": {
+    "Rank": 73,
+    "Rank Title": "Chief Warrant Officer Five III",
+    "XP Min Relative": 110000,
+    "XP Min Total": 4920000
+  },
+  "74": {
+    "Rank": 74,
+    "Rank Title": "Chief Warrant Officer Five IV",
+    "XP Min Relative": 110000,
+    "XP Min Total": 5030000
+  },
+  "75": {
+    "Rank": 75,
+    "Rank Title": "Chief Warrant Officer Five V",
+    "XP Min Relative": 120000,
+    "XP Min Total": 5150000
+  },
+  "76": {
+    "Rank": 76,
+    "Rank Title": "Second Lieutenant",
+    "XP Min Relative": 120000,
+    "XP Min Total": 5270000
+  },
+  "77": {
+    "Rank": 77,
+    "Rank Title": "Second Lieutenant II",
+    "XP Min Relative": 120000,
+    "XP Min Total": 5390000
+  },
+  "78": {
+    "Rank": 78,
+    "Rank Title": "Second Lieutenant III",
+    "XP Min Relative": 120000,
+    "XP Min Total": 5510000
+  },
+  "79": {
+    "Rank": 79,
+    "Rank Title": "Second Lieutenant IV",
+    "XP Min Relative": 120000,
+    "XP Min Total": 5630000
+  },
+  "80": {
+    "Rank": 80,
+    "Rank Title": "Second Lieutenant V",
+    "XP Min Relative": 120000,
+    "XP Min Total": 5750000
+  },
+  "81": {
+    "Rank": 81,
+    "Rank Title": "First Lieutenant",
+    "XP Min Relative": 130000,
+    "XP Min Total": 5880000
+  },
+  "82": {
+    "Rank": 82,
+    "Rank Title": "First Lieutenant II",
+    "XP Min Relative": 120000,
+    "XP Min Total": 6000000
+  },
+  "83": {
+    "Rank": 83,
+    "Rank Title": "First Lieutenant III",
+    "XP Min Relative": 120000,
+    "XP Min Total": 6120000
+  },
+  "84": {
+    "Rank": 84,
+    "Rank Title": "First Lieutenant IV",
+    "XP Min Relative": 130000,
+    "XP Min Total": 6250000
+  },
+  "85": {
+    "Rank": 85,
+    "Rank Title": "First Lieutenant V",
+    "XP Min Relative": 130000,
+    "XP Min Total": 6380000
+  },
+  "86": {
+    "Rank": 86,
+    "Rank Title": "Captain",
+    "XP Min Relative": 130000,
+    "XP Min Total": 6510000
+  },
+  "87": {
+    "Rank": 87,
+    "Rank Title": "Captain II",
+    "XP Min Relative": 130000,
+    "XP Min Total": 6640000
+  },
+  "88": {
+    "Rank": 88,
+    "Rank Title": "Captain III",
+    "XP Min Relative": 120000,
+    "XP Min Total": 6760000
+  },
+  "89": {
+    "Rank": 89,
+    "Rank Title": "Captain IV",
+    "XP Min Relative": 130000,
+    "XP Min Total": 6890000
+  },
+  "90": {
+    "Rank": 90,
+    "Rank Title": "Captain V",
+    "XP Min Relative": 130000,
+    "XP Min Total": 7020000
+  },
+  "91": {
+    "Rank": 91,
+    "Rank Title": "Major",
+    "XP Min Relative": 140000,
+    "XP Min Total": 7160000
+  },
+  "92": {
+    "Rank": 92,
+    "Rank Title": "Major II",
+    "XP Min Relative": 130000,
+    "XP Min Total": 7290000
+  },
+  "93": {
+    "Rank": 93,
+    "Rank Title": "Major III",
+    "XP Min Relative": 140000,
+    "XP Min Total": 7430000
+  },
+  "94": {
+    "Rank": 94,
+    "Rank Title": "Major IV",
+    "XP Min Relative": 130000,
+    "XP Min Total": 7560000
+  },
+  "95": {
+    "Rank": 95,
+    "Rank Title": "Major V",
+    "XP Min Relative": 140000,
+    "XP Min Total": 7700000
+  },
+  "96": {
+    "Rank": 96,
+    "Rank Title": "Lt. Colonel",
+    "XP Min Relative": 150000,
+    "XP Min Total": 7850000
+  },
+  "97": {
+    "Rank": 97,
+    "Rank Title": "Lt. Colonel II",
+    "XP Min Relative": 140000,
+    "XP Min Total": 7990000
+  },
+  "98": {
+    "Rank": 98,
+    "Rank Title": "Lt. Colonel III",
+    "XP Min Relative": 140000,
+    "XP Min Total": 8130000
+  },
+  "99": {
+    "Rank": 99,
+    "Rank Title": "Lt. Colonel IV",
+    "XP Min Relative": 130000,
+    "XP Min Total": 8260000
+  },
+  "100": {
+    "Rank": 100,
+    "Rank Title": "Colonel",
+    "XP Min Relative": 140000,
+    "XP Min Total": 8400000
+  },
+  "101": {
+    "Rank": 101,
+    "Rank Title": "Colonel II",
+    "XP Min Relative": 200000,
+    "XP Min Total": 8600000
+  },
+  "102": {
+    "Rank": 102,
+    "Rank Title": "Colonel III",
+    "XP Min Relative": 200000,
+    "XP Min Total": 8800000
+  },
+  "103": {
+    "Rank": 103,
+    "Rank Title": "Colonel IV",
+    "XP Min Relative": 200000,
+    "XP Min Total": 9000000
+  },
+  "104": {
+    "Rank": 104,
+    "Rank Title": "Colonel V",
+    "XP Min Relative": 200000,
+    "XP Min Total": 9200000
+  },
+  "105": {
+    "Rank": 105,
+    "Rank Title": "Colonel VI",
+    "XP Min Relative": 200000,
+    "XP Min Total": 9400000
+  },
+  "106": {
+    "Rank": 106,
+    "Rank Title": "Colonel VII",
+    "XP Min Relative": 200000,
+    "XP Min Total": 9600000
+  },
+  "107": {
+    "Rank": 107,
+    "Rank Title": "Colonel VIII",
+    "XP Min Relative": 200000,
+    "XP Min Total": 9800000
+  },
+  "108": {
+    "Rank": 108,
+    "Rank Title": "Colonel IX",
+    "XP Min Relative": 200000,
+    "XP Min Total": 10000000
+  },
+  "109": {
+    "Rank": 109,
+    "Rank Title": "Colonel X",
+    "XP Min Relative": 200000,
+    "XP Min Total": 10200000
+  },
+  "110": {
+    "Rank": 110,
+    "Rank Title": "Brigadier General",
+    "XP Min Relative": 200000,
+    "XP Min Total": 10400000
+  },
+  "111": {
+    "Rank": 111,
+    "Rank Title": "Brigadier General II",
+    "XP Min Relative": 300000,
+    "XP Min Total": 10700000
+  },
+  "112": {
+    "Rank": 112,
+    "Rank Title": "Brigadier General III",
+    "XP Min Relative": 470000,
+    "XP Min Total": 11170000
+  },
+  "113": {
+    "Rank": 113,
+    "Rank Title": "Brigadier General IV",
+    "XP Min Relative": 480000,
+    "XP Min Total": 11650000
+  },
+  "114": {
+    "Rank": 114,
+    "Rank Title": "Brigadier General V",
+    "XP Min Relative": 500000,
+    "XP Min Total": 12150000
+  },
+  "115": {
+    "Rank": 115,
+    "Rank Title": "Brigadier General VI",
+    "XP Min Relative": 510000,
+    "XP Min Total": 12660000
+  },
+  "116": {
+    "Rank": 116,
+    "Rank Title": "Brigadier General VII",
+    "XP Min Relative": 530000,
+    "XP Min Total": 13190000
+  },
+  "117": {
+    "Rank": 117,
+    "Rank Title": "Brigadier General VIII",
+    "XP Min Relative": 550000,
+    "XP Min Total": 13740000
+  },
+  "118": {
+    "Rank": 118,
+    "Rank Title": "Brigadier General IX",
+    "XP Min Relative": 560000,
+    "XP Min Total": 14300000
+  },
+  "119": {
+    "Rank": 119,
+    "Rank Title": "Brigadier General X",
+    "XP Min Relative": 590000,
+    "XP Min Total": 14890000
+  },
+  "120": {
+    "Rank": 120,
+    "Rank Title": "Major General",
+    "XP Min Relative": 600000,
+    "XP Min Total": 15490000
+  },
+  "121": {
+    "Rank": 121,
+    "Rank Title": "Major General II",
+    "XP Min Relative": 620000,
+    "XP Min Total": 16110000
+  },
+  "122": {
+    "Rank": 122,
+    "Rank Title": "Major General III",
+    "XP Min Relative": 640000,
+    "XP Min Total": 16750000
+  },
+  "123": {
+    "Rank": 123,
+    "Rank Title": "Major General IV",
+    "XP Min Relative": 660000,
+    "XP Min Total": 17410000
+  },
+  "124": {
+    "Rank": 124,
+    "Rank Title": "Major General V",
+    "XP Min Relative": 680000,
+    "XP Min Total": 18090000
+  },
+  "125": {
+    "Rank": 125,
+    "Rank Title": "Major General VI",
+    "XP Min Relative": 700000,
+    "XP Min Total": 18790000
+  },
+  "126": {
+    "Rank": 126,
+    "Rank Title": "Major General VII",
+    "XP Min Relative": 730000,
+    "XP Min Total": 19520000
+  },
+  "127": {
+    "Rank": 127,
+    "Rank Title": "Major General VIII",
+    "XP Min Relative": 740000,
+    "XP Min Total": 20260000
+  },
+  "128": {
+    "Rank": 128,
+    "Rank Title": "Major General IX",
+    "XP Min Relative": 770000,
+    "XP Min Total": 21030000
+  },
+  "129": {
+    "Rank": 129,
+    "Rank Title": "Major General X",
+    "XP Min Relative": 790000,
+    "XP Min Total": 21820000
+  },
+  "130": {
+    "Rank": 130,
+    "Rank Title": "Lieutenant General",
+    "XP Min Relative": 810000,
+    "XP Min Total": 22630000
+  },
+  "131": {
+    "Rank": 131,
+    "Rank Title": "Lieutenant General II",
+    "XP Min Relative": 840000,
+    "XP Min Total": 23470000
+  },
+  "132": {
+    "Rank": 132,
+    "Rank Title": "Lieutenant General III",
+    "XP Min Relative": 860000,
+    "XP Min Total": 24330000
+  },
+  "133": {
+    "Rank": 133,
+    "Rank Title": "Lieutenant General IV",
+    "XP Min Relative": 890000,
+    "XP Min Total": 25220000
+  },
+  "134": {
+    "Rank": 134,
+    "Rank Title": "Lieutenant General V",
+    "XP Min Relative": 910000,
+    "XP Min Total": 26130000
+  },
+  "135": {
+    "Rank": 135,
+    "Rank Title": "Lieutenant General VI",
+    "XP Min Relative": 940000,
+    "XP Min Total": 27070000
+  },
+  "136": {
+    "Rank": 136,
+    "Rank Title": "Lieutenant General VII",
+    "XP Min Relative": 960000,
+    "XP Min Total": 28030000
+  },
+  "137": {
+    "Rank": 137,
+    "Rank Title": "Lieutenant General VIII",
+    "XP Min Relative": 990000,
+    "XP Min Total": 29020000
+  },
+  "138": {
+    "Rank": 138,
+    "Rank Title": "Lieutenant General IX",
+    "XP Min Relative": 1020000,
+    "XP Min Total": 30040000
+  },
+  "139": {
+    "Rank": 139,
+    "Rank Title": "Lieutenant General X",
+    "XP Min Relative": 1050000,
+    "XP Min Total": 31090000
+  },
+  "140": {
+    "Rank": 140,
+    "Rank Title": "General",
+    "XP Min Relative": 1070000,
+    "XP Min Total": 32160000
+  },
+  "141": {
+    "Rank": 141,
+    "Rank Title": "-",
+    "XP Min Relative": 0,
+    "XP Min Total": 0
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "bf3": [
+    "Conquest Large",
+    "Assault Large",
+    "Conquest Small",
+    "Assault Small",
+    "Rush",
+    "Squad Rush",
+    "Squad Deathmatch",
+    "Team Death Match",
+    "TDM Close Quarters",
+    "Gun Master",
+    "Conquest Domination",
+    "Tank Superiority",
+    "Scavenger",
+    "Capture the Flag",
+    "Air Superiority"
+  ],
+  "bf4": [
+    "Conquest Large",
+    "Conquest Small",
+    "Domination",
+    "Defuse",
+    "Obliteration",
+    "Rush",
+    "Squad Deathmatch",
+    "Team Deathmatch",
+    "Air Superiority",
+    "Capture the Flag",
+    "Carrier Assault Large",
+    "Carrier Assault Small",
+    "Chain Link",
+    "Squad Obliteration",
+    "Gun Master"
+  ],
+  "bfh": [
+    "Conquest Large",
+    "Conquest Small",
+    "Rescue",
+    "Crosshair",
+    "Heist",
+    "Team Deathmatch",
+    "Hotwire",
+    "Blood Money",
+    "Bounty Hunter",
+    "Squad Heist",
+    "Capture the Bag"
+  ] 
+}
