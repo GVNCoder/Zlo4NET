@@ -92,6 +92,7 @@
     "HOS0": "Rescue",
     "HIT0": "Crosshair",
     "HST0": "Heist",
-    "CTF0": "Capture the Bag"
+    "CTF0": "Capture the Bag",
+    "SQH0": "Squad Heist"
   }
 }
