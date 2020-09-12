@@ -1,12 +1,12 @@
 {
-  "single": "-webMode SP -Origin_NoAppFocus -loginToken WAHAHA_IMMA_ZLO_TOKEN -requestState State_ResumeCampaign -requestStateParams \"<data role=\\\"soldier\\\" personaref=\\\"[personaRef]\\\" levelmode=\\\"SP\\\" logintoken=\\\"WAHAHA_IMMA_ZLO_TOKEN\\\" />",
-  "multi": "-webMode MP -Origin_NoAppFocus -loginToken WAHAHA_IMMA_ZLO_TOKEN -requestState State_ClaimReservation -requestStateParams \"<data putinsquad=\\\"true\\\" [isSpectator] gameid=\\\"[gameId]\\\" role=\\\"[role]\\\" personaref=\\\"[personaRef]\\\" levelmode=\\\"MP\\\" logintoken=\\\"WAHAHA_IMMA_ZLO_TOKEN\\\" />",
+  "single": "-webMode SP -Origin_NoAppFocus -loginToken WAHAHA_IMMA_ZLO_TOKEN -requestState State_ResumeCampaign -requestStateParams \"<data role=\\\"soldier\\\" personaref=\\\"[personaRef]\\\" levelmode=\\\"SP\\\" logintoken=\\\"WAHAHA_IMMA_ZLO_TOKEN\\\" />\"",
+  "multi": "-webMode MP -Origin_NoAppFocus -loginToken WAHAHA_IMMA_ZLO_TOKEN -requestState State_ClaimReservation -requestStateParams \"<data putinsquad=\\\"true\\\" [isSpectator] gameid=\\\"[gameId]\\\" role=\\\"[role]\\\" personaref=\\\"[personaRef]\\\" levelmode=\\\"MP\\\" logintoken=\\\"WAHAHA_IMMA_ZLO_TOKEN\\\" />\"",
 
   //multi commander: -webMode MP -Origin_NoAppFocus -loginToken WAHAHA_IMMA_ZLO_TOKEN -requestState State_ClaimReservation -requestStateParams "<data putinsquad=\"true\" gameid=\"5554\" role=\"commander\" personaref=\"783024\" levelmode=\"MP\" logintoken=\"WAHAHA_IMMA_ZLO_TOKEN\" />"
 
   //multi spectator: -webMode MP -Origin_NoAppFocus -loginToken WAHAHA_IMMA_ZLO_TOKEN -requestState State_ClaimReservation -requestStateParams "<data putinsquad=\"true\" isspectator=\"true\" gameid=\"5554\" role=\"soldier\" personaref=\"783024\" levelmode=\"MP\" logintoken=\"WAHAHA_IMMA_ZLO_TOKEN\" />"
 
-  "coop host": "-webMode COOP -Origin_NoAppFocus -loginToken WAHAHA_IMMA_ZLO_TOKEN -requestState State_CreateCoOpPeer -requestStateParams \"<data level=\\\"Levels/[level]/[level]\\\" difficulty=\\\"[difficulty]\\\" personaref=\\\"[personaRef]\\\" levelmode=\\\"COOP\\\" logintoken=\\\"WAHAHA_IMMA_ZLO_TOKEN\\\" />",
-  "coop join": "-webMode COOP -Origin_NoAppFocus -loginToken WAHAHA_IMMA_ZLO_TOKEN -requestState State_ConnectToUserId -requestStateParams \"<data friendpersonaid=\\\"[friendId]\\\" personaref=\\\"[personaRef]\\\" levelmode=\\\"COOP\\\" logintoken=\\\"WAHAHA_IMMA_ZLO_TOKEN\\\" />",
-  "test range": "-webMode SP -Origin_NoAppFocus -loginToken WAHAHA_IMMA_ZLO_TOKEN -requestState State_LaunchPlayground -requestStateParams \"<data personaref=\\\"[personaRef]\\\" levelmode=\\\"MP\\\" />"
+  "coop host": "-webMode COOP -Origin_NoAppFocus -loginToken WAHAHA_IMMA_ZLO_TOKEN -requestState State_CreateCoOpPeer -requestStateParams \"<data level=\\\"Levels/[level]/[level]\\\" difficulty=\\\"[difficulty]\\\" personaref=\\\"[personaRef]\\\" levelmode=\\\"COOP\\\" logintoken=\\\"WAHAHA_IMMA_ZLO_TOKEN\\\" />\"",
+  "coop join": "-webMode COOP -Origin_NoAppFocus -loginToken WAHAHA_IMMA_ZLO_TOKEN -requestState State_ConnectToUserId -requestStateParams \"<data friendpersonaid=\\\"[friendId]\\\" personaref=\\\"[personaRef]\\\" levelmode=\\\"COOP\\\" logintoken=\\\"WAHAHA_IMMA_ZLO_TOKEN\\\" />\"",
+  "test range": "-webMode SP -Origin_NoAppFocus -loginToken WAHAHA_IMMA_ZLO_TOKEN -requestState State_LaunchPlayground -requestStateParams \"<data personaref=\\\"[personaRef]\\\" levelmode=\\\"MP\\\" />\""
 }
