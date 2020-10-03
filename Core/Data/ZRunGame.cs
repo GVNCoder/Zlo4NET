@@ -126,23 +126,30 @@ namespace Zlo4NET.Core.Data
 
         private void _parseData(byte[] data)
         {
-            using (var memoryStream = new MemoryStream(data, false))
-            using (var br = new BinaryReader(memoryStream, Encoding.ASCII))
+            try
             {
-                br.ReadBytes(2); // skip 2 bytes ?
-                br.ReadUInt16(); // message length - 4 bytes (2 skipped and 2 current message length)
+                using (var memoryStream = new MemoryStream(data, false))
+                using (var br = new BinaryReader(memoryStream, Encoding.ASCII))
+                {
+                    br.ReadBytes(2); // skip 2 bytes ?
+                    br.ReadUInt16(); // message length - 4 bytes (2 skipped and 2 current message length)
 
-                var firstPartLength = br.ReadByte();
-                var firstPartString = br.ReadCountedString(firstPartLength)
-                    .Trim();
+                    var firstPartLength = br.ReadByte();
+                    var firstPartString = br.ReadCountedString(firstPartLength)
+                        .Trim();
 
-                var secondPartLength = br.ReadByte() + 1;
-                var secondPartString = br.ReadCountedString(secondPartLength)
-                    .Trim()
-                    .Replace('\0'.ToString(), string.Empty);
-                secondPartString = Uri.UnescapeDataString(secondPartString);
+                    var secondPartLength = br.ReadByte() + 1;
+                    var secondPartString = br.ReadCountedString(secondPartLength)
+                        .Trim()
+                        .Replace('\0'.ToString(), string.Empty);
+                    secondPartString = Uri.UnescapeDataString(secondPartString);
 
-                _onMessage(firstPartString, secondPartString);
+                    _onMessage(firstPartString, secondPartString);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error($"Occured {ex.Message} | {nameof(_parseData)}");
             }
         }
 
