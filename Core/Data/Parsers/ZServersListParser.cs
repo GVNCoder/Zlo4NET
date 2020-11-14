@@ -187,6 +187,10 @@ namespace Zlo4NET.Core.Data.Parsers
 
         private int[] _ParseMapIndexes(IDictionary<string, string> attributes)
         {
+            var mapsInfo = attributes["mapsinfo"];
+            if (string.IsNullOrEmpty(mapsInfo))
+                return new[] { 0 };
+
             var value = attributes["mapsinfo"]
                 .Split(';')
                 .Last()
