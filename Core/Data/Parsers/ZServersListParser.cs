@@ -189,7 +189,7 @@ namespace Zlo4NET.Core.Data.Parsers
         {
             var mapsInfo = attributes["mapsinfo"];
             if (string.IsNullOrEmpty(mapsInfo))
-                return new[] { 0 };
+                return new[] { 0, 0 };
 
             var value = attributes["mapsinfo"]
                 .Split(';')
