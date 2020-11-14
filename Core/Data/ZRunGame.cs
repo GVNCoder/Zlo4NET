@@ -51,6 +51,15 @@ namespace Zlo4NET.Core.Data
             _processTracker.ProcessLost += _ProcessTrackerOnProcessLost;
         }
 
+        public ZRunGame(string processName)
+        {
+            _logger = ZLogger.Instance;
+            _processTracker = new ZProcessTracker(processName, TimeSpan.FromSeconds(1), false, processes => processes.First());
+
+            _processTracker.ProcessDetected += _ProcessTrackerOnProcessDetected;
+            _processTracker.ProcessLost += _ProcessTrackerOnProcessLost;
+        }
+
         public event EventHandler<ZGamePipeArgs> Pipe;
         public Process GameProcess => _processTracker.Process;
         public bool IsRun => _processTracker.IsRun;
@@ -164,7 +173,9 @@ namespace Zlo4NET.Core.Data
         private void _ProcessTrackerOnProcessDetected(object sender, Process e)
         {
             _onMessage("StateChanged", "State_GameRunning");
-            _pipeReadThread.Start();
+
+            // ? cuz we cannot always create an instance
+            _pipeReadThread?.Start();
         }
 
         private void _onMessage(string firstPart, string secondPart)

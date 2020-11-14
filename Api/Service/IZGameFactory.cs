@@ -32,5 +32,11 @@ namespace Zlo4NET.Api.Service
         /// <param name="args">Options for creating a game</param>
         /// <returns>A task that represents the asynchronous game creation operation</returns>
         Task<IZRunGame> CreateCoOpAsync(ZCoopParams args);
+        /// <summary>
+        /// Asynchronously creates a game to track
+        /// </summary>
+        /// <param name="processName">The game process name</param>
+        /// <returns>A task that represents the asynchronous game creation operation</returns>
+        Task<IZRunGame> CreateByProcessNameAsync(string processName);
     }
 }
