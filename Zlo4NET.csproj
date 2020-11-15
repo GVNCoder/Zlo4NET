@@ -57,6 +57,9 @@
     <Compile Include="Api\Models\Shared\ZMapRole.cs" />
     <Compile Include="Api\Models\Shared\ZMapRotation.cs" />
     <Compile Include="Api\Models\Shared\ZPlayerRole.cs" />
+    <Compile Include="Core\Data\ZGameState.cs" />
+    <Compile Include="Core\Data\ZGameStateCaller.cs" />
+    <Compile Include="Core\Data\ZGameStateChangedEventArgs.cs" />
     <Compile Include="Core\Data\ZInstalledGames.cs" />
     <Compile Include="Api\Models\Shared\ZLogMessageArgs.cs" />
     <Compile Include="Api\Models\Shared\ZLogLevel.cs" />
@@ -77,6 +80,7 @@
     <Compile Include="Core\Data\Attributes\ZMapperPropertyAttribute.cs" />
     <Compile Include="Core\Data\ZResource.cs" />
     <Compile Include="Core\Data\ZRunGame.cs" />
+    <Compile Include="Core\Data\_GameStateParser.cs" />
     <Compile Include="Core\Helpers\ZCollectionWrapper.cs" />
     <Compile Include="Core\Helpers\ZConnectionHelper.cs" />
     <Compile Include="Core\Helpers\ZBitConverter.cs" />

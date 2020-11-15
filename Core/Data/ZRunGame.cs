@@ -60,7 +60,7 @@ namespace Zlo4NET.Core.Data
             _processTracker.ProcessLost += _ProcessTrackerOnProcessLost;
         }
 
-        public event EventHandler<ZGamePipeArgs> Pipe;
+        public event EventHandler<ZGameStateChangedEventArgs> StateChanged;
         public Process GameProcess => _processTracker.Process;
         public bool IsRun => _processTracker.IsRun;
 
@@ -158,7 +158,7 @@ namespace Zlo4NET.Core.Data
             }
             catch (Exception ex)
             {
-                _logger.Error($"Occured {ex.Message} | {nameof(_parseData)}");
+                _logger.Error($"{nameof(_parseData)} -> Occured {ex.Message}");
             }
         }
 
@@ -180,14 +180,19 @@ namespace Zlo4NET.Core.Data
 
         private void _onMessage(string firstPart, string secondPart)
         {
-            if (Pipe == null) return;
+            if (StateChanged == null) return;
 
-            var invocationList = Pipe.GetInvocationList();
-            var eventArgs = new ZGamePipeArgs(firstPart, secondPart);
+            // prepare event args
+            var caller = _GameStateParser.GetCallerByName(firstPart);
+            var state = _GameStateParser.GetStateByName(secondPart);
+
+            // raise event
+            var invocationList = StateChanged.GetInvocationList();
+            var eventArgs = new ZGameStateChangedEventArgs(state, caller, firstPart, secondPart);
 
             foreach (var handler in invocationList)
             {
-                var eventHandler = (EventHandler<ZGamePipeArgs>) handler;
+                var eventHandler = (EventHandler<ZGameStateChangedEventArgs>) handler;
                 eventHandler.BeginInvoke(this, eventArgs, _EndAsyncEvent, null);
             }
         }
@@ -195,7 +200,7 @@ namespace Zlo4NET.Core.Data
         private void _EndAsyncEvent(IAsyncResult iar)
         {
             var ar = (AsyncResult) iar;
-            var invokedMethod = (EventHandler<ZGamePipeArgs>) ar.AsyncDelegate;
+            var invokedMethod = (EventHandler<ZGameStateChangedEventArgs>) ar.AsyncDelegate;
 
             try
             {
