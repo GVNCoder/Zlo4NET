@@ -14,10 +14,6 @@ namespace Zlo4NET.Core.Data
         /// <summary>
         /// 
         /// </summary>
-        public ZGameStateCaller StateCaller { get; set; }
-        /// <summary>
-        /// 
-        /// </summary>
         public string RawCaller { get; set; }
         /// <summary>
         /// 
@@ -28,10 +24,9 @@ namespace Zlo4NET.Core.Data
         /// </summary>
         public string FullMessage => $"{RawCaller} {RawState}";
 
-        public ZGameStateChangedEventArgs(ZGameState gameState, ZGameStateCaller stateCaller, string caller, string state)
+        public ZGameStateChangedEventArgs(ZGameState gameState, string caller, string state)
         {
             GameState = gameState;
-            StateCaller = stateCaller;
             RawCaller = caller;
             RawState = state;
         }

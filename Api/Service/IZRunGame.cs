@@ -11,10 +11,11 @@ namespace Zlo4NET.Api.Service
     /// </summary>
     public interface IZRunGame
     {
+        event EventHandler<ZGamePipeArgs> Pipe;
         /// <summary>
         /// Occurs when a game state changed
         /// </summary>
-        event EventHandler<ZGameStateChangedEventArgs> StateChanged;
+        //event EventHandler<ZGameStateChangedEventArgs> StateChanged;
         /// <summary>
         /// Makes an asynchronous request to run game
         /// </summary>

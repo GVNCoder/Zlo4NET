@@ -60,7 +60,8 @@ namespace Zlo4NET.Core.Data
             _processTracker.ProcessLost += _ProcessTrackerOnProcessLost;
         }
 
-        public event EventHandler<ZGameStateChangedEventArgs> StateChanged;
+        public event EventHandler<ZGamePipeArgs> Pipe;
+        //public event EventHandler<ZGameStateChangedEventArgs> StateChanged;
         public Process GameProcess => _processTracker.Process;
         public bool IsRun => _processTracker.IsRun;
 
@@ -167,12 +168,12 @@ namespace Zlo4NET.Core.Data
             _processTracker.ProcessDetected -= _ProcessTrackerOnProcessDetected;
             _processTracker.ProcessLost -= _ProcessTrackerOnProcessLost;
 
-            _onMessage("StateChanged", "State_GameClosed");
+            //_onMessage("StateChanged", "State_GameClosed");
         }
 
         private void _ProcessTrackerOnProcessDetected(object sender, Process e)
         {
-            _onMessage("StateChanged", "State_GameRunning");
+            //_onMessage("StateChanged", "State_GameRunning");
 
             // ? cuz we cannot always create an instance
             _pipeReadThread?.Start();
@@ -180,19 +181,19 @@ namespace Zlo4NET.Core.Data
 
         private void _onMessage(string firstPart, string secondPart)
         {
-            if (StateChanged == null) return;
+            if (Pipe == null) return;
 
             // prepare event args
-            var caller = _GameStateParser.GetCallerByName(firstPart);
-            var state = _GameStateParser.GetStateByName(secondPart);
+            var x = _GameStateParser.ParseStates(firstPart, secondPart);
 
             // raise event
-            var invocationList = StateChanged.GetInvocationList();
-            var eventArgs = new ZGameStateChangedEventArgs(state, caller, firstPart, secondPart);
+            var invocationList = Pipe.GetInvocationList();
+            //var eventArgs = new ZGameStateChangedEventArgs(state, caller, firstPart, secondPart);
+            var eventArgs = new ZGamePipeArgs(firstPart, secondPart);
 
             foreach (var handler in invocationList)
             {
-                var eventHandler = (EventHandler<ZGameStateChangedEventArgs>) handler;
+                var eventHandler = (EventHandler<ZGamePipeArgs>) handler;
                 eventHandler.BeginInvoke(this, eventArgs, _EndAsyncEvent, null);
             }
         }
@@ -200,7 +201,7 @@ namespace Zlo4NET.Core.Data
         private void _EndAsyncEvent(IAsyncResult iar)
         {
             var ar = (AsyncResult) iar;
-            var invokedMethod = (EventHandler<ZGameStateChangedEventArgs>) ar.AsyncDelegate;
+            var invokedMethod = (EventHandler<ZGamePipeArgs>) ar.AsyncDelegate;
 
             try
             {
