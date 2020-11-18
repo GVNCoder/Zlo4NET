@@ -1,9 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+
+using Zlo4NET.Core.Helpers;
 
 namespace Zlo4NET.Core.Data
 {
     internal static class _GameStateParser
     {
+        #region Private members
+
         // where string is state name
         private static readonly IReadOnlyDictionary<string, ZGameState> _states = new Dictionary<string, ZGameState>
         {
@@ -47,20 +53,41 @@ namespace Zlo4NET.Core.Data
             { nameof(ZGameEvent.Alert), ZGameEvent.Alert }
         };
 
-        public static _GameState ParseStates(string eventName, string stateName)
+        private static readonly ZLogger _log = ZLogger.Instance;
+
+        #endregion
+
+        public static _GameState ParseStates(string rawEvent, string rawState)
         {
-            // TODO: Index of first number in string
-
-            // use str.IndexOfAny("0123456789".ToCharArray())
-            // use str.split by ' '
-
             // get pipe game event enum value
-            _events.TryGetValue(eventName, out var pipeEvent);
+            _events.TryGetValue(rawEvent, out var pipeEvent);
+
+            var resultState = new _GameState
+            {
+                RawEvent = rawEvent,
+                RawState = rawState,
+                Event = pipeEvent,
+                States = CollectionHelper.GetEmptyEnumerable<ZGameState>().ToArray()
+            };
 
             // select handle paths
             switch (pipeEvent)
             {
                 case ZGameEvent.StateChanged:
+
+                    var endOfStatesIndex = rawState.IndexOfAny("0123456789".ToCharArray());
+                    var stateString = rawState.Substring(0, endOfStatesIndex);
+                    var splitStates = stateString.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
+                    var states = splitStates.Select(state =>
+                    {
+                        // get game state enum value
+                        _states.TryGetValue(state, out var stateEnum);
+
+                        return stateEnum;
+                    }).ToArray();
+
+                    resultState.States = states;
+
                     break;
                 case ZGameEvent.Alert:
                     break;
@@ -70,12 +97,12 @@ namespace Zlo4NET.Core.Data
                 case ZGameEvent.Unknown:
                 default:
 
-                    // TODO: Log error here
+                    _log.Warning($"{nameof(_GameStateParser)} event doesn't match ({rawEvent} {rawState})");
 
                     break;
             }
 
-            return null;
+            return resultState;
         }
     }
 }
