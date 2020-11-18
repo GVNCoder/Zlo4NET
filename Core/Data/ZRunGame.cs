@@ -21,6 +21,8 @@ namespace Zlo4NET.Core.Data
 {
     internal class ZRunGame : IZRunGame
     {
+        private const int _messageHeaderSize = 4;
+
         private readonly IZClientService _clientService;
         private readonly IZGameRunParser _parser;
         private readonly Thread _pipeReadThread;
@@ -29,6 +31,8 @@ namespace Zlo4NET.Core.Data
         private readonly ZInstalledGame _targetGame;
         private readonly string _runArgs;
         private readonly ZLogger _logger;
+
+        private readonly _Buffer _dynamicBuffer;
 
         public ZRunGame(
             IZClientService clientService,
@@ -44,11 +48,13 @@ namespace Zlo4NET.Core.Data
             _logger = ZLogger.Instance;
 
             _pipeReadThread = new Thread(_ReadPipeMethod) { IsBackground = true };
-            _pipeClient = new NamedPipeClientStream(".", pipeName);
+            _pipeClient = new NamedPipeClientStream(".", pipeName, PipeDirection.In);
             _processTracker = new ZProcessTracker(processName, TimeSpan.FromSeconds(1), false, processes => processes.First());
 
             _processTracker.ProcessDetected += _ProcessTrackerOnProcessDetected;
             _processTracker.ProcessLost += _ProcessTrackerOnProcessLost;
+
+            _dynamicBuffer = new _Buffer();
         }
 
         public ZRunGame(string processName)
@@ -118,49 +124,74 @@ namespace Zlo4NET.Core.Data
         {
             _pipeClient.Connect();
 
-            while (_pipeClient.IsConnected)
+            // read data from pipe
+            while (_pipeClient.IsConnected && _pipeClient.CanRead)
             {
-                var buffer = new byte[1024];
+                var buffer = new byte[4096];
                 var bytesRead = _pipeClient.Read(buffer, 0, buffer.Length);
+
                 if (bytesRead > 0)
                 {
-                    var readBlock = new byte[bytesRead]; // +1
-                    Array.Copy(buffer, readBlock, bytesRead); // +1
+                    // create message data block
+                    var messageData = buffer.Take(bytesRead);
 
-                    _parseData(readBlock);
+                    // append message data
+                    _dynamicBuffer.Append(messageData);
+
+                    // parse message
+                    _parseData();
                 }
 
                 Thread.Sleep(50); // wait to data availability
             }
         }
 
-        private void _parseData(byte[] data)
+        private void _parseData()
         {
+            var eventString = string.Empty;
+            var stateString = string.Empty;
+
             try
             {
-                using (var memoryStream = new MemoryStream(data, false))
+                using (var memoryStream = new MemoryStream(_dynamicBuffer.BufferData, false))
                 using (var br = new BinaryReader(memoryStream, Encoding.ASCII))
                 {
-                    br.ReadBytes(2); // skip 2 bytes ?
-                    br.ReadUInt16(); // message length - 4 bytes (2 skipped and 2 current message length)
+                    br.ReadBytes(2); // skip two unknown bytes Approved by ZLOFENIX
+                    
+                    // read message length
+                    var messageLength = br.ReadUInt16();
 
-                    var firstPartLength = br.ReadByte();
-                    var firstPartString = br.ReadCountedString(firstPartLength)
+                    // check, we got the full message or not
+                    if (_dynamicBuffer.Size < messageLength - _messageHeaderSize)
+                    {
+                        return;
+                    }
+
+                    // read and parse message data
+                    var eventStringLength = br.ReadByte();
+
+                    eventString = br.ReadCountedString(eventStringLength)
                         .Trim();
 
-                    var secondPartLength = br.ReadByte() + 1;
-                    var secondPartString = br.ReadCountedString(secondPartLength)
-                        .Trim()
-                        .Replace('\0'.ToString(), string.Empty);
-                    secondPartString = Uri.UnescapeDataString(secondPartString);
+                    var stateStringLength = br.ReadUInt16();
 
-                    _onMessage(firstPartString, secondPartString);
+                    stateString = br.ReadCountedString(stateStringLength)
+                        .Trim();
+
+                    //    .Replace('\0'.ToString(), string.Empty);
+                    //secondPartString = Uri.UnescapeDataString(secondPartString);
+
+                    // normalize state string
+                    stateString = Uri.UnescapeDataString(stateString);
                 }
             }
             catch (Exception ex)
             {
-                _logger.Error($"{nameof(_parseData)} -> Occured {ex.Message}");
+                _logger.Error($"{nameof(_parseData)} message {ex.Message}");
             }
+
+            _dynamicBuffer.Clear();
+            _onMessage(eventString, stateString);
         }
 
         private void _ProcessTrackerOnProcessLost(object sender, EventArgs e)

@@ -80,6 +80,7 @@
     <Compile Include="Core\Data\Attributes\ZMapperPropertyAttribute.cs" />
     <Compile Include="Core\Data\ZResource.cs" />
     <Compile Include="Core\Data\ZRunGame.cs" />
+    <Compile Include="Core\Data\_Buffer.cs" />
     <Compile Include="Core\Data\_GameState.cs" />
     <Compile Include="Core\Data\_GameStateParser.cs" />
     <Compile Include="Core\Helpers\ZCollectionWrapper.cs" />
