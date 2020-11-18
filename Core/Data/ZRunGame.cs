@@ -168,12 +168,12 @@ namespace Zlo4NET.Core.Data
             _processTracker.ProcessDetected -= _ProcessTrackerOnProcessDetected;
             _processTracker.ProcessLost -= _ProcessTrackerOnProcessLost;
 
-            //_onMessage("StateChanged", "State_GameClosed");
+            _onMessage("StateChanged", "State_GameClose");
         }
 
         private void _ProcessTrackerOnProcessDetected(object sender, Process e)
         {
-            //_onMessage("StateChanged", "State_GameRunning");
+            _onMessage("StateChanged", "State_GameRun");
 
             // ? cuz we cannot always create an instance
             _pipeReadThread?.Start();
@@ -182,9 +182,6 @@ namespace Zlo4NET.Core.Data
         private void _onMessage(string firstPart, string secondPart)
         {
             if (Pipe == null) return;
-
-            // prepare event args
-            var x = _GameStateParser.ParseStates(firstPart, secondPart);
 
             // raise event
             var invocationList = Pipe.GetInvocationList();
