@@ -76,6 +76,10 @@ namespace Zlo4NET.Core.Data
                 case ZGameEvent.StateChanged:
 
                     var endOfStatesIndex = rawState.IndexOfAny("0123456789".ToCharArray());
+
+                    // Some states may not have numbers, so we need to handle this situation
+                    endOfStatesIndex = endOfStatesIndex != -1 ? endOfStatesIndex : rawState.Length;
+
                     var stateString = rawState.Substring(0, endOfStatesIndex);
                     var splitStates = stateString.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
                     var states = splitStates.Select(state =>

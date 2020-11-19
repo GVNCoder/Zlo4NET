@@ -59,7 +59,6 @@
     <Compile Include="Api\Models\Shared\ZPlayerRole.cs" />
     <Compile Include="Core\Data\ZGameEvent.cs" />
     <Compile Include="Core\Data\ZGameState.cs" />
-    <Compile Include="Core\Data\ZGameStateChangedEventArgs.cs" />
     <Compile Include="Core\Data\ZInstalledGames.cs" />
     <Compile Include="Api\Models\Shared\ZLogMessageArgs.cs" />
     <Compile Include="Api\Models\Shared\ZLogLevel.cs" />
