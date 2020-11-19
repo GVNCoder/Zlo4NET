@@ -69,7 +69,7 @@
     <Compile Include="Api\Models\Shared\ZTestRangeParams.cs" />
     <Compile Include="Api\IZApi.cs" />
     <Compile Include="Api\Service\IZGameFactory.cs" />
-    <Compile Include="Api\Service\IZRunGame.cs" />
+    <Compile Include="Api\Service\IZGameProcess.cs" />
     <Compile Include="Core\Data\Parsers\ZGameRunParser.cs" />
     <Compile Include="Core\Data\Parsers\ZInstalledGamesParser.cs" />
     <Compile Include="Core\Data\Parsers\ZStatsParser.cs" />
@@ -79,7 +79,7 @@
     <Compile Include="Core\Data\ZInstalledGamesService.cs" />
     <Compile Include="Core\Data\Attributes\ZMapperPropertyAttribute.cs" />
     <Compile Include="Core\Data\ZResource.cs" />
-    <Compile Include="Core\Data\ZRunGame.cs" />
+    <Compile Include="Core\Data\ZGameProcess.cs" />
     <Compile Include="Core\Data\_Buffer.cs" />
     <Compile Include="Core\Data\_GamePipe.cs" />
     <Compile Include="Core\Data\_GameState.cs" />

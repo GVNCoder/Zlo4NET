@@ -14,7 +14,7 @@ using Zlo4NET.Core.ZClient.Services;
 
 namespace Zlo4NET.Core.Data
 {
-    internal class ZRunGame : IZRunGame
+    internal class ZGameProcess : IZGameProcess
     {
         private readonly IZClientService _clientService;
         private readonly IZGameRunParser _parser;
@@ -24,7 +24,7 @@ namespace Zlo4NET.Core.Data
         private readonly ZLogger _logger;
         private readonly _GamePipe _pipe;
 
-        public ZRunGame(
+        public ZGameProcess(
             IZClientService clientService,
             string runArgs,
             ZInstalledGame targetGame,
@@ -51,7 +51,7 @@ namespace Zlo4NET.Core.Data
             _onMessage(state.Event, state.RawEvent, state.States, state.RawState);
         }
 
-        public ZRunGame(string processName)
+        public ZGameProcess(string processName)
         {
             _logger = ZLogger.Instance;
             _processTracker = new ZProcessTracker(processName, TimeSpan.FromSeconds(1), false, processes => processes.First());

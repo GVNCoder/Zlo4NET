@@ -9,7 +9,7 @@ namespace Zlo4NET.Api.Service
     /// <summary>
     /// Defines game ready for run
     /// </summary>
-    public interface IZRunGame
+    public interface IZGameProcess
     {
         /// <summary>
         /// Occurs when a game state changed (Pipe)

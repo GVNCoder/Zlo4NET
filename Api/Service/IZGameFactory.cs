@@ -13,30 +13,30 @@ namespace Zlo4NET.Api.Service
         /// </summary>
         /// <param name="args">Options for creating a game</param>
         /// <returns>A task that represents the asynchronous game creation operation</returns>
-        Task<IZRunGame> CreateSingleAsync(ZSingleParams args);
+        Task<IZGameProcess> CreateSingleAsync(ZSingleParams args);
         /// <summary>
         /// Asynchronously creates a game to run
         /// </summary>
         /// <param name="args">Options for creating a game</param>
         /// <returns>A task that represents the asynchronous game creation operation</returns>
-        Task<IZRunGame> CreateMultiAsync(ZMultiParams args);
+        Task<IZGameProcess> CreateMultiAsync(ZMultiParams args);
         /// <summary>
         /// Asynchronously creates a game to run
         /// </summary>
         /// <param name="args">Options for creating a game</param>
         /// <returns>A task that represents the asynchronous game creation operation</returns>
-        Task<IZRunGame> CreateTestRangeAsync(ZTestRangeParams args);
+        Task<IZGameProcess> CreateTestRangeAsync(ZTestRangeParams args);
         /// <summary>
         /// Asynchronously creates a game to run
         /// </summary>
         /// <param name="args">Options for creating a game</param>
         /// <returns>A task that represents the asynchronous game creation operation</returns>
-        Task<IZRunGame> CreateCoOpAsync(ZCoopParams args);
+        Task<IZGameProcess> CreateCoOpAsync(ZCoopParams args);
         /// <summary>
         /// Asynchronously creates a game to track
         /// </summary>
         /// <param name="processName">The game process name</param>
         /// <returns>A task that represents the asynchronous game creation operation</returns>
-        Task<IZRunGame> CreateByProcessNameAsync(string processName);
+        Task<IZGameProcess> CreateByProcessNameAsync(string processName);
     }
 }

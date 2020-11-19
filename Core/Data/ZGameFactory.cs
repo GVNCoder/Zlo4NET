@@ -47,16 +47,16 @@ namespace Zlo4NET.Core.Data
 
         #region Private methods
 
-        private IZRunGame _createRunGame(ZInstalledGame target, string command, ZGame game, ZGameArchitecture architecture)
+        private IZGameProcess _createRunGame(ZInstalledGame target, string command, ZGame game, ZGameArchitecture architecture)
         {
             switch (game)
             {
-                case ZGame.BF3: return new ZRunGame(_clientService, command, target, "venice_snowroller", "bf3");
+                case ZGame.BF3: return new ZGameProcess(_clientService, command, target, "venice_snowroller", "bf3");
                 case ZGame.BF4:
-                    return new ZRunGame(_clientService, command, target, "warsaw_snowroller",
+                    return new ZGameProcess(_clientService, command, target, "warsaw_snowroller",
                         architecture == ZGameArchitecture.x64 ? "bf4" : "bf4_x86");
                 case ZGame.BFH:
-                    return new ZRunGame(_clientService, command, target, "omaha_snowroller",
+                    return new ZGameProcess(_clientService, command, target, "omaha_snowroller",
                         architecture == ZGameArchitecture.x64 ? "bfh" : "bfh_x86");
 
                 case ZGame.None:
@@ -75,7 +75,7 @@ namespace Zlo4NET.Core.Data
 
         #endregion
 
-        public async Task<IZRunGame> CreateSingleAsync(ZSingleParams args)
+        public async Task<IZGameProcess> CreateSingleAsync(ZSingleParams args)
         {
             ZConnectionHelper.MakeSureConnection();
 
@@ -106,7 +106,7 @@ namespace Zlo4NET.Core.Data
             return runGame;
         }
 
-        public async Task<IZRunGame> CreateCoOpAsync(ZCoopParams args)
+        public async Task<IZGameProcess> CreateCoOpAsync(ZCoopParams args)
         {
             ZConnectionHelper.MakeSureConnection();
 
@@ -159,7 +159,7 @@ namespace Zlo4NET.Core.Data
             return runGame;
         }
 
-        public async Task<IZRunGame> CreateTestRangeAsync(ZTestRangeParams args)
+        public async Task<IZGameProcess> CreateTestRangeAsync(ZTestRangeParams args)
         {
             ZConnectionHelper.MakeSureConnection();
 
@@ -200,7 +200,7 @@ namespace Zlo4NET.Core.Data
             return runGame;
         }
 
-        public async Task<IZRunGame> CreateMultiAsync(ZMultiParams args)
+        public async Task<IZGameProcess> CreateMultiAsync(ZMultiParams args)
         {
             ZConnectionHelper.MakeSureConnection();
 
@@ -248,11 +248,11 @@ namespace Zlo4NET.Core.Data
             return runGame;
         }
 
-        public Task<IZRunGame> CreateByProcessNameAsync(string processName)
+        public Task<IZGameProcess> CreateByProcessNameAsync(string processName)
         {
-            var gameInstance = new ZRunGame(processName);
+            var gameInstance = new ZGameProcess(processName);
 
-            return Task.FromResult<IZRunGame>(gameInstance);
+            return Task.FromResult<IZGameProcess>(gameInstance);
         }
     }
 }
