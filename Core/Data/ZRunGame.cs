@@ -48,7 +48,7 @@ namespace Zlo4NET.Core.Data
 
         private void _PipeEventHandler(_GameState state)
         {
-            // TODO: Handle pipe here
+            _onMessage(state.Event, state.RawEvent, state.States, state.RawState);
         }
 
         public ZRunGame(string processName)
@@ -60,8 +60,7 @@ namespace Zlo4NET.Core.Data
             _processTracker.ProcessLost += _ProcessTrackerOnProcessLost;
         }
 
-        public event EventHandler<ZGamePipeArgs> Pipe;
-        //public event EventHandler<ZGameStateChangedEventArgs> StateChanged;
+        public event EventHandler<ZGamePipeArgs> StateChanged;
         public Process GameProcess => _processTracker.Process;
         public bool IsRun => _processTracker.IsRun;
 
@@ -119,7 +118,7 @@ namespace Zlo4NET.Core.Data
             _processTracker.ProcessDetected -= _ProcessTrackerOnProcessDetected;
             _processTracker.ProcessLost -= _ProcessTrackerOnProcessLost;
 
-            _onMessage("StateChanged", "State_GameClose");
+            _OnCustomPipeEvent("StateChanged", "State_GameClose");
 
             _pipe.PipeEvent -= _PipeEventHandler;
 
@@ -129,19 +128,27 @@ namespace Zlo4NET.Core.Data
 
         private void _ProcessTrackerOnProcessDetected(object sender, Process e)
         {
-            _onMessage("StateChanged", "State_GameRun");
+            _OnCustomPipeEvent("StateChanged", "State_GameRun");
 
             // ? cuz we cannot always create an instance
             _pipe?.Begin();
         }
 
-        private void _onMessage(string firstPart, string secondPart)
+        private void _OnCustomPipeEvent(string eventName, string stateName)
         {
-            if (Pipe == null) return;
+            // parse custom state
+            var state = _GameStateParser.ParseStates(eventName, stateName);
+
+            _onMessage(state.Event, state.RawEvent, state.States, state.RawState);
+        }
+
+        private void _onMessage(ZGameEvent eventEnum, string rawEvent, ZGameState[] stateEnums, string rawState)
+        {
+            if (StateChanged == null) return;
 
             // raise event
-            var invocationList = Pipe.GetInvocationList();
-            var eventArgs = new ZGamePipeArgs(firstPart, secondPart);
+            var invocationList = StateChanged.GetInvocationList();
+            var eventArgs = new ZGamePipeArgs(eventEnum, rawEvent, stateEnums, rawState);
 
             foreach (var handler in invocationList)
             {

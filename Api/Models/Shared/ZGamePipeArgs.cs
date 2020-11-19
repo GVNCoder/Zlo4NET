@@ -1,30 +1,48 @@
 ﻿using System;
 
+using Zlo4NET.Core.Data;
+
+// disable Missing XML documentation
+#pragma warning disable 1591
+
 namespace Zlo4NET.Api.Models.Shared
 {
+    /// <inheritdoc />
     /// <summary>
-    /// Defines game pipe event args
+    /// Defines game pipe event
     /// </summary>
     public class ZGamePipeArgs : EventArgs
     {
         /// <summary>
-        /// Gets full pipe message
+        /// 
         /// </summary>
-        public string FullMessage { get; }
+        public string RawEvent { get; set; }
         /// <summary>
-        /// Gets only first part of pipe message
+        /// 
         /// </summary>
-        public string FirstPart { get; }
+        public string RawState { get; set; }
         /// <summary>
-        /// Gets only second part of pipe message
+        /// 
         /// </summary>
-        public string SecondPart { get; }
+        public string RawFullMessage { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public ZGameEvent Event { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public ZGameState[] States { get; set; }
 
-        public ZGamePipeArgs(string firstPart, string secondPart)
+        public ZGamePipeArgs(ZGameEvent eventEnum, string rawEvent, ZGameState[] stateEnums, string rawState)
         {
-            FullMessage = $"{firstPart} {secondPart}";
-            FirstPart = firstPart;
-            SecondPart = secondPart;
+            Event = eventEnum;
+            States = stateEnums;
+
+            RawEvent = rawEvent;
+            RawState = rawState;
+
+            RawFullMessage = $"{rawEvent} {rawState}";
         }
     }
 }
