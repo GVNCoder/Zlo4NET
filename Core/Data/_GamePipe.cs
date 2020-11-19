@@ -35,11 +35,6 @@ namespace Zlo4NET.Core.Data
 
         public void Begin() => _readThread.Start();
 
-        public void Stop()
-        {
-            // TODO: Close pipe and thread
-        }
-
         #region Private helpers
 
         private void _OnPipeEvent(_GameState state) => PipeEvent?.Invoke(state);

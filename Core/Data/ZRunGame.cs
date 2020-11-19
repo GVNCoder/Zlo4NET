@@ -122,7 +122,9 @@ namespace Zlo4NET.Core.Data
             _onMessage("StateChanged", "State_GameClose");
 
             _pipe.PipeEvent -= _PipeEventHandler;
-            _pipe.Stop();
+
+            // after closing the game process,
+            // its pipe is destroyed automatically + the thread that processes the reading will be completed
         }
 
         private void _ProcessTrackerOnProcessDetected(object sender, Process e)
@@ -139,7 +141,6 @@ namespace Zlo4NET.Core.Data
 
             // raise event
             var invocationList = Pipe.GetInvocationList();
-            //var eventArgs = new ZGameStateChangedEventArgs(state, caller, firstPart, secondPart);
             var eventArgs = new ZGamePipeArgs(firstPart, secondPart);
 
             foreach (var handler in invocationList)
