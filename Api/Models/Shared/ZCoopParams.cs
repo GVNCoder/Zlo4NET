@@ -26,6 +26,6 @@ namespace Zlo4NET.Api.Models.Shared
         /// <summary>
         /// This property doesn't support on this game mode
         /// </summary>
-        public new ZGame Game { get => throw new NotSupportedException(); set => throw new NotSupportedException(); }
+        public override ZGame Game { get => throw new NotSupportedException(); set => throw new NotSupportedException(); }
     }
 }

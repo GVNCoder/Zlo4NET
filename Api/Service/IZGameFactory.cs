@@ -35,8 +35,8 @@ namespace Zlo4NET.Api.Service
         /// <summary>
         /// Asynchronously creates a game to track
         /// </summary>
-        /// <param name="processName">The game process name</param>
+        /// <param name="args">Options for track game process</param>
         /// <returns>A task that represents the asynchronous game creation operation</returns>
-        Task<IZGameProcess> CreateByProcessNameAsync(string processName);
+        Task<IZGameProcess> CreateByProcessNameAsync(ZProcessParameters args);
     }
 }
