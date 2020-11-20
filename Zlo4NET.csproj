@@ -49,6 +49,7 @@
     <Compile Include="Api\Models\Server\ZBFHAttributes.cs" />
     <Compile Include="Api\Models\Server\ZBF3Attributes.cs" />
     <Compile Include="Api\Models\Server\ZBF4Attributes.cs" />
+    <Compile Include="Api\Models\Shared\ZBaseParameters.cs" />
     <Compile Include="Api\Models\Shared\ZBF3Stats.cs" />
     <Compile Include="Api\Models\Shared\ZBF4Stats.cs" />
     <Compile Include="Api\Models\Shared\ZConfiguration.cs" />
