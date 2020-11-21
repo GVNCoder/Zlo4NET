@@ -37,6 +37,8 @@
         State_WaitForPeerClient,
         State_PeerClientConnected,
         State_ClaimReservation,
-        State_Ready
+        State_Ready,
+        State_Sparta,
+        State_ShutdownStateMachine
     }
 }

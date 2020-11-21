@@ -43,7 +43,9 @@ namespace Zlo4NET.Core.Data
             { nameof(ZGameState.State_WaitForPeerClient), ZGameState.State_WaitForPeerClient },
             { nameof(ZGameState.State_PeerClientConnected), ZGameState.State_PeerClientConnected },
             { nameof(ZGameState.State_ClaimReservation), ZGameState.State_ClaimReservation },
-            { nameof(ZGameState.State_Ready), ZGameState.State_Ready }
+            { nameof(ZGameState.State_Ready), ZGameState.State_Ready },
+            { nameof(ZGameState.State_Sparta), ZGameState.State_Sparta },
+            { nameof(ZGameState.State_ShutdownStateMachine), ZGameState.State_ShutdownStateMachine }
         };
         // where string is event name
         private static readonly IReadOnlyDictionary<string, ZGameEvent> _events = new Dictionary<string, ZGameEvent>
