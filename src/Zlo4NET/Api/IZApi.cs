@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using Zlo4NET.Api.Models.Shared;
@@ -55,7 +56,7 @@ namespace Zlo4NET.Api
         /// <param name="game">Game context</param>
         /// <param name="paths">An array of dll paths for injection</param>
         /// <exception cref="InvalidOperationException">Occurs when Api is not connected</exception>
-        void InjectDll(ZGame game, string[] paths);
+        void InjectDll(ZGame game, IEnumerable<string> paths);
         /// <summary>
         /// Configures api
         /// </summary>
