@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using Zlo4NET.Api;
@@ -96,7 +97,7 @@ namespace Zlo4NET.Core.Data
         }
 
         /// <inheritdoc />
-        public void InjectDll(ZGame game, string[] paths)
+        public void InjectDll(ZGame game, IEnumerable<string> paths)
         {
             ZConnectionHelper.MakeSureConnection();
 
