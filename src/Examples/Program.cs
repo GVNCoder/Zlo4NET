@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Zlo4NET.Api.Models.Shared;
+using Zlo4NET.Api.Service;
 using Zlo4NET.Core.Data;
 
 namespace Examples
@@ -32,13 +33,18 @@ namespace Examples
 
             if (zloApi.Connection.IsConnected)
             {
+                Console.WriteLine("Connected\n");
+
                 // call async version of Main(...)
                 MainAsync(args).GetAwaiter().GetResult();
             }
             else
             {
-                Console.WriteLine("Cannot connection to ZClient");
+                Console.WriteLine("Cannot connect to ZClient\n");
             }
+
+            Console.WriteLine("Press any key to exit...");
+            Console.ReadKey();
         }
 
         internal static async Task MainAsync(string[] args)
@@ -83,16 +89,14 @@ namespace Examples
 
             switch (gameMode)
             {
+                // create and run singleplayer game
                 case ZPlayMode.Singleplayer:
+
+                    // create game
                     var gameProcess = await gameFactory.CreateSingleAsync(new ZSingleParams { Game = game });
 
-                    // track game pipe
-                    gameProcess.Pipe += (sender, pipeArgs) => Console.WriteLine(pipeArgs.FullMessage);
-
-                    // run game process
-                    var runResult = await gameProcess.RunAsync();
-
-                    Console.WriteLine($"Run result {runResult}");
+                    // run and track game pipe
+                    await _RunAndTrack(gameProcess);
 
                     break;
                 case ZPlayMode.Multiplayer:
@@ -104,6 +108,30 @@ namespace Examples
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        internal static async Task _RunAndTrack(IZRunGame gameProcess)
+        {
+            var resetEvent = new ManualResetEvent(false);
+
+            // track game pipe
+            gameProcess.Pipe += (sender, pipeArgs) =>
+            {
+                Console.WriteLine(pipeArgs.FullMessage);
+
+                // return from _RunAndTrack if game closed
+                if (pipeArgs.SecondPart.Contains("Closed"))
+                {
+                    resetEvent.Set();
+                }
+            };
+
+            // run game process
+            var runResult = await gameProcess.RunAsync();
+
+            Console.WriteLine($"Run result {runResult}");
+
+            resetEvent.WaitOne();
         }
     }
 }
