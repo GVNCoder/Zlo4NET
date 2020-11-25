@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-
 using Zlo4NET.Api.Models.Shared;
 using Zlo4NET.Api.Service;
 using Zlo4NET.Core.Data;
@@ -10,9 +9,12 @@ namespace Examples
 {
     public class Program
     {
+        public static bool received = false;
+
         internal static void Main(string[] args)
         {
             var zloApi = ZApi.Instance;
+           
 
             // configure api thread synchronization
             zloApi.Configure(new ZConfiguration
@@ -100,7 +102,7 @@ namespace Examples
 
                     break;
                 case ZPlayMode.Multiplayer:
-                    
+                    Mulitplayer(game);
                     // TODO: Add multiplayer handling here
 
                     break;
@@ -135,6 +137,36 @@ namespace Examples
             Console.WriteLine($"Run result {runResult}");
 
             resetEvent.WaitOne();
+        }
+
+        public static async void Mulitplayer(ZGame game)
+        {
+            var Api = ZApi.Instance;
+            var service = Api.CreateServersListService(game);
+            var factory = Api.GameFactory;
+            ManualResetEvent resetEvent = new ManualResetEvent(false);
+            service.InitialSizeReached += (s, e) => resetEvent.Set();
+            
+
+            service.StartReceiving();
+            resetEvent.WaitOne();
+
+            Console.WriteLine($"ID |  NAME :        | MAP :          |   Players    |");
+            foreach (var item in service.ServersCollection)
+            {
+                Console.WriteLine(string.Join("|",item.Id,item.Name,item.MapRotation.Current.Name,item.CurrentPlayersNumber));
+            }
+            Console.WriteLine("SERVER ID : \n");
+            var id = Console.ReadLine();
+            var gameProcess = await factory.CreateMultiAsync(new ZMultiParams { Game = game, ServerId = uint.Parse(id) });
+            await _RunAndTrack(gameProcess);
+
+        }
+
+        public static void list_recieved(object sender, EventArgs e)
+        {
+            Console.WriteLine("Список получен");
+            received = true;   
         }
     }
 }
