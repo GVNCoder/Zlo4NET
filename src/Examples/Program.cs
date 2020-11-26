@@ -141,6 +141,7 @@ namespace Examples
 
         public static async void Mulitplayer(ZGame game)
         {
+            string strainthline = "_______________________________________________________________________________________";
             var Api = ZApi.Instance;
             var service = Api.CreateServersListService(game);
             var factory = Api.GameFactory;
@@ -151,12 +152,13 @@ namespace Examples
             service.StartReceiving();
             resetEvent.WaitOne();
 
-            Console.WriteLine($"ID |  NAME :        | MAP :          |   Players    |");
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine("\n {0,88} \n {1,5} {2,50}| {3,20}| {4,5}| \n {5,88}",strainthline,"ID:", "SERVERNAME" , "MAP:" ,"Players",strainthline);
             foreach (var item in service.ServersCollection)
             {
-                Console.WriteLine(string.Join("|",item.Id,item.Name,item.MapRotation.Current.Name,item.CurrentPlayersNumber));
+                Console.WriteLine("{0,5}| {1,50}| {2,20}| {3,2} / {4,2} |",item.Id,item.Name,item.MapRotation.Current.Name,item.CurrentPlayersNumber,item.PlayersCapacity);
             }
-            Console.WriteLine("SERVER ID : \n");
+            Console.WriteLine($"{strainthline} \n \n SERVER ID : \n");
             var id = Console.ReadLine();
             var gameProcess = await factory.CreateMultiAsync(new ZMultiParams { Game = game, ServerId = uint.Parse(id) });
             await _RunAndTrack(gameProcess);

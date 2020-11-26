@@ -1,0 +1,977 @@
+<h1 id="-">Описание публичных типов</h1>
+<h2 id="enums">Enums</h2>
+<h4 id="zgame">ZGame</h4>
+<p>Defines the Battlefield games</p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BF3 = 0</td>
+<td>The Battlefield 3 game</td>
+</tr>
+<tr>
+<td>BF4</td>
+<td>The Battlefield 4 game</td>
+</tr>
+<tr>
+<td>BFH</td>
+<td>The Battlefield Hardline game</td>
+</tr>
+<tr>
+<td>None = 255</td>
+<td>Заглушка</td>
+</tr>
+</tbody>
+</table>
+<h4 id="zcoopdifficulty">ZCoopDifficulty</h4>
+<p>Defines CoOp difficulty level</p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Easy = 0</td>
+<td>Easy difficulty</td>
+</tr>
+<tr>
+<td>Normal</td>
+<td>Normal difficulty</td>
+</tr>
+<tr>
+<td>Hard</td>
+<td>Hard difficulty</td>
+</tr>
+</tbody>
+</table>
+<h4 id="zcooplevels">ZCoopLevels</h4>
+<p>Defines CoOp level codes</p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>COOP_007 = 0</td>
+<td>Operation Exodus</td>
+</tr>
+<tr>
+<td>COOP_006</td>
+<td>Fire from the Sky</td>
+</tr>
+<tr>
+<td>COOP_009</td>
+<td>Exfiltration</td>
+</tr>
+<tr>
+<td>COOP_002</td>
+<td>Hit and Run</td>
+</tr>
+<tr>
+<td>COOP_003</td>
+<td>Drop &#39;Em Like Liquid</td>
+</tr>
+<tr>
+<td>COOP_010</td>
+<td>The Eleventh Hour</td>
+</tr>
+</tbody>
+</table>
+<h4 id="zgamearchitecture">ZGameArchitecture</h4>
+<p>Defines game architecture</p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>x64 = 0</td>
+<td>x64 architecture</td>
+</tr>
+<tr>
+<td>x32</td>
+<td>x86 architecture</td>
+</tr>
+</tbody>
+</table>
+<h4 id="zrunresult">ZRunResult</h4>
+<p>Defines ZClient game run result</p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Success = 0</td>
+<td>Success</td>
+</tr>
+<tr>
+<td>NotFound</td>
+<td>Target game not found</td>
+</tr>
+<tr>
+<td>Error</td>
+<td>Some error</td>
+</tr>
+<tr>
+<td>None</td>
+<td>Stub</td>
+</tr>
+</tbody>
+</table>
+<h4 id="zrole">ZRole</h4>
+<p>Defines player roles</p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Soldier = 0</td>
+<td>Soldier role. Supports on All games</td>
+</tr>
+<tr>
+<td>Commander</td>
+<td>Commander role. Supports on Battlefield 4 *only (*Hardline maybe to)</td>
+</tr>
+<tr>
+<td>Spectator</td>
+<td>Spectator role. Supports on Battlefield 4 *only (*Hardline maybe to)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="zplaymode">ZPlayMode</h4>
+<p>Defines play modes</p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Singleplayer</td>
+<td>Singleplayer</td>
+</tr>
+<tr>
+<td>Multiplayer</td>
+<td>Multiplayer</td>
+</tr>
+<tr>
+<td>CooperativeHost</td>
+<td>Cooperative host</td>
+</tr>
+<tr>
+<td>CooperativeClient</td>
+<td>Cooperative client</td>
+</tr>
+<tr>
+<td>TestRange</td>
+<td>Test range</td>
+</tr>
+</tbody>
+</table>
+<h4 id="zloglevel">ZLogLevel</h4>
+<p>Defines log level</p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Info</td>
+<td>Info</td>
+</tr>
+<tr>
+<td>Debug</td>
+<td>Debug</td>
+</tr>
+<tr>
+<td>Warning</td>
+<td>Warning</td>
+</tr>
+<tr>
+<td>Error</td>
+<td>Error</td>
+</tr>
+</tbody>
+</table>
+<h2 id="stats-models">Stats models</h2>
+<h4 id="zstatsbase-zbf3stats-and-zbf4stats">ZStatsBase, ZBF3Stats and ZBF4Stats</h4>
+<p>Defines base stats. Property name as documentation</p>
+<h2 id="run-game-params-models">Run game params models</h2>
+<h4 id="zsingleparams">ZSingleParams</h4>
+<p>Defines launch options for a singleplayer</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Get\Set</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ZGame Game</td>
+<td>++</td>
+<td>Gets or sets the target game. Require</td>
+</tr>
+<tr>
+<td>ZGameArchitecture? PreferredArchitecture</td>
+<td>++</td>
+<td>Gets or sets preferred game architecture. Optional. Default value is <code>null</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="zmultiparams">ZMultiParams</h4>
+<p>Defines launch options for a multiplayer</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Get\Set</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ZGame Game</td>
+<td>++</td>
+<td>Gets or sets the target game. Require</td>
+</tr>
+<tr>
+<td>ZGameArchitecture? PreferredArchitecture</td>
+<td>++</td>
+<td>Gets or sets preferred game architecture. Optional. Default value is <code>null</code></td>
+</tr>
+<tr>
+<td>uint ServerId</td>
+<td>++</td>
+<td>Gets or sets server ZloID. Require</td>
+</tr>
+<tr>
+<td>ZRole Role</td>
+<td>++</td>
+<td>Gets or sets player role. Default value is <code>ZRole.Soldier</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="ztestrangeparams">ZTestRangeParams</h4>
+<p>Defines launch options for a test range (playground). В параметр <code>Game</code> следует передавать игру <code>ZGame.BF4</code>. Так как, пока только <em>Battlefield 4</em> может похвататся его работой.</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Get\Set</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ZGame Game</td>
+<td>++</td>
+<td>Gets or sets the target game. Require</td>
+</tr>
+<tr>
+<td>ZGameArchitecture? PreferredArchitecture</td>
+<td>++</td>
+<td>Gets or sets preferred game architecture. Optional. Default value is <code>null</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="zcoopparams">ZCoopParams</h4>
+<p>Defines launch options for a cooperative</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Get\Set</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ZPlayMode Mode</td>
+<td>++</td>
+<td>Gets or sets play mode. Allow values is <code>ZPlayMode.CooperativeClient</code> or <code>ZPlayMode.CooperativeHost</code>. Required</td>
+</tr>
+<tr>
+<td>ZGameArchitecture? PreferredArchitecture</td>
+<td>++</td>
+<td>Gets or sets preferred game architecture. Optional. Default value is <code>null</code></td>
+</tr>
+<tr>
+<td>ZCoopLevels? Level</td>
+<td>++</td>
+<td>Gets or sets level (mission) code. Required for <code>ZPlayMode.CooperativeHost</code> play mode. Default value is <code>null</code></td>
+</tr>
+<tr>
+<td>ZCoopDifficulty? Difficulty</td>
+<td>++</td>
+<td>Gets or sets difficulty level. Required for <code>ZPlayMode.CooperativeHost</code> play mode. Default value is <code>null</code></td>
+</tr>
+<tr>
+<td>uint? FriendId</td>
+<td>++</td>
+<td>Gets or sets cooperative host (friend) ZloID. Required for <code>ZPlayMode.CooperativeClient</code> play mode. Default value is <code>null</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="event-args-models">Event args models</h2>
+<h4 id="zgamepipeargs-eventargs">ZGamePipeArgs : EventArgs</h4>
+<p>Defines game pipe event args</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Get\Set</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>string FullMessage</td>
+<td>+ -</td>
+<td>Gets full pipe message</td>
+</tr>
+<tr>
+<td>string FirstPart</td>
+<td>+ -</td>
+<td>Gets only first part of pipe message</td>
+</tr>
+<tr>
+<td>string SecondPart</td>
+<td>+ -</td>
+<td>Gets only second part of pipe message</td>
+</tr>
+</tbody>
+</table>
+<h4 id="zconnectionchangedargs-eventargs">ZConnectionChangedArgs : EventArgs</h4>
+<p>Defines connection changed event args</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Get\Set</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bool IsConnected</td>
+<td>+ -</td>
+<td>Gets connection state</td>
+</tr>
+<tr>
+<td>ZUser AuthorizedUser</td>
+<td>+ -</td>
+<td>Gets authorized user</td>
+</tr>
+</tbody>
+</table>
+<h4 id="zlogmessageargs-eventargs">ZLogMessageArgs : EventArgs</h4>
+<p>Defines log event args</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Get\Set</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ZLogLevel Level</td>
+<td>+ -</td>
+<td>Gets message level</td>
+</tr>
+<tr>
+<td>string Message</td>
+<td>+ -</td>
+<td>Gets message</td>
+</tr>
+</tbody>
+</table>
+<h2 id="other">Other</h2>
+<h4 id="zconfiguration">ZConfiguration</h4>
+<p>Defines api configuration</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Get\Set</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SynchronizationContext SynchronizationContext</td>
+<td>++</td>
+<td>Gets or sets UI synchronization context</td>
+</tr>
+</tbody>
+</table>
+<h4 id="zuser">ZUser</h4>
+<p>Defines Zlo user</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Get\Set</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>uint Id</td>
+<td>++</td>
+<td>Gets ZloID</td>
+</tr>
+<tr>
+<td>string Name</td>
+<td>++</td>
+<td>Gets ZloName</td>
+</tr>
+</tbody>
+</table>
+<h2 id="server-models">Server models</h2>
+<h4 id="abstract-zserverbase-zobservableobject">abstract ZServerBase : ZObservableObject</h4>
+<p>Defines base server</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Get\Set</th>
+<th>Description</th>
+<th>IsObservable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>uint Id</td>
+<td>++</td>
+<td>Gets the ZloID</td>
+<td>-</td>
+</tr>
+<tr>
+<td>string Name</td>
+<td>++</td>
+<td>Gets name</td>
+<td>-</td>
+</tr>
+<tr>
+<td>IPAddress Ip</td>
+<td>++</td>
+<td>Gets ip address</td>
+<td>-</td>
+</tr>
+<tr>
+<td>uint Port</td>
+<td>++</td>
+<td>Gets port number</td>
+<td>-</td>
+</tr>
+<tr>
+<td>int Ping</td>
+<td>++</td>
+<td>Gets signal delay in ms. By default it is not calculated. This field is observable</td>
+<td>+</td>
+</tr>
+<tr>
+<td>ZGame Game</td>
+<td>++</td>
+<td>Gets target game</td>
+<td>-</td>
+</tr>
+<tr>
+<td>abstract byte SpectatorsCapacity</td>
+<td>++</td>
+<td>Gets capacity of spectators</td>
+<td>-</td>
+</tr>
+<tr>
+<td>byte PlayersCapacity</td>
+<td>++</td>
+<td>Gets capacity of players. This field is observable</td>
+<td>+</td>
+</tr>
+<tr>
+<td>byte CurrentPlayersNumber</td>
+<td>++</td>
+<td>Gets number of current players. This field is observable</td>
+<td>+</td>
+</tr>
+<tr>
+<td>ZMap CurrentMap</td>
+<td>++</td>
+<td>Gets current map</td>
+<td>+-</td>
+</tr>
+<tr>
+<td>ObservableCollection<ZPlayer> Players</td>
+<td>++</td>
+<td>Gets list of players</td>
+<td>+-</td>
+</tr>
+<tr>
+<td>IEnumerable<ZMap> SupportedMaps</td>
+<td>++</td>
+<td>Gets list of supported maps</td>
+<td>-</td>
+</tr>
+<tr>
+<td>ZAttributesBase Attributes</td>
+<td>++</td>
+<td>Gets attributes</td>
+<td>-</td>
+</tr>
+<tr>
+<td>IDictionary<string, string> Settings</td>
+<td>++</td>
+<td>Gets settings</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h4 id="zbf3server-zserverbase">ZBF3Server : ZServerBase</h4>
+<p>Defines the Battlefield 3 server</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Get\Set</th>
+<th>Description</th>
+<th>IsObservable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>override byte SpectatorsCapacity</td>
+<td>throw NotSupportedException</td>
+<td>This property not supported on Battlefield 3</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h4 id="zbf4server-zserverbase">ZBF4Server : ZServerBase</h4>
+<p>Defines the Battlefield 4 server</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Get\Set</th>
+<th>Description</th>
+<th>IsObservable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>override byte SpectatorsCapacity</td>
+<td>++</td>
+<td>Gets capacity of spectators</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h4 id="zbfhserver-zserverbase">ZBFHServer : ZServerBase</h4>
+<p>Defines the Battlefield Hardline server</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Get\Set</th>
+<th>Description</th>
+<th>IsObservable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>override byte SpectatorsCapacity</td>
+<td>++</td>
+<td>Gets capacity of spectators</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h4 id="abstract-class-zattributesbase">abstract class ZAttributesBase</h4>
+<p>Defines basic server attributes</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Get\Set</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>string BannerUrl</td>
+<td>+ -</td>
+<td>Gets the banner url</td>
+</tr>
+<tr>
+<td>string Country</td>
+<td>+ -</td>
+<td>Gets country code</td>
+</tr>
+<tr>
+<td>string Message</td>
+<td>+ -</td>
+<td>Gets server message</td>
+</tr>
+<tr>
+<td>string Mod</td>
+<td>+ -</td>
+<td>Gets ???</td>
+</tr>
+<tr>
+<td>string Preset</td>
+<td>+ -</td>
+<td>Gets preset name</td>
+</tr>
+<tr>
+<td>string PunkBusterVersion</td>
+<td>+ -</td>
+<td>Gets PunkBuster version</td>
+</tr>
+<tr>
+<td>string Region</td>
+<td>+ -</td>
+<td>Gets region code</td>
+</tr>
+<tr>
+<td>string Description</td>
+<td>+ -</td>
+<td>Gets description</td>
+</tr>
+<tr>
+<td>abstract string FairFight</td>
+<td>+ -</td>
+<td>Gets an indication of the presence of a FairFight</td>
+</tr>
+<tr>
+<td>abstract string ServerType</td>
+<td>+ -</td>
+<td>Gets type of server</td>
+</tr>
+<tr>
+<td>abstract string TickRate</td>
+<td>+ -</td>
+<td>Gets tick rate</td>
+</tr>
+</tbody>
+</table>
+<h4 id="zbf3attributes-zattributesbase">ZBF3Attributes : ZAttributesBase</h4>
+<p>Defines the Battlefield 3 server attributes</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Get\Set</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>override string ServerType</td>
+<td>throw NotSupportedException</td>
+<td>The Battlefield 3 not supported this attribute</td>
+</tr>
+<tr>
+<td>override string FairFight</td>
+<td>throw NotSupportedException</td>
+<td>The Battlefield 3 not supported this attribute</td>
+</tr>
+<tr>
+<td>override string TickRate</td>
+<td>throw NotSupportedException</td>
+<td>The Battlefield 3 not supported this attribute</td>
+</tr>
+</tbody>
+</table>
+<h4 id="zbf4attributes-zattributesbase">ZBF4Attributes : ZAttributesBase</h4>
+<p>Defines the Battlefield 4 server attributes</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Get\Set</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>override string ServerType</td>
+<td>+ -</td>
+<td>Gets type of server</td>
+</tr>
+<tr>
+<td>override string FairFight</td>
+<td>+ -</td>
+<td>Gets an indication of the presence of a FairFight</td>
+</tr>
+<tr>
+<td>override string TickRate</td>
+<td>+ -</td>
+<td>Gets tick rate</td>
+</tr>
+</tbody>
+</table>
+<h4 id="zbfhattributes-zattributesbase">ZBFHAttributes : ZAttributesBase</h4>
+<p>Defines the Battlefield Hardline server attributes</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Get\Set</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>override string ServerType</td>
+<td>+ -</td>
+<td>Gets type of server</td>
+</tr>
+<tr>
+<td>override string FairFight</td>
+<td>+ -</td>
+<td>Gets an indication of the presence of a FairFight</td>
+</tr>
+<tr>
+<td>override string TickRate</td>
+<td>+ -</td>
+<td>Gets tick rate</td>
+</tr>
+</tbody>
+</table>
+<h4 id="zplayer">ZPlayer</h4>
+<p>Defines player</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Get\Set</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>byte Slot</td>
+<td>++</td>
+<td>Gets player slot number</td>
+</tr>
+<tr>
+<td>uint Id</td>
+<td>++</td>
+<td>Gets player ZloID</td>
+</tr>
+<tr>
+<td>string Name</td>
+<td>++</td>
+<td>Gets name of player</td>
+</tr>
+</tbody>
+</table>
+<h4 id="zmap-zobservableobject">ZMap : ZObservableObject</h4>
+<p>Defines server map</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Get\Set</th>
+<th>Description</th>
+<th>IsObservable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>string Name</td>
+<td>++</td>
+<td>Gets name of map</td>
+<td>+</td>
+</tr>
+<tr>
+<td>string GameModeName</td>
+<td>++</td>
+<td>Gets name of game mode</td>
+<td>+</td>
+</tr>
+</tbody>
+</table>
+<h2 id="helpers">Helpers</h2>
+<h4 id="zresource">ZResource</h4>
+<p>Provides some resources for general use</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Description</th>
+<th>Params</th>
+<th>Exceptions</th>
+<th>Return</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>static string[] GetBF3MapNames()</code></td>
+<td>Gets Battlefield 3 maps array</td>
+<td>-</td>
+<td>-</td>
+<td>String array of map names</td>
+</tr>
+<tr>
+<td><code>static string[] GetBF4MapNames()</code></td>
+<td>Gets Battlefield 4 maps array</td>
+<td>-</td>
+<td>-</td>
+<td>String array of map names</td>
+</tr>
+<tr>
+<td><code>static string[] GetBFHMapNames()</code></td>
+<td>Gets Battlefield Hardline maps array</td>
+<td>-</td>
+<td>-</td>
+<td>String array of map names</td>
+</tr>
+<tr>
+<td><code>static string[] GetBF3GameModeNames()</code></td>
+<td>Gets Battlefield 3 game modes array</td>
+<td>-</td>
+<td>-</td>
+<td>String array of game mode names</td>
+</tr>
+<tr>
+<td><code>static string[] GetBF4GameModeNames()</code></td>
+<td>Gets Battlefield 4 game modes array</td>
+<td>-</td>
+<td>-</td>
+<td>String array of game mode names</td>
+</tr>
+<tr>
+<td><code>static string[] GetBFHGameModeNames()</code></td>
+<td>Gets Battlefield Hardline game modes array</td>
+<td>-</td>
+<td>-</td>
+<td>String array of game mode names</td>
+</tr>
+</tbody>
+</table>
+<h4 id="zpingservice">ZPingService</h4>
+<p>Helps calculate roundtrip delay of the server</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Description</th>
+<th>Params</th>
+<th>Exceptions</th>
+<th>Return</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>static int GetPing(IPAddress address)</code></td>
+<td>Calculate roundtrip delay of the <code>address</code></td>
+<td><code>address</code> - IP address for which the calculation will be executed</td>
+<td>-</td>
+<td>Calculated delay time. If is over 999, then return 999</td>
+</tr>
+</tbody>
+</table>
+<h2 id="service">Service</h2>
+<h4 id="interface-izapi">interface IZApi</h4>
+<p>Defines the ZloApi</p>
+<h5 id="methods">Methods</h5>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Description</th>
+<th>Params</th>
+<th>Exceptions</th>
+<th>Return</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Task&lt;ZStatsBase&gt; GetStatsAsync(ZGame game)</code></td>
+<td>Makes an asynchronous request to get current soldier statistics</td>
+<td><code>game</code> - Game context</td>
+<td><code>NotSupportedException</code> - Occurs when specifying the Battlefield Hardline parameter; <code>InvalidOperationException</code> - Occurs when Api is not connected</td>
+<td>A task that represents the asynchronous get soldier statistics operation</td>
+</tr>
+<tr>
+<td><code>IZServersListService CreateServersListService(ZGame game)</code></td>
+<td>Creates and returns an implementation of <code>IZServersListService</code></td>
+<td><code>game</code> - Game context</td>
+<td><code>InvalidOperationException</code> - Occurs when trying to create a service in an non-configured Api or Api is not connected; <code>InvalidEnumArgumentException</code> - Occurs when a parameter is set to an invalid value</td>
+<td>Implementation of <code>IZServersListService</code></td>
+</tr>
+<tr>
+<td><code>void InjectDll(ZGame game, string[] paths)</code></td>
+<td>Makes asynchronous requests to inject specified dlls into the game process</td>
+<td><code>game</code> - Game context; <code>paths</code> - An array of dll paths for injection</td>
+<td><code>InvalidOperationException</code> - Occurs when Api is not connected</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>void Configure(ZConfiguration config)</code></td>
+<td>Configures api</td>
+<td><code>config</code> - Configuration instance</td>
+<td><code>InvalidOperationException</code> - Occurs when this method is called more than once; <code>ArgumentNullException</code> - Occurs when <code>config</code> is null; <code>ArgumentException</code> - Occurs when <code>ZConfiguration.SynchronizationContext</code> is not specified</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h5 id="properties">Properties</h5>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Get\Set</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>IZGameFactory GameFactory</code></td>
+<td>+ -</td>
+<td>Gets game factory</td>
+</tr>
+<tr>
+<td><code>IZConnection Connection</code></td>
+<td>+ -</td>
+<td>Gets API connection</td>
+</tr>
+<tr>
+<td><code>IZLogger Logger</code></td>
+<td>+ -</td>
+<td>Gets API logger</td>
+</tr>
+</tbody>
+</table>
