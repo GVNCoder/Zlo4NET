@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Zlo4NET.Api;
 using Zlo4NET.Api.Models.Shared;
 using Zlo4NET.Api.Service;
 using Zlo4NET.Core.Data;
@@ -9,15 +11,19 @@ namespace Examples
 {
     public class Program
     {
-        public static bool received = false;
+        private static IZApi _zloApi;
+        private static IZGameFactory _gameFactory;
 
         internal static void Main(string[] args)
         {
-            var zloApi = ZApi.Instance;
-           
+            // setup internal state
+            _zloApi = ZApi.Instance;
+            _gameFactory = _zloApi.GameFactory;
+
+            var connection = _zloApi.Connection;
 
             // configure api thread synchronization
-            zloApi.Configure(new ZConfiguration
+            _zloApi.Configure(new ZConfiguration
             {
                 SynchronizationContext = new SynchronizationContext()
             });
@@ -27,13 +33,13 @@ namespace Examples
             // create connection
             var resetEvent = new ManualResetEvent(false);
 
-            zloApi.Connection.ConnectionChanged += (sender, changedArgs) => resetEvent.Set();
-            zloApi.Connection.Connect();
+            connection.ConnectionChanged += (sender, changedArgs) => resetEvent.Set();
+            connection.Connect();
 
             // wait for connection
             resetEvent.WaitOne();
 
-            if (zloApi.Connection.IsConnected)
+            if (_zloApi.Connection.IsConnected)
             {
                 Console.WriteLine("Connected\n");
 
@@ -44,17 +50,10 @@ namespace Examples
             {
                 Console.WriteLine("Cannot connect to ZClient\n");
             }
-
-            Console.WriteLine("Press any key to exit...");
-            Console.ReadKey();
         }
 
         internal static async Task MainAsync(string[] args)
         {
-            var zloApi = ZApi.Instance;
-            var connection = zloApi.Connection;
-            var gameFactory = zloApi.GameFactory;
-
             #region Get target game from User
 
             // select game
@@ -95,15 +94,15 @@ namespace Examples
                 case ZPlayMode.Singleplayer:
 
                     // create game
-                    var gameProcess = await gameFactory.CreateSingleAsync(new ZSingleParams { Game = game });
+                    var gameProcess = await _gameFactory.CreateSingleAsync(new ZSingleParams { Game = game });
 
                     // run and track game pipe
                     await _RunAndTrack(gameProcess);
 
                     break;
                 case ZPlayMode.Multiplayer:
-                    Mulitplayer(game);
-                    // TODO: Add multiplayer handling here
+
+                    await _MultiplayerHandler(game);
 
                     break;
 
@@ -134,21 +133,24 @@ namespace Examples
             // run game process
             var runResult = await gameProcess.RunAsync();
 
-            Console.WriteLine($"Run result {runResult}");
+            // the result will be an enumeration
+            // that will help determine if the game was launched successfully (returned directly by the ZClient)
+            if (runResult != ZRunResult.Success)
+            {
+                // TODO: Do some stuff here
+            }
 
             resetEvent.WaitOne();
         }
 
-        public static async void Mulitplayer(ZGame game)
+        internal static async Task _MultiplayerHandler(ZGame game)
         {
             string strainthline = "_______________________________________________________________________________________";
-            var Api = ZApi.Instance;
-            var service = Api.CreateServersListService(game);
-            var factory = Api.GameFactory;
+            var service = _zloApi.CreateServersListService(game);
+            var factory = _zloApi.GameFactory;
             ManualResetEvent resetEvent = new ManualResetEvent(false);
             service.InitialSizeReached += (s, e) => resetEvent.Set();
             
-
             service.StartReceiving();
             resetEvent.WaitOne();
 
@@ -161,14 +163,9 @@ namespace Examples
             Console.WriteLine($"{strainthline} \n \n SERVER ID : \n");
             var id = Console.ReadLine();
             var gameProcess = await factory.CreateMultiAsync(new ZMultiParams { Game = game, ServerId = uint.Parse(id) });
+
+            // run and track game pipe
             await _RunAndTrack(gameProcess);
-
-        }
-
-        public static void list_recieved(object sender, EventArgs e)
-        {
-            Console.WriteLine("Список получен");
-            received = true;   
         }
     }
 }
