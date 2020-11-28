@@ -57,6 +57,10 @@
     <Compile Include="Api\Models\Shared\ZMapRole.cs" />
     <Compile Include="Api\Models\Shared\ZMapRotation.cs" />
     <Compile Include="Api\Models\Shared\ZPlayerRole.cs" />
+    <Compile Include="Core\Client\IZClient.cs" />
+    <Compile Include="Core\Client\ZBuffer.cs" />
+    <Compile Include="Core\Client\ZClient.cs" />
+    <Compile Include="Core\Client\ZClientDataReceivedArgs.cs" />
     <Compile Include="Core\Data\ZInstalledGames.cs" />
     <Compile Include="Api\Models\Shared\ZLogMessageArgs.cs" />
     <Compile Include="Api\Models\Shared\ZLogLevel.cs" />
