@@ -43,7 +43,7 @@ namespace Examples
             {
                 Console.WriteLine("Connected\n");
 
-                // call async version of Main(...)
+                // call async version of Main(...)                  
                 MainAsync(args).GetAwaiter().GetResult();
             }
             else
@@ -67,14 +67,14 @@ namespace Examples
                 throw new InvalidOperationException("Invalid input!");
 
             // cuz BF3 = 0
-            var game = (ZGame) targetGame - 1;
+            var game = (ZGame)targetGame - 1;
 
             #endregion
 
             #region Get target game mode
 
             // select game mode
-            Console.Write($"Select game mode where {ZPlayMode.Singleplayer}[1] {ZPlayMode.Multiplayer}[2]: ");
+            Console.Write($"Select game mode where {ZPlayMode.Singleplayer}[1] {ZPlayMode.Multiplayer}[2] {ZPlayMode.TestRange}[5]: \n");
 
             // get user input
             var gameModeSelectUserInput = Console.ReadLine();
@@ -84,7 +84,7 @@ namespace Examples
                 throw new InvalidOperationException("Invalid input!");
 
             // cuz Singleplayer = 0
-            var gameMode = (ZPlayMode) targetGameMode - 1;
+            var gameMode = (ZPlayMode)targetGameMode - 1;
 
             #endregion
 
@@ -109,6 +109,13 @@ namespace Examples
                 case ZPlayMode.CooperativeHost:
                 case ZPlayMode.CooperativeClient:
                 case ZPlayMode.TestRange:
+                    //testrange process 
+             var testRange = await _gameFactory.CreateTestRangeAsync(new ZTestRangeParams { Game = game });
+
+                  //run test range process handler 
+             await _RunAndTrack(testRange);
+
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -145,22 +152,23 @@ namespace Examples
 
         internal static async Task _MultiplayerHandler(ZGame game)
         {
-            string strainthline = "_______________________________________________________________________________________";
+            //table line for top and bottom 
+            string straithLine = "_______________________________________________________________________________________";
             var service = _zloApi.CreateServersListService(game);
             var factory = _zloApi.GameFactory;
             ManualResetEvent resetEvent = new ManualResetEvent(false);
             service.InitialSizeReached += (s, e) => resetEvent.Set();
-            
+
             service.StartReceiving();
             resetEvent.WaitOne();
 
             Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.WriteLine("\n {0,88} \n {1,5} {2,50}| {3,20}| {4,5}| \n {5,88}",strainthline,"ID:", "SERVERNAME" , "MAP:" ,"Players",strainthline);
+            Console.WriteLine("\n {0,88} \n {1,5} {2,50}| {3,20}| \n {4,88}", straithLine, "ID:", "SERVERNAME", "MAP:", straithLine);
             foreach (var item in service.ServersCollection)
             {
-                Console.WriteLine("{0,5}| {1,50}| {2,20}| {3,2} / {4,2} |",item.Id,item.Name,item.MapRotation.Current.Name,item.CurrentPlayersNumber,item.PlayersCapacity);
+                Console.WriteLine("{0,5}| {1,50}| {2,20}|", item.Id, item.Name, item.MapRotation.Current.Name);
             }
-            Console.WriteLine($"{strainthline} \n \n SERVER ID : \n");
+            Console.WriteLine($"{straithLine} \n \n SERVER ID : \n");
             var id = Console.ReadLine();
             var gameProcess = await factory.CreateMultiAsync(new ZMultiParams { Game = game, ServerId = uint.Parse(id) });
 
