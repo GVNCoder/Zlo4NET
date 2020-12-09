@@ -215,17 +215,18 @@ namespace Zlo4NET.Core.Client
 
         public void Connect()
         {
-            throw new NotImplementedException();
+            _SocketCreate();
+            _SocketConnect();
         }
 
         public void Disconnect()
         {
-            throw new NotImplementedException();
+            _SocketDestroy();
         }
 
         public void SendRequest(byte[] requestData)
         {
-            throw new NotImplementedException();
+            _SocketSend(requestData, requestData.Length);
         }
 
         #endregion
