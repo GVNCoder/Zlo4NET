@@ -89,7 +89,7 @@ namespace Zlo4NET.Core.Client
             }
             catch (SocketException exception)
             {
-                // TODO: Handle somehow
+                _log.Warning($"{nameof(_EndConnectCallback)} disconnected by {exception.SocketErrorCode}");
             }
             catch (ObjectDisposedException)
             {
@@ -106,7 +106,7 @@ namespace Zlo4NET.Core.Client
             }
         }
 
-        private void _EndSendCallback(IAsyncResult asyncResult)
+        private void _EndReceiveCallback(IAsyncResult asyncResult)
         {
             var receivedBytes = (byte[]) asyncResult.AsyncState;
             var receivedBytesCount = 0;
@@ -149,7 +149,7 @@ namespace Zlo4NET.Core.Client
             }
             catch (SocketException exception)
             {
-                // TODO: Handle somehow
+                _log.Warning($"{nameof(_EndReceiveCallback)} disconnected by {exception.SocketErrorCode}");
             }
             catch (ObjectDisposedException)
             {
@@ -157,7 +157,7 @@ namespace Zlo4NET.Core.Client
             }
             finally
             {
-                if (!_socket.Connected || receivedBytesCount == 0)
+                if (! _socket.Connected || receivedBytesCount == 0)
                 {
                     _OnConnectionChanged(false);
                     _SocketDestroy();
@@ -165,7 +165,7 @@ namespace Zlo4NET.Core.Client
             }
         }
 
-        private void _EndReceiveCallback(IAsyncResult asyncResult)
+        private void _EndSendCallback(IAsyncResult asyncResult)
         {
             var sendMessageBuffer = (byte[]) asyncResult.AsyncState;
             var sentBytesCount = 0;
@@ -190,7 +190,7 @@ namespace Zlo4NET.Core.Client
             }
             catch (SocketException exception)
             {
-                // TODO: Handle somehow
+                _log.Warning($"{nameof(_EndSendCallback)} disconnected by {exception.SocketErrorCode}");
             }
             catch (ObjectDisposedException)
             {
