@@ -168,7 +168,9 @@ namespace Examples
                 Console.WriteLine("{0,5}| {1,50}| {2,20}|", item.Id, item.Name, item.MapRotation.Current.Name);
             }
 
-            Console.Write($"{straightLine} \n \n To join, Enter a server ID: ");
+            Console.Write($"{straightLine} \n \nTo join, Enter a server ID: ");
+
+            #region Get target server Id
 
             // get user input
             var serverIdUserInput = Console.ReadLine();
@@ -176,6 +178,12 @@ namespace Examples
             // validate input
             if (! uint.TryParse(serverIdUserInput, out var targetServerId))
                 throw new InvalidOperationException("Invalid input!");
+
+            #endregion
+
+            // add some space between user input and game log
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.WriteLine();
 
             // create game
             var gameProcess = await _gameFactory.CreateMultiAsync(new ZMultiParams { Game = game, ServerId = targetServerId });
