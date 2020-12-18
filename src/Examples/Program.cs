@@ -63,7 +63,7 @@ namespace Examples
             var gameSelectUserInput = Console.ReadLine();
 
             // validate input
-            if (!int.TryParse(gameSelectUserInput, out var targetGame) || targetGame <= 0 || targetGame > 3)
+            if (! int.TryParse(gameSelectUserInput, out var targetGame) || targetGame <= 0 || targetGame > 3)
                 throw new InvalidOperationException("Invalid input!");
 
             // cuz BF3 = 0
@@ -74,13 +74,13 @@ namespace Examples
             #region Get target game mode
 
             // select game mode
-            Console.Write($"Select game mode where {ZPlayMode.Singleplayer}[1] {ZPlayMode.Multiplayer}[2] {ZPlayMode.TestRange}[5]: \n");
+            Console.Write($"Select game mode where {ZPlayMode.Singleplayer}[1] {ZPlayMode.Multiplayer}[2] \n");
 
             // get user input
             var gameModeSelectUserInput = Console.ReadLine();
 
             // validate input
-            if (!int.TryParse(gameModeSelectUserInput, out var targetGameMode) || targetGameMode <= 0 || targetGameMode > 2)
+            if (! int.TryParse(gameModeSelectUserInput, out var targetGameMode) || targetGameMode <= 0 || targetGameMode > 2)
                 throw new InvalidOperationException("Invalid input!");
 
             // cuz Singleplayer = 0
@@ -109,13 +109,6 @@ namespace Examples
                 case ZPlayMode.CooperativeHost:
                 case ZPlayMode.CooperativeClient:
                 case ZPlayMode.TestRange:
-                    //testrange process 
-             var testRange = await _gameFactory.CreateTestRangeAsync(new ZTestRangeParams { Game = game });
-
-                  //run test range process handler 
-             await _RunAndTrack(testRange);
-
-                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -152,25 +145,40 @@ namespace Examples
 
         internal static async Task _MultiplayerHandler(ZGame game)
         {
-            //table line for top and bottom 
-            string straithLine = "_______________________________________________________________________________________";
-            var service = _zloApi.CreateServersListService(game);
-            var factory = _zloApi.GameFactory;
-            ManualResetEvent resetEvent = new ManualResetEvent(false);
-            service.InitialSizeReached += (s, e) => resetEvent.Set();
+            // build the server list service instance
+            var serverListService = _zloApi.CreateServersListService(game);
+            var resetEvent = new ManualResetEvent(false);
 
-            service.StartReceiving();
+            // configure server list service
+            serverListService.InitialSizeReached += (s, e) => resetEvent.Set();
+            serverListService.StartReceiving();
+            
+            // wait to server list full load
             resetEvent.WaitOne();
 
+            // draw servers table
+            const string straightLine = "_______________________________________________________________________________________";
+
+            // configure console
             Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.WriteLine("\n {0,88} \n {1,5} {2,50}| {3,20}| \n {4,88}", straithLine, "ID:", "SERVERNAME", "MAP:", straithLine);
-            foreach (var item in service.ServersCollection)
+            Console.WriteLine("\n {0,88} \n {1,5} {2,50}| {3,20}| \n {4,88}", straightLine, "ID:", "ServerName", "Map:", straightLine);
+
+            foreach (var item in serverListService.ServersCollection)
             {
                 Console.WriteLine("{0,5}| {1,50}| {2,20}|", item.Id, item.Name, item.MapRotation.Current.Name);
             }
-            Console.WriteLine($"{straithLine} \n \n SERVER ID : \n");
-            var id = Console.ReadLine();
-            var gameProcess = await factory.CreateMultiAsync(new ZMultiParams { Game = game, ServerId = uint.Parse(id) });
+
+            Console.Write($"{straightLine} \n \n To join, Enter a server ID: ");
+
+            // get user input
+            var serverIdUserInput = Console.ReadLine();
+
+            // validate input
+            if (! uint.TryParse(serverIdUserInput, out var targetServerId))
+                throw new InvalidOperationException("Invalid input!");
+
+            // create game
+            var gameProcess = await _gameFactory.CreateMultiAsync(new ZMultiParams { Game = game, ServerId = targetServerId });
 
             // run and track game pipe
             await _RunAndTrack(gameProcess);
