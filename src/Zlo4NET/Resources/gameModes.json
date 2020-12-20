@@ -69,7 +69,8 @@
     "GM0": "Gun Master",
     "GM1": "Gun Master",
     "SDM1": "Squad Deathmatch",
-    "TDM1": "Team Deathmatch"
+    "TDM1": "Team Deathmatch",
+    "TutorialMP": "Tutorial" 
   },
   "bfh": {
     "TurfWarLarge0": "Conquest Large",
