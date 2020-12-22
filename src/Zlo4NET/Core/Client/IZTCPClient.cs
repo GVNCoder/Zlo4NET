@@ -4,7 +4,7 @@ using Zlo4NET.Core.ZClient.Data;
 
 namespace Zlo4NET.Core.Client
 {
-    internal interface IZClient
+    internal interface IZTCPClient
     {
         void Connect();
         void Disconnect();

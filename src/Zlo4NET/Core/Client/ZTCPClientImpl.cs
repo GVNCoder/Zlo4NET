@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -9,7 +10,8 @@ using Zlo4NET.Core.ZClient.Data;
 
 namespace Zlo4NET.Core.Client
 {
-    internal class ZClientImpl : IZClient
+    [SuppressMessage("ReSharper", "IdentifierTypo")]
+    internal class ZTCPClientImpl : IZTCPClient
     {
         private static int _InstanceCount = 0;
 
@@ -22,7 +24,7 @@ namespace Zlo4NET.Core.Client
 
         private Socket _socket;
 
-        public ZClientImpl()
+        public ZTCPClientImpl()
         {
             // we can create only one instance of ZClient class
             // so we need track instance count
