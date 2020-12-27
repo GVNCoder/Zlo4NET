@@ -74,32 +74,107 @@ namespace Zlo4NET.Core.Data.Parsers
             model.CurrentPlayersNumber = (byte) playerList.Count;
         }
 
-        public void ParseBase(ZServerBase model, BinaryReader reader)
+        public void ParseIntoServerModel(ZServerBase model, BinaryReader reader)
         {
+            // at first parse bytes from reader
+            // parse some basic info
+            model.Id = reader.ReadZUInt32();
             model.Ip = UIntToIPAddress.Convert(reader.ReadZUInt32());
             model.Port = reader.ReadZUInt16();
 
+            // skip block
             reader.SkipBytes(6); // skip 6 bytes [ INIP=4byte; INPORT=2byte; ]
 
-            var attributes = _ParseAttributes(reader);
-            var settings = _ParseSettings(attributes);
+            // parse attributes
+            var attributeCount = reader.ReadByte();
+            var attributeDictionary = new Dictionary<string, string>(attributeCount);
 
-            _ParseMapRotation(model, attributes);
+            for (var i = 0; i < attributeCount; ++i)
+            {
+                var key = reader.ReadZString().ToLowerInvariant();
+                var value = reader.ReadZString();
 
-            model.Attributes = BuildAttributes(attributes, model.Game);
+                attributeDictionary.Add(key, value);
+            }
+
+            // parse some basic info
             model.Name = reader.ReadZString();
-            model.Settings = settings;
             model.Players = new ObservableCollection<ZPlayer>();
 
+            // skip block
             reader.SkipBytes(17); // skip 17 bytes [ GameSet=4bytes; ServerState=1byte; IGNO=1byte; MaxPlayers=1byte; NNAT=8bytes; NRES=1byte; NTOP=1byte; ]
             reader.SkipZString(); // skip string [ PGID=String; ]
             reader.SkipBytes(6); // skip 6 bytes [ PRES=1byte; SlotCapacity=1byte; SEED=4bytes; ]
             reader.SkipZString(); // skip string [ UUID=String; ]
             reader.SkipBytes(1); // skip 1 byte [ VOIP=1byte; ]
             reader.SkipZString(); // skip string [ VSTR=String; ]
+
+            // parse game-specific data
+            switch (model.Game)
+            {
+                case ZGame.BF3:
+                    // parse specific data
+                    model.PlayersCapacity = reader.ReadByte();
+
+                    // skip block
+                    reader.SkipBytes(4); // skip 4 bytes [TOTAL_SLOTS_NUMBER=4bytes]
+
+                    break;
+
+                case ZGame.BF4:
+                case ZGame.BFH:
+                    // skip block
+                    reader.SkipBytes(4);
+
+                    // parse specific data
+                    model.PlayersCapacity = reader.ReadByte();
+
+                    // skip block
+                    reader.SkipBytes(1); // skip 1 byte [ PRIVATE_SLOTS=1byte; ]
+
+                    // parse specific data
+                    model.SpectatorsCapacity = reader.ReadByte();
+
+                    // skip block
+                    //reader.SkipBytes(2);  // skip 1 byte [ PRIVATE_SPEC_SLOTS=1byte; GMRG=1byte; ]
+                    //var skipLength = reader.ReadByte(); // skip more data [ RNFO=bigData; ]
+                    //for (var i = 0; i < skipLength; ++i)
+                    //{
+                    //    reader.SkipZString();
+                    //    reader.SkipBytes(4);
+
+                    //    var skipLength2 = reader.ReadByte();
+                    //    for (var j = 0; j < skipLength2; j++)
+                    //    {
+                    //        reader.SkipZString();
+                    //        reader.SkipZString();
+                    //    }
+                    //}
+                    //reader.SkipZString();
+
+                    break;
+
+                case ZGame.None:
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            // parse already received data
+            // normalize the obtained attributes, because some keys can be split into several parts
+            // like mapsinfo1 ... and mapsinfo2 ... mapsinfoN ...
+            var normalizedAttributes = _NormalizeAttributes(attributeDictionary);
+
+            // build server attributes from normalized dictionary
+            model.Attributes = BuildAttributes(normalizedAttributes, model.Game);
+
+            // build server settings from normalized dictionary
+            model.Settings = BuildSettings(normalizedAttributes);
+
+            // build map rotation from normalized dictionary
+            model.MapRotation = BuildMapRotation(model.Game, normalizedAttributes);
         }
 
-        private IDictionary<string, string> _ParseSettings(IDictionary<string, string> attributes)
+        private IDictionary<string, string> BuildSettings(IDictionary<string, string> attributes)
         {
             var value = attributes["settings"]
                 .Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries)
@@ -109,31 +184,24 @@ namespace Zlo4NET.Core.Data.Parsers
             return value;
         }
 
-        private void _ParseMapRotation(ZServerBase model, IDictionary<string, string> attributes)
+        private ZMapRotation BuildMapRotation(ZGame game, IDictionary<string, string> attributes)
         {
-            if (!attributes.ContainsKey("maps") || !attributes.ContainsKey("mapsinfo"))
+            var maps = _ParseMapList(attributes["maps"], game);
+            var mapsTuple = _GetMapsTuple(maps, attributes, game);
+            var rotation = new ZMapRotation
             {
-                _logger.Warning("maps or mapsinfo no have attribute key");
-            }
-            else
-            {
-                var maps = _ParseMapList(attributes["maps"], model.Game);
-                var mapsTuple = _GetMapsTuple(maps, attributes, model.Game);
-                var rotation = new ZMapRotation
-                {
-                    Current = mapsTuple.Item1,
-                    Next = mapsTuple.Item2,
-                    Rotation = new ObservableCollection<ZMap>(maps)
-                };
+                Current = mapsTuple.Item1,
+                Next = mapsTuple.Item2,
+                Rotation = new ObservableCollection<ZMap>(maps)
+            };
 
-                model.MapRotation = rotation;
+            // remove used keys
+            attributes.Remove("maps");
+            attributes.Remove("mapsinfo");
+            attributes.Remove("level");
+            attributes.Remove("levellocation");
 
-                // remove used keys
-                attributes.Remove("maps");
-                attributes.Remove("mapsinfo");
-                attributes.Remove("level");
-                attributes.Remove("levellocation");
-            }
+            return rotation;
         }
 
         private Tuple<ZMap, ZMap> _GetMapsTuple(ZMap[] maps, IDictionary<string, string> attributes, ZGame game)
@@ -215,63 +283,7 @@ namespace Zlo4NET.Core.Data.Parsers
             return value;
         }
 
-        public void ParseSpecifics(ZServerBase model, BinaryReader reader)
-        {
-            switch (model.Game)
-            {
-                case ZGame.BF3:
-
-                    model.PlayersCapacity = reader.ReadByte();
-                    reader.SkipBytes(4); // skip 4 bytes [TOTAL_SLOTS_NUMBER=4bytes]
-
-                    break;
-
-                case ZGame.BF4:
-                case ZGame.BFH:
-
-                    reader.SkipBytes(4);
-                    model.PlayersCapacity = reader.ReadByte();
-                    reader.SkipBytes(1); // skip 1 byte [ PRIVATE_SLOTS=1byte; ]
-                    model.SpectatorsCapacity = reader.ReadByte();
-                    reader.SkipBytes(2);  // skip 1 byte [ PRIVATE_SPEC_SLOTS=1byte; GMRG=1byte; ]
-
-                    var length = reader.ReadByte(); // skip more data [ RNFO=bigData; ]
-                    for (var i = 0; i < length; ++i)
-                    {
-                        reader.SkipZString();
-                        reader.SkipBytes(4);
-
-                        var length2 = reader.ReadByte();
-                        for (var j = 0; j < length2; j++)
-                        {
-                            reader.SkipZString();
-                            reader.SkipZString();
-                        }
-                    }
-                    reader.SkipZString();
-
-                    break;
-            }
-        }
-
-        private IDictionary<string, string> _ParseAttributes(BinaryReader reader)
-        {
-            var numberOfAttributes = reader.ReadByte();
-            var attributes = new Dictionary<string, string>(numberOfAttributes);
-
-            for (byte i = 0; i < numberOfAttributes; ++i)
-            {
-                var key = reader.ReadZString().ToLowerInvariant();
-                var value = reader.ReadZString();
-
-                attributes.Add(key, value);
-            }
-
-            _NormalizeAttributes(attributes);
-            return attributes;
-        }
-
-        private void _NormalizeAttributes(IDictionary<string, string> rawAttributes)
+        private IDictionary<string, string> _NormalizeAttributes(IDictionary<string, string> rawAttributes)
         {
             var keyGroups = rawAttributes.Keys
                 .Where(key => key.Any(char.IsDigit))
@@ -286,6 +298,8 @@ namespace Zlo4NET.Core.Data.Parsers
                     .ForEach(k => rawAttributes.Remove(k));
                 rawAttributes.Add(keyGroup.Key, value);
             }
+
+            return rawAttributes;
         }
 
         private const int __mapNameIndex = 0;
@@ -343,13 +357,10 @@ namespace Zlo4NET.Core.Data.Parsers
                             continue;
                         }
 
-                        serverModel.Id = reader.ReadZUInt32();
-
                         switch (action)
                         {
                             case ZServerParserAction.Add:
-                                ParseBase(serverModel, reader);
-                                ParseSpecifics(serverModel, reader);
+                                ParseIntoServerModel(serverModel, reader);
 
                                 break;
                             case ZServerParserAction.PlayersList:
