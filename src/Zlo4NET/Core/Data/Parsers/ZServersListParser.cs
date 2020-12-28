@@ -186,14 +186,53 @@ namespace Zlo4NET.Core.Data.Parsers
 
         private ZMapRotation BuildMapRotation(ZGame game, IDictionary<string, string> attributes)
         {
-            var maps = _ParseMapList(attributes["maps"], game);
-            var mapsTuple = _GetMapsTuple(maps, attributes, game);
-            var rotation = new ZMapRotation
+            var rotation = new ZMapRotation(null);
+
+            // parse available map list
+            var mapList = _ParseMapList(attributes["maps"], game);
+
+            rotation.Rotation = new ObservableCollection<ZMap>(mapList);
+
+            // get current and next maps
+            var mapRotationIndexes = _ParseMapIndexes(attributes.ContainsKey("mapsinfo") ? attributes["mapsinfo"] : string.Empty);
+            var currentMap = new ZMap
             {
-                Current = mapsTuple.Item1,
-                Next = mapsTuple.Item2,
-                Rotation = new ObservableCollection<ZMap>(maps)
+                Name = attributes.ContainsKey("level")
+                    ? _mapConverter.GetMapNameByKey(game, attributes["level"])
+                    : ZStringConstants.NotAvailable,
+                GameModeName = attributes.ContainsKey("levellocation")
+                    ? _gameModeConverter.GetGameModeNameByKey(game, attributes["levellocation"])
+                    : ZStringConstants.NotAvailable,
+                Role = ZMapRole.Current
             };
+
+            rotation.Current = currentMap;
+
+            // check if we can get access to current map in maps list rotation
+            var map = mapList.FirstOrDefault(
+                m => m.Name == currentMap.Name && m.GameModeName == currentMap.GameModeName);
+
+            if (map == null)
+            {
+                mapList.Add(currentMap);
+            }
+            else
+            {
+                map.Role = ZMapRole.Current;
+            }
+
+            // check if we can get access to next map in maps list rotation
+            if (mapRotationIndexes != null)
+            {
+                var nextMapIndex = mapRotationIndexes.Last();
+                if (nextMapIndex < mapList.Count - 1)
+                {
+                    var nextMap = mapList[nextMapIndex];
+
+                    nextMap.Role = ZMapRole.Next;
+                    rotation.Next = nextMap;
+                }
+            }
 
             // remove used keys
             attributes.Remove("maps");
@@ -204,83 +243,31 @@ namespace Zlo4NET.Core.Data.Parsers
             return rotation;
         }
 
-        private Tuple<ZMap, ZMap> _GetMapsTuple(ZMap[] maps, IDictionary<string, string> attributes, ZGame game)
+        private int[] _ParseMapIndexes(string mapsInfoString)
         {
-            // local helpers
-            ZMap l_ParseCurrentMapFromAttributes(IDictionary<string, string> attrs)
-            {
-                return new ZMap
-                {
-                    Name = attributes.ContainsKey("level")
-                        ? _mapConverter.GetMapNameByKey(game, attributes["level"])
-                        : ZStringConstants.NotAvailable,
-                    GameModeName = attributes.ContainsKey("levellocation")
-                        ? _gameModeConverter.GetGameModeNameByKey(game, attributes["levellocation"])
-                        : ZStringConstants.NotAvailable
-                };
-            }
-
-            var mapIndexes = _ParseMapIndexes(attributes);
-            var indexLimit = maps.Length - 1;
-
-            ZMap currentMap, nextMap = null;
-
-            // calculate next map index
-            var nextMapIndex = mapIndexes.Last();
-
-            if (nextMapIndex <= indexLimit) _AssignMapModel(out nextMap, maps, nextMapIndex, ZMapRole.Next);
-
-            // calculate current map index
-            var currentMapIndex = mapIndexes.First();
-            if (currentMapIndex > indexLimit)
-            {
-                var map = l_ParseCurrentMapFromAttributes(attributes);
-                
-                map.Role = ZMapRole.Current;
-                currentMap = map;
-            }
-            else
-            {
-                _AssignMapModel(out currentMap, maps, currentMapIndex, ZMapRole.Current);
-            }
-
-            return new Tuple<ZMap, ZMap>(currentMap, nextMap);
+            return string.IsNullOrEmpty(mapsInfoString)
+                ? null
+                : mapsInfoString.Split(';')
+                    .Last()
+                    .Split(',')
+                    .Select(int.Parse)
+                    .ToArray();
         }
 
-        private void _AssignMapModel(out ZMap mapModel, ZMap[] maps, int index, ZMapRole role)
+        private List<ZMap> _ParseMapList(string mapString, ZGame game)
         {
-            mapModel = maps[index];
-            mapModel.Role = role;
-        }
-
-        private int[] _ParseMapIndexes(IDictionary<string, string> attributes)
-        {
-            var mapsInfo = attributes["mapsinfo"];
-            if (string.IsNullOrEmpty(mapsInfo))
-                return new[] { 0, 0 };
-
-            var value = attributes["mapsinfo"]
-                .Split(';')
-                .Last()
-                .Split(',')
-                .Select(int.Parse)
-                .ToArray();
-            return value;
-        }
-
-        private ZMap[] _ParseMapList(string mapString, ZGame game)
-        {
-            var value = mapString.Split(new[] {';'}, StringSplitOptions.RemoveEmptyEntries)
-                .Select(str => str.Split(','))
-                .Where(a => a.Length > 1)
+            // parse map list rotation
+            var maps = mapString.Split(new[] {';'}, StringSplitOptions.RemoveEmptyEntries) // get map name and gameMode string like key,value
+                .Select(str => str.Split(',')) // get arrays where 0 index as Key + 1 index as Value
+                .Where(a => a.Length > 1) // drop not full pairs
                 .Select(a => new ZMap
                 {
                     Name = _mapConverter.GetMapNameByKey(game, a[__mapNameIndex]),
                     GameModeName = _gameModeConverter.GetGameModeNameByKey(game, a[__gameModeIndex]),
                     Role = ZMapRole.Other
-                })
-                .ToArray();
-            return value;
+                }); // select maps
+
+            return maps.ToList();
         }
 
         private IDictionary<string, string> _NormalizeAttributes(IDictionary<string, string> rawAttributes)
@@ -304,7 +291,7 @@ namespace Zlo4NET.Core.Data.Parsers
 
         private const int __mapNameIndex = 0;
         private const int __gameModeIndex = 1;
-        private const string __threadName = "sl_parse";
+        private const string __threadName = "sl_parse"; // server list parse thread
 
         private readonly object _sync = new object();
         private readonly IEnumerable<ZPacket> _emptyEnumerable = CollectionHelper.GetEmptyEnumerable<ZPacket>();
