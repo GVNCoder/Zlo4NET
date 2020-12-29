@@ -206,19 +206,6 @@ namespace Zlo4NET.Core.Data.Parsers
 
             rotation.Current = currentMap;
 
-            // check if we can get access to current map in maps list rotation
-            var map = mapList.FirstOrDefault(
-                m => m.Name == currentMap.Name && m.GameModeName == currentMap.GameModeName);
-
-            if (map == null)
-            {
-                mapList.Add(currentMap);
-            }
-            else
-            {
-                map.Role = ZMapRole.Current;
-            }
-
             // check if we can get access to next map in maps list rotation
             if (mapRotationIndexes != null)
             {
@@ -230,6 +217,19 @@ namespace Zlo4NET.Core.Data.Parsers
                     nextMap.Role = ZMapRole.Next;
                     rotation.Next = nextMap;
                 }
+            }
+
+            // check if we can get access to current map in maps list rotation
+            var map = mapList.FirstOrDefault(
+                m => m.Name == currentMap.Name && m.GameModeName == currentMap.GameModeName);
+
+            if (map == null)
+            {
+                mapList.Add(currentMap);
+            }
+            else
+            {
+                map.Role = ZMapRole.Current;
             }
 
             rotation.Rotation = new ObservableCollection<ZMap>(mapList);
