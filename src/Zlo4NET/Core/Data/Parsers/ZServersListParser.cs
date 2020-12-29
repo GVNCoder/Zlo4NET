@@ -48,6 +48,8 @@ namespace Zlo4NET.Core.Data.Parsers
 
         public void ParsePlayers(uint id, ZServerBase model, BinaryReader reader)
         {
+            model.Id = reader.ReadZUInt32();
+
             var playerList = new ObservableCollection<ZPlayer>();
             var arrLen = reader.ReadByte();
 
