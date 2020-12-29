@@ -223,7 +223,7 @@ namespace Zlo4NET.Core.Data.Parsers
             if (mapRotationIndexes != null)
             {
                 var nextMapIndex = mapRotationIndexes.Last();
-                if (nextMapIndex < mapList.Count - 1)
+                if (nextMapIndex <= mapList.Count - 1)
                 {
                     var nextMap = mapList[nextMapIndex];
 
