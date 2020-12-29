@@ -191,8 +191,6 @@ namespace Zlo4NET.Core.Data.Parsers
             // parse available map list
             var mapList = _ParseMapList(attributes["maps"], game);
 
-            rotation.Rotation = new ObservableCollection<ZMap>(mapList);
-
             // get current and next maps
             var mapRotationIndexes = _ParseMapIndexes(attributes.ContainsKey("mapsinfo") ? attributes["mapsinfo"] : string.Empty);
             var currentMap = new ZMap
@@ -233,6 +231,8 @@ namespace Zlo4NET.Core.Data.Parsers
                     rotation.Next = nextMap;
                 }
             }
+
+            rotation.Rotation = new ObservableCollection<ZMap>(mapList);
 
             // remove used keys
             attributes.Remove("maps");
