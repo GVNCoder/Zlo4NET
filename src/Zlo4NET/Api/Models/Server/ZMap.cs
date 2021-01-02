@@ -19,7 +19,9 @@ namespace Zlo4NET.Api.Models.Server
         /// </summary>
         [ZObservableProperty]
         public string GameModeName { get; set; }
-
+        /// <summary>
+        /// Rotation role
+        /// </summary>
         public ZMapRole Role { get; set; }
     }
 }
