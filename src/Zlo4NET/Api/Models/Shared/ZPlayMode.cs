@@ -5,6 +5,8 @@
     /// </summary>
     public enum ZPlayMode
     {
+        None,
+
         Singleplayer, 
         Multiplayer,
         CooperativeHost,
