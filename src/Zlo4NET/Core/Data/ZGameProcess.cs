@@ -21,8 +21,10 @@ namespace Zlo4NET.Core.Data
         private readonly IZProcessTracker _processTracker;
         private readonly ZInstalledGame _targetGame;
         private readonly string _runArgs;
+        private readonly string _pipeName;
         private readonly ZLogger _logger;
-        private readonly _GamePipe _pipe;
+
+        private _GamePipe _pipe;
 
         public ZGameProcess(
             IZClientService clientService,
@@ -36,11 +38,9 @@ namespace Zlo4NET.Core.Data
             _runArgs = runArgs;
             _targetGame = targetGame;
             _logger = ZLogger.Instance;
+            _pipeName = pipeName;
 
-            _pipe = new _GamePipe(_logger, pipeName);
             _processTracker = new ZProcessTracker(processName, TimeSpan.FromSeconds(1), false, processes => processes.First());
-
-            _pipe.PipeEvent += _PipeEventHandler;
 
             _processTracker.ProcessDetected += _ProcessTrackerOnProcessDetected;
             _processTracker.ProcessLost += _ProcessTrackerOnProcessLost;
@@ -105,7 +105,14 @@ namespace Zlo4NET.Core.Data
             {
                 _processTracker.ProcessDetected -= _ProcessTrackerOnProcessDetected;
                 _processTracker.ProcessLost -= _ProcessTrackerOnProcessLost;
+
                 _processTracker.StopTrack();
+            }
+            else
+            {
+                // create a new instance for more reusability
+                _pipe = new _GamePipe(_logger, _pipeName);
+                _pipe.PipeEvent += _PipeEventHandler;
             }
 
             return runResult;
@@ -121,6 +128,7 @@ namespace Zlo4NET.Core.Data
             _OnCustomPipeEvent("StateChanged", "State_GameClose");
 
             _pipe.PipeEvent -= _PipeEventHandler;
+            _pipe = null;
 
             // after closing the game process,
             // its pipe is destroyed automatically + the thread that processes the reading will be completed
