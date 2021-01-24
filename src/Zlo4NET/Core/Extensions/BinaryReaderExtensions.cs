@@ -77,7 +77,7 @@ namespace Zlo4NET.Core.Extensions
         {
             var s = new StringBuilder();
 
-            for (int i = 1; i <= count; i++)
+            for (int i = 0; i < count; i++)
             {
                 s.Append(br.ReadChar());
             }

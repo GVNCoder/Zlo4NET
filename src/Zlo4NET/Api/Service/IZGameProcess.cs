@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
+
 using Zlo4NET.Api.Models.Shared;
 
 namespace Zlo4NET.Api.Service
@@ -8,12 +9,12 @@ namespace Zlo4NET.Api.Service
     /// <summary>
     /// Defines game ready for run
     /// </summary>
-    public interface IZRunGame
+    public interface IZGameProcess
     {
         /// <summary>
-        /// Occurs when a game generates a message
+        /// Occurs when a game state changed (Pipe)
         /// </summary>
-        event EventHandler<ZGamePipeArgs> Pipe;
+        event EventHandler<ZGamePipeArgs> StateChanged;
         /// <summary>
         /// Makes an asynchronous request to run game
         /// </summary>
@@ -23,7 +24,6 @@ namespace Zlo4NET.Api.Service
         /// Gets game process
         /// </summary>
         Process GameProcess { get; }
-
         /// <summary>
         /// Gets a value indicating the current state of the game, running or not.
         /// </summary>

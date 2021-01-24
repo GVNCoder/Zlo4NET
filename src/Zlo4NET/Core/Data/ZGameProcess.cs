@@ -1,17 +1,12 @@
 ﻿using System;
 using System.Diagnostics;
-using System.IO;
-using System.IO.Pipes;
 using System.Linq;
 using System.Runtime.Remoting.Messaging;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 using Zlo4NET.Api.Models.Shared;
 using Zlo4NET.Api.Service;
 using Zlo4NET.Core.Data.Parsers;
-using Zlo4NET.Core.Extensions;
 using Zlo4NET.Core.Helpers;
 using Zlo4NET.Core.Services;
 using Zlo4NET.Core.ZClient.Data;
@@ -19,18 +14,19 @@ using Zlo4NET.Core.ZClient.Services;
 
 namespace Zlo4NET.Core.Data
 {
-    internal class ZRunGame : IZRunGame
+    internal class ZGameProcess : IZGameProcess
     {
         private readonly IZClientService _clientService;
         private readonly IZGameRunParser _parser;
-        private readonly Thread _pipeReadThread;
-        private readonly NamedPipeClientStream _pipeClient;
         private readonly IZProcessTracker _processTracker;
         private readonly ZInstalledGame _targetGame;
         private readonly string _runArgs;
+        private readonly string _pipeName;
         private readonly ZLogger _logger;
 
-        public ZRunGame(
+        private _GamePipe _pipe;
+
+        public ZGameProcess(
             IZClientService clientService,
             string runArgs,
             ZInstalledGame targetGame,
@@ -42,16 +38,20 @@ namespace Zlo4NET.Core.Data
             _runArgs = runArgs;
             _targetGame = targetGame;
             _logger = ZLogger.Instance;
+            _pipeName = pipeName;
 
-            _pipeReadThread = new Thread(_ReadPipeMethod) { IsBackground = true };
-            _pipeClient = new NamedPipeClientStream(".", pipeName);
             _processTracker = new ZProcessTracker(processName, TimeSpan.FromSeconds(1), false, processes => processes.First());
 
             _processTracker.ProcessDetected += _ProcessTrackerOnProcessDetected;
             _processTracker.ProcessLost += _ProcessTrackerOnProcessLost;
         }
 
-        public ZRunGame(string processName)
+        private void _PipeEventHandler(_GameState state)
+        {
+            _onMessage(state.Event, state.RawEvent, state.States, state.RawState);
+        }
+
+        public ZGameProcess(string processName)
         {
             _logger = ZLogger.Instance;
             _processTracker = new ZProcessTracker(processName, TimeSpan.FromSeconds(1), false, processes => processes.First());
@@ -60,7 +60,7 @@ namespace Zlo4NET.Core.Data
             _processTracker.ProcessLost += _ProcessTrackerOnProcessLost;
         }
 
-        public event EventHandler<ZGamePipeArgs> Pipe;
+        public event EventHandler<ZGamePipeArgs> StateChanged;
         public Process GameProcess => _processTracker.Process;
         public bool IsRun => _processTracker.IsRun;
 
@@ -105,7 +105,14 @@ namespace Zlo4NET.Core.Data
             {
                 _processTracker.ProcessDetected -= _ProcessTrackerOnProcessDetected;
                 _processTracker.ProcessLost -= _ProcessTrackerOnProcessLost;
+
                 _processTracker.StopTrack();
+            }
+            else
+            {
+                // create a new instance for more reusability
+                _pipe = new _GamePipe(_logger, _pipeName);
+                _pipe.PipeEvent += _PipeEventHandler;
             }
 
             return runResult;
@@ -113,77 +120,43 @@ namespace Zlo4NET.Core.Data
 
         #region Private methods
 
-        private void _ReadPipeMethod()
-        {
-            _pipeClient.Connect();
-
-            while (_pipeClient.IsConnected)
-            {
-                var buffer = new byte[1024];
-                var bytesRead = _pipeClient.Read(buffer, 0, buffer.Length);
-                if (bytesRead > 0)
-                {
-                    var readBlock = new byte[bytesRead]; // +1
-                    Array.Copy(buffer, readBlock, bytesRead); // +1
-
-                    _parseData(readBlock);
-                }
-
-                Thread.Sleep(50); // wait to data availability
-            }
-        }
-
-        private void _parseData(byte[] data)
-        {
-            try
-            {
-                using (var memoryStream = new MemoryStream(data, false))
-                using (var br = new BinaryReader(memoryStream, Encoding.ASCII))
-                {
-                    br.ReadBytes(2); // skip 2 bytes ?
-                    br.ReadUInt16(); // message length - 4 bytes (2 skipped and 2 current message length)
-
-                    var firstPartLength = br.ReadByte();
-                    var firstPartString = br.ReadCountedString(firstPartLength)
-                        .Trim();
-
-                    var secondPartLength = br.ReadByte() + 1;
-                    var secondPartString = br.ReadCountedString(secondPartLength)
-                        .Trim()
-                        .Replace('\0'.ToString(), string.Empty);
-                    secondPartString = Uri.UnescapeDataString(secondPartString);
-
-                    _onMessage(firstPartString, secondPartString);
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.Error($"Occured {ex.Message} | {nameof(_parseData)}");
-            }
-        }
-
         private void _ProcessTrackerOnProcessLost(object sender, EventArgs e)
         {
             _processTracker.ProcessDetected -= _ProcessTrackerOnProcessDetected;
             _processTracker.ProcessLost -= _ProcessTrackerOnProcessLost;
 
-            _onMessage("StateChanged", "State_GameClosed");
+            _OnCustomPipeEvent("StateChanged", "State_GameClose");
+
+            _pipe.PipeEvent -= _PipeEventHandler;
+            _pipe = null;
+
+            // after closing the game process,
+            // its pipe is destroyed automatically + the thread that processes the reading will be completed
         }
 
         private void _ProcessTrackerOnProcessDetected(object sender, Process e)
         {
-            _onMessage("StateChanged", "State_GameRunning");
+            _OnCustomPipeEvent("StateChanged", "State_GameRun");
 
             // ? cuz we cannot always create an instance
-            _pipeReadThread?.Start();
+            _pipe?.Begin();
         }
 
-        private void _onMessage(string firstPart, string secondPart)
+        private void _OnCustomPipeEvent(string eventName, string stateName)
         {
-            if (Pipe == null) return;
+            // parse custom state
+            var state = _GameStateParser.ParseStates(eventName, stateName);
 
-            var invocationList = Pipe.GetInvocationList();
-            var eventArgs = new ZGamePipeArgs(firstPart, secondPart);
+            _onMessage(state.Event, state.RawEvent, state.States, state.RawState);
+        }
+
+        private void _onMessage(ZGameEvent eventEnum, string rawEvent, ZGameState[] stateEnums, string rawState)
+        {
+            if (StateChanged == null) return;
+
+            // raise event
+            var invocationList = StateChanged.GetInvocationList();
+            var eventArgs = new ZGamePipeArgs(eventEnum, rawEvent, stateEnums, rawState);
 
             foreach (var handler in invocationList)
             {
