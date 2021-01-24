@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -84,7 +85,7 @@ namespace Examples
                 throw new InvalidOperationException("Invalid input!");
 
             // cuz Singleplayer = 0
-            var gameMode = (ZPlayMode)targetGameMode - 1;
+            var gameMode = (ZPlayMode) targetGameMode;
 
             #endregion
 
@@ -114,17 +115,17 @@ namespace Examples
             }
         }
 
-        internal static async Task _RunAndTrack(IZRunGame gameProcess)
+        internal static async Task _RunAndTrack(IZGameProcess gameProcess)
         {
             var resetEvent = new ManualResetEvent(false);
 
             // track game pipe
-            gameProcess.Pipe += (sender, pipeArgs) =>
+            gameProcess.StateChanged += (sender, pipeArgs) =>
             {
-                Console.WriteLine(pipeArgs.FullMessage);
+                Console.WriteLine(pipeArgs.RawFullMessage);
 
                 // return from _RunAndTrack if game closed
-                if (pipeArgs.SecondPart.Contains("Closed"))
+                if (pipeArgs.Event == ZGameEvent.StateChanged && pipeArgs.States.Contains(ZGameState.State_GameClose))
                 {
                     resetEvent.Set();
                 }
