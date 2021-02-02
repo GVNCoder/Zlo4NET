@@ -41,23 +41,11 @@ namespace Zlo4NET.Core.Data
             _pipeName = pipeName;
 
             _processTracker = new ZProcessTracker(processName, TimeSpan.FromSeconds(1), false, processes => processes.First());
-
-            _processTracker.ProcessDetected += _ProcessTrackerOnProcessDetected;
-            _processTracker.ProcessLost += _ProcessTrackerOnProcessLost;
         }
 
         private void _PipeEventHandler(_GameState state)
         {
             _onMessage(state.Event, state.RawEvent, state.States, state.RawState);
-        }
-
-        public ZGameProcess(string processName)
-        {
-            _logger = ZLogger.Instance;
-            _processTracker = new ZProcessTracker(processName, TimeSpan.FromSeconds(1), false, processes => processes.First());
-
-            _processTracker.ProcessDetected += _ProcessTrackerOnProcessDetected;
-            _processTracker.ProcessLost += _ProcessTrackerOnProcessLost;
         }
 
         public event EventHandler<ZGamePipeArgs> StateChanged;
@@ -92,27 +80,28 @@ namespace Zlo4NET.Core.Data
 
         public async Task<ZRunResult> RunAsync()
         {
-            _processTracker.StartTrack();
-
+            // send request to run the game
             var response = await _clientService.SendGameRunRequestAsync(_targetGame.RunnableName, _runArgs);
             if (response.Status != ZResponseStatusCode.Ok)
             {
                 return ZRunResult.Error;
             }
 
+            // parse run results
             var runResult = _parser.Parse(response.Packets);
-            if (runResult != ZRunResult.Success)
+            // ReSharper disable once InvertIf
+            if (runResult == ZRunResult.Success)
             {
-                _processTracker.ProcessDetected -= _ProcessTrackerOnProcessDetected;
-                _processTracker.ProcessLost -= _ProcessTrackerOnProcessLost;
-
-                _processTracker.StopTrack();
-            }
-            else
-            {
-                // create a new instance for more reusability
+                // prepare instance state to track game state
+                // begin track 
                 _pipe = new _GamePipe(_logger, _pipeName);
                 _pipe.PipeEvent += _PipeEventHandler;
+
+                _processTracker.ProcessDetected += _ProcessTrackerOnProcessDetected;
+                _processTracker.ProcessLost += _ProcessTrackerOnProcessLost;
+
+                // begin track process tracker
+                _processTracker.StartTrack();
             }
 
             return runResult;
@@ -138,8 +127,8 @@ namespace Zlo4NET.Core.Data
         {
             _OnCustomPipeEvent("StateChanged", "State_GameRun");
 
-            // ? cuz we cannot always create an instance
-            _pipe?.Begin();
+            // begin connect to game pipe
+            _pipe.Begin();
         }
 
         private void _OnCustomPipeEvent(string eventName, string stateName)
