@@ -249,12 +249,5 @@ namespace Zlo4NET.Core.Data
             var runGame = _createRunGame(targetGame, commandRun, args.Game, architecture);
             return runGame;
         }
-
-        public Task<IZGameProcess> CreateByProcessNameAsync(ZProcessParameters args)
-        {
-            var gameInstance = new ZGameProcess(args.ProcessName);
-
-            return Task.FromResult<IZGameProcess>(gameInstance);
-        }
     }
 }

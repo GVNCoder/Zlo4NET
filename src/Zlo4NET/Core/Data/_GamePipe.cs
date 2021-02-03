@@ -98,7 +98,6 @@ namespace Zlo4NET.Core.Data
                         .Trim();
 
                     //    .Replace('\0'.ToString(), string.Empty);
-                    //secondPartString = Uri.UnescapeDataString(secondPartString);
 
                     // normalize state string
                     stateString = Uri.UnescapeDataString(stateString);
