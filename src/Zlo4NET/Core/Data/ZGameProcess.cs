@@ -43,11 +43,6 @@ namespace Zlo4NET.Core.Data
             _processTracker = new ZProcessTracker(processName, TimeSpan.FromSeconds(1), false, processes => processes.First());
         }
 
-        private void _PipeEventHandler(_GameState state)
-        {
-            _onMessage(state.Event, state.RawEvent, state.States, state.RawState);
-        }
-
         public event EventHandler<ZGamePipeArgs> StateChanged;
         public Process GameProcess => _processTracker.Process;
         public bool IsRun => _processTracker.IsRun;
@@ -109,8 +104,15 @@ namespace Zlo4NET.Core.Data
 
         #region Private methods
 
+        private void _PipeEventHandler(_GameState state)
+        {
+            _onMessage(state.Event, state.RawEvent, state.States, state.RawState);
+        }
+
         private void _ProcessTrackerOnProcessLost(object sender, EventArgs e)
         {
+            _processTracker.StopTrack();
+
             _processTracker.ProcessDetected -= _ProcessTrackerOnProcessDetected;
             _processTracker.ProcessLost -= _ProcessTrackerOnProcessLost;
 
