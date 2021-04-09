@@ -129,7 +129,10 @@
     <Compile Include="Api\Models\Shared\ZGameArchitecture.cs" />
     <Compile Include="Api\Models\Shared\ZRole.cs" />
     <Compile Include="Api\Models\Shared\ZRunResult.cs" />
+    <Compile Include="Core\ZClientAPI\IZClient.cs" />
     <Compile Include="Core\ZClientAPI\ZBuffer.cs" />
+    <Compile Include="Core\ZClientAPI\ZClientImpl.cs" />
+    <Compile Include="Core\ZClientAPI\ZPacket.cs" />
     <Compile Include="Core\ZClient\Data\ZClientConnectionChangedArgs.cs" />
     <Compile Include="Core\ZClient\Data\ZClientService.cs" />
     <Compile Include="Core\ZClient\Data\ZRequest.cs" />

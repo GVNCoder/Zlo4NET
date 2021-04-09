@@ -41,12 +41,12 @@ namespace Zlo4NET.Core.ZClientAPI
         /// </summary>
         /// <param name="bufferInstance">The <see cref="ZBuffer"/> instance</param>
         /// <returns>Byte array representation of buffer</returns>
-        public static explicit operator byte[] (ZBuffer bufferInstance) => bufferInstance?._buffer;
+        public static implicit operator byte[] (ZBuffer bufferInstance) => bufferInstance?._buffer;
         /// <summary>
         /// Appends to end a byte array buffer
         /// </summary>
         /// <param name="buffer">The byte readonly collection to append</param>
-        public void Append(IReadOnlyList<byte> buffer) => _buffer = _buffer.Concat(buffer).ToArray();
+        public void Append(IEnumerable<byte> buffer) => _buffer = _buffer.Concat(buffer).ToArray();
         /// <summary>
         /// Removes specified <paramref name="length"/> (number) of bytes from start of buffer
         /// </summary>
