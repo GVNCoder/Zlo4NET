@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 using Zlo4NET.Core.Helpers;
 using Zlo4NET.Core.ZClient.Data;
@@ -10,6 +11,18 @@ namespace Zlo4NET.Core.ZClientAPI
     /// </summary>
     internal class ZRequest
     {
+        /// <summary>
+        /// Creates instance of <see cref="ZRequest"/>
+        /// </summary>
+        public ZRequest()
+        {
+            RequestGuid = Guid.NewGuid();
+        }
+
+        /// <summary>
+        /// Gets request guid
+        /// </summary>
+        public Guid RequestGuid { get; }
         /// <summary>
         /// Gets or sets request command
         /// </summary>
