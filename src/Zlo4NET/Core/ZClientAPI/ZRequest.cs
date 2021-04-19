@@ -24,13 +24,17 @@ namespace Zlo4NET.Core.ZClientAPI
         /// </summary>
         public Guid RequestGuid { get; }
         /// <summary>
+        /// Gets or sets request method. By default it's <see cref="ZRequestMethod.Get"/>
+        /// </summary>
+        public ZRequestMethod Method { get; set; } = ZRequestMethod.Get;
+        /// <summary>
         /// Gets or sets request command
         /// </summary>
         public ZCommand RequestCommand { get; set; }
         /// <summary>
-        /// Gets or sets request payload
+        /// Gets or sets request payload. By default it's Empty
         /// </summary>
-        public byte[] RequestPayload { get; set; }
+        public byte[] RequestPayload { get; set; } = { };
         /// <summary>
         /// Converts this instance to byte array representation
         /// </summary>
@@ -44,5 +48,14 @@ namespace Zlo4NET.Core.ZClientAPI
 
             return requestBytes;
         }
+
+        #region Overrides
+
+        public override string ToString()
+        {
+            return $"Request {RequestGuid} - M {Method} C {RequestCommand} P {BitConverter.ToString(RequestPayload)}";
+        }
+
+        #endregion
     }
 }

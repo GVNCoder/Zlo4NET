@@ -134,8 +134,10 @@
     <Compile Include="Core\ZClientAPI\ZClientImpl.cs" />
     <Compile Include="Core\ZClientAPI\ZPacket.cs" />
     <Compile Include="Core\ZClientAPI\ZRequest.cs" />
+    <Compile Include="Core\ZClientAPI\ZRequestMethod.cs" />
     <Compile Include="Core\ZClientAPI\ZResponse.cs" />
     <Compile Include="Core\ZClientAPI\ZResponseStatusCode.cs" />
+    <Compile Include="Core\ZClientAPI\ZRouter.cs" />
     <Compile Include="Core\ZClient\Data\ZClientConnectionChangedArgs.cs" />
     <Compile Include="Core\ZClient\Data\ZClientService.cs" />
     <Compile Include="Core\ZClient\Data\ZRequest.cs" />
