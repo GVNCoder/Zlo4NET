@@ -12,6 +12,10 @@ namespace Zlo4NET.Core.ZClientAPI
     /// </summary>
     /// <param name="packets"></param>
     internal delegate void ZPacketsStreamCallback(ZPacket[] packets);
+    /// <summary>
+    /// 
+    /// </summary>
+    internal delegate void ZStreamRejectedCallback();
 
     /// <summary>
     /// 
@@ -20,7 +24,7 @@ namespace Zlo4NET.Core.ZClientAPI
     {
         #region Internal types
 
-        private struct _RequestMetadata
+        private class _RequestMetadata
         {
             public _RequestMetadata(ZRequest request)
             {
@@ -31,22 +35,24 @@ namespace Zlo4NET.Core.ZClientAPI
                     : null;
             }
 
-            public TaskCompletionSource<object> TaskCompletionSource { get; set; }
-            public ZRequest Request { get; set; }
-            public ZResponse Response { get; set; }
+            public TaskCompletionSource<object> TaskCompletionSource { get; }
+            public ZRequest Request { get; }
+            public ZResponse Response { get; }
             public Guid RequestGuid => Request.RequestGuid;
         }
 
-        private struct _StreamMetadata
+        private class _StreamMetadata
         {
-            public _StreamMetadata(ZCommand streamCommand, ZPacketsStreamCallback callback)
+            public _StreamMetadata(ZCommand streamCommand, ZPacketsStreamCallback packetsReceivedCallback, ZStreamRejectedCallback streamRejectedCallback)
             {
                 StreamCommand = streamCommand;
-                OnPacketsReceivedCallback = callback;
+                OnPacketsReceivedCallback = packetsReceivedCallback;
+                StreamRejectedCallback = streamRejectedCallback;
             }
 
-            public ZCommand StreamCommand { get; set; }
-            public ZPacketsStreamCallback OnPacketsReceivedCallback { get; set; }
+            public ZCommand StreamCommand { get; }
+            public ZPacketsStreamCallback OnPacketsReceivedCallback { get; }
+            public ZStreamRejectedCallback StreamRejectedCallback { get; }
         }
 
         #endregion
@@ -118,7 +124,7 @@ namespace Zlo4NET.Core.ZClientAPI
         /// <param name="request"></param>
         /// <param name="onPacketsReceivedCallback"></param>
         /// <returns></returns>
-        public static async Task<ZResponse> OpenStreamAsync(ZRequest request, ZPacketsStreamCallback onPacketsReceivedCallback)
+        public static async Task<ZResponse> OpenStreamAsync(ZRequest request, ZPacketsStreamCallback onPacketsReceivedCallback, ZStreamRejectedCallback streamRejectedCallback = null)
         {
             // check incoming arguments
             if (request == null)
@@ -138,7 +144,7 @@ namespace Zlo4NET.Core.ZClientAPI
             }
 
             // send request and get response
-            var response = await _RegisterStreamAndWaitResponseAsync(request, onPacketsReceivedCallback);
+            var response = await _RegisterStreamAndWaitResponseAsync(request, onPacketsReceivedCallback, streamRejectedCallback);
 
             return response;
         }
@@ -187,10 +193,10 @@ namespace Zlo4NET.Core.ZClientAPI
             return closeStreamResponse;
         }
 
-        private static async Task<ZResponse> _RegisterStreamAndWaitResponseAsync(ZRequest request, ZPacketsStreamCallback onPacketsReceivedCallback)
+        private static async Task<ZResponse> _RegisterStreamAndWaitResponseAsync(ZRequest request, ZPacketsStreamCallback onPacketsReceivedCallback, ZStreamRejectedCallback streamRejectedCallback)
         {
             // create stream metadata to register it
-            var streamMetadata = new _StreamMetadata(request.RequestCommand, onPacketsReceivedCallback);
+            var streamMetadata = new _StreamMetadata(request.RequestCommand, onPacketsReceivedCallback, streamRejectedCallback);
 
             // register stream to help find it and pass packets
             _streamsPool.Add(streamMetadata);
@@ -261,11 +267,58 @@ namespace Zlo4NET.Core.ZClientAPI
 
         #region Client Callbacks
 
-        private static void _ClientOnConnectionChangedCallback(bool connectionState) => _OnConnectionChanged(connectionState);
+        private static void _ClientOnConnectionChangedCallback(bool connectionState)
+        {
+            _OnConnectionChanged(connectionState);
+
+            // reject all requests and streams
+            foreach (var requestMetadata in _requestsPool)
+            {
+                requestMetadata.Response.StatusCode = ZResponseStatusCode.Rejected;
+                requestMetadata.TaskCompletionSource.SetResult(null);
+            }
+
+            _requestsPool.Clear();
+
+            foreach (var streamMetadata in _streamsPool)
+            {
+                streamMetadata.StreamRejectedCallback?.BeginInvoke(
+                    ar => streamMetadata.StreamRejectedCallback.EndInvoke(ar), null);
+            }
+
+            _streamsPool.Clear();
+        }
 
         private static void _ClientOnPacketsReceivedCallback(ZPacket[] packets)
         {
-            
+            var packetGroups = packets.GroupBy(i => i.Id);
+
+            foreach (var packetGroup in packetGroups)
+            {
+                var responsePackets = packetGroup.ToArray();
+
+                // check streams first
+                var streamMetadata = _streamsPool.FirstOrDefault(i => i.StreamCommand == packetGroup.Key);
+                if (streamMetadata != null)
+                {
+                    // begin async execution
+                    streamMetadata.OnPacketsReceivedCallback.BeginInvoke(responsePackets, ar => streamMetadata.OnPacketsReceivedCallback.EndInvoke(ar), null);
+
+                    continue;
+                }
+
+                // check requests
+                var requestMetadata = _requestsPool.FirstOrDefault(i => i.Request.RequestCommand == packetGroup.Key);
+                if (requestMetadata != null)
+                {
+                    // set response
+                    requestMetadata.Response.ResponsePackets = responsePackets;
+                    requestMetadata.Response.StatusCode = ZResponseStatusCode.Ok;
+
+                    // close request
+                    requestMetadata.TaskCompletionSource.SetResult(null);
+                }
+            }
         }
 
         #endregion
