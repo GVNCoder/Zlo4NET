@@ -1,10 +1,9 @@
 using System;
 using System.Timers;
-using Zlo4NET.Api.Models.Shared;
+
 using Zlo4NET.Api.Service;
 using Zlo4NET.Core.Services;
-using Zlo4NET.Core.ZClient.Data;
-using Zlo4NET.Core.ZClient.Services;
+using Zlo4NET.Api.Models.Shared;
 
 //public async Task<bool> CheckMonolithAsync()
 //{
@@ -21,7 +20,7 @@ using Zlo4NET.Core.ZClient.Services;
 
 namespace Zlo4NET.Core.Data
 {
-    internal class ZConnection : IZConnection 
+    internal class ZConnection : IZConnection
     {
         private readonly IZUserService _userService;
         private readonly IZClientService _clientService;
@@ -46,7 +45,7 @@ namespace Zlo4NET.Core.Data
         private void _OnConnectionChanged(bool state, ZUser user)
             => ConnectionChanged?.Invoke((IZConnection) this, new ZConnectionChangedArgs(state, user));
 
-        private void _resetConnection() 
+        private void _resetConnection()
         {
             __curConState = default(bool?);
             __enabled = false;

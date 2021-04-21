@@ -3,7 +3,7 @@
 namespace Zlo4NET.Api.Models.Shared
 {
     /// <summary>
-    /// Defines connection changed event args
+    /// Represents connection changed event args
     /// </summary>
     public class ZConnectionChangedArgs : EventArgs
     {
