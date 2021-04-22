@@ -1,16 +1,20 @@
 using System;
+using System.Linq;
 using System.Timers;
 
+using Zlo4NET.Api.DTO;
 using Zlo4NET.Api.Service;
-using Zlo4NET.Core.Services;
 using Zlo4NET.Api.Models.Shared;
+using Zlo4NET.Core.Data.Parsers;
+using Zlo4NET.Core.Services;
+using Zlo4NET.Core.ZClientAPI;
 
 //public async Task<bool> CheckMonolithAsync()
 //{
 //    string stringContent;
 //    using (var client = new WebClient())
 //    {
-//        stringContent = await client.DownloadStringTaskAsync("http://zloemu.net/z_test");
+//        stringContent = await client.DownloadStringTaskAsync("http://zloemu.net/z-test");
 //    }
 
 //    var monolithStatusObject = _phpObjectDeserializer.Deserialize(stringContent) as Hashtable;
@@ -22,89 +26,118 @@ namespace Zlo4NET.Core.Data
 {
     internal class ZConnection : IZConnection
     {
-        private readonly IZUserService _userService;
-        private readonly IZClientService _clientService;
-        private readonly IZClient _client;
+        #region Constants
+
+        // ReSharper disable once InconsistentNaming
+        private const int PING_INTERVAL = 15000;
+
+        #endregion
+
+        private readonly IZUserInfoParser _userInfoParser;
         private readonly Timer _pingTimer;
+        private readonly ZLogger _logger;
 
-        private bool __enabled;
-        private bool? __curConState;
+        private ZUserDTO _currentUserInfo;
 
-        public ZConnection(IZUserService userService, IZClientService clientService)
+        public ZConnection()
         {
-            _userService = userService;
-            _clientService = clientService;
-            _client = clientService.Client;
+            _userInfoParser = ZParsersFactory.CreateUserInfoParser();
+            _logger         = ZLogger.Instance;
+            _pingTimer      = new Timer(PING_INTERVAL) { Enabled = false, AutoReset = true };
 
-            _pingTimer = new Timer(TimeSpan.FromSeconds(15).TotalMilliseconds) { Enabled = false, AutoReset = true };
+            _pingTimer.Elapsed += _OnPingTimerElapsedCallback;
 
-            _pingTimer.Elapsed += _pingTimerElapsedHandler;
-            _client.ConnectionChanged += _clientConnectionChangedHandler;
+            // track client connection state
+            ZRouter.ConnectionChanged += _OnClientConnectionStateChangedCallback;
         }
 
-        private void _OnConnectionChanged(bool state, ZUser user)
-            => ConnectionChanged?.Invoke((IZConnection) this, new ZConnectionChangedArgs(state, user));
+        #region Private helpers
 
-        private void _resetConnection()
+        // https://stackoverflow.com/questions/19415646/should-i-avoid-async-void-event-handlers
+        private async void _OnClientConnectionStateChangedCallback(bool clientConnectionState)
         {
-            __curConState = default(bool?);
-            __enabled = false;
-            _pingTimer.Stop();
-        }
-        
-        private void _clientConnectionChangedHandler(object sender, ZClientConnectionChangedArgs e)
-        {
-            if (e.ConnectionState)
+            IsConnected = clientConnectionState;
+
+            // if client connected then start ping timer
+            // and try get authorized user
+            if (clientConnectionState)
             {
-                _pingTimer.Start();
-                _pingTimerElapsedHandler(null, null); // initial fire
+                // get authorized user from ZClient
+                var userRequest = ZRequestFactory.CreateUserInfoRequest();
+                var response = await ZRouter.GetResponseAsync(userRequest);
+
+                // check response
+                if (response.StatusCode == ZResponseStatusCode.Ok)
+                {
+                    _currentUserInfo = _ParseUserInfo(response.ResponsePackets);
+                    _pingTimer.Start();
+
+                    _RaiseOnAuthorizedEvent(_currentUserInfo);
+                }
+                else
+                {
+                    _logger.Warning($"Request failed {userRequest}");
+                }
             }
             else
             {
-                _resetConnection();
-                _OnConnectionChanged(false, null);
+                _pingTimer.Stop();
+                _currentUserInfo = null;
             }
+
+            _RaiseOnConnectionChangedEvent(clientConnectionState);
         }
 
-        private async void _pingTimerElapsedHandler(object sender, ElapsedEventArgs e)
+        private ZUserDTO _ParseUserInfo(ZPacket[] responsePackets)
         {
-            if (_userService.AuthorizedUser == null)
+            var payloadPacket = responsePackets.Single();
+            var user = _userInfoParser.Parse(payloadPacket);
+
+            return user;
+        }
+        private async void _OnPingTimerElapsedCallback(object sender, ElapsedEventArgs e)
+        {
+            // we are playing Ping-Pong with ZClient
+            var pingRequest = ZRequestFactory.CreatePingRequest();
+            var pongResponse = await ZRouter.GetResponseAsync(pingRequest);
+
+            // check and set current connection state
+            if (pongResponse.StatusCode != ZResponseStatusCode.Ok)
             {
-                await _userService.GetAuthorizedUserAsync();
+                // burning bridges, completely :)
+                Disconnect(true);
             }
+        }
 
-            var pingReply = await _clientService.SendPingRequestAsync();
-            var newState = pingReply.Status == ZResponseStatusCode.Ok;
-            if (__curConState != newState && __enabled)
+        private void _RaiseOnConnectionChangedEvent(bool connectionState) => ConnectionChanged?.Invoke((IZConnection) this, new ZConnectionChangedEventArgs(connectionState));
+        private void _RaiseOnAuthorizedEvent(ZUserDTO userInfo) => Authorized?.Invoke((IZConnection) this, new ZAuthorizedEventArgs(userInfo));
+
+        #endregion
+
+        #region IZConnection interface
+
+        public event EventHandler<ZConnectionChangedEventArgs> ConnectionChanged;
+        public event EventHandler<ZAuthorizedEventArgs> Authorized;
+
+        public void Connect() => ZRouter.Start();
+        public void Disconnect(bool raiseEvent = true)
+        {
+            // first for all, stop the ping!
+            _pingTimer.Stop();
+            
+            // reset internal state
+            ZRouter.Stop();
+            IsConnected = false;
+
+            if (raiseEvent)
             {
-                __curConState = newState;
-                _OnConnectionChanged(newState, _userService.AuthorizedUser);
+                _RaiseOnConnectionChangedEvent(IsConnected);
             }
-
-            if (newState) return;
-
-            _resetConnection();
         }
+        public ZUserDTO GetCurrentUserInfo() => _currentUserInfo;
 
-        public void Connect()
-        {
-            if (__enabled) return;
-            __enabled = true;
+        public bool IsConnected { get; private set; }
 
-            _client.StartClient();
-        }
-
-        public void Disconnect()
-        {
-            if (! __enabled) return;
-            __enabled = false;
-
-            _client.StopClient();
-        }
-
-        public bool IsConnected => __curConState ?? false;
-        public ZUser AuthorizedUser => _userService.AuthorizedUser;
-
-        public event EventHandler<ZConnectionChangedArgs> ConnectionChanged;
+        #endregion
     }
 }

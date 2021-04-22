@@ -1,5 +1,5 @@
 ﻿using System;
-
+using Zlo4NET.Api.DTO;
 using Zlo4NET.Api.Models.Shared;
 
 namespace Zlo4NET.Api.Service
@@ -19,9 +19,14 @@ namespace Zlo4NET.Api.Service
         /// <param name="raiseEvent">Indicates whether the connection state change event should be raised or not</param>
         void Disconnect(bool raiseEvent = true);
         /// <summary>
+        /// Gets current authorized in ZClient user
+        /// </summary>
+        /// <returns>Returns current authorized in ZClient user</returns>
+        ZUserDTO GetCurrentUserInfo();
+        /// <summary>
         /// Occurs when the connection changes state
         /// </summary>
-        event EventHandler<ZConnectionChangedArgs> ConnectionChanged;
+        event EventHandler<ZConnectionChangedEventArgs> ConnectionChanged;
         /// <summary>
         /// Occurs when received user that authorized in ZClient
         /// </summary>
@@ -30,9 +35,5 @@ namespace Zlo4NET.Api.Service
         /// Gets current connection state with ZClient
         /// </summary>
         bool IsConnected { get; }
-        /// <summary>
-        /// Gets current authorized in ZClient user
-        /// </summary>
-        ZUser AuthorizedUser { get; }
     }
 }

@@ -1,18 +1,18 @@
-﻿using Zlo4NET.Api.Models.Shared;
-using Zlo4NET.Core.ZClient.Data;
+﻿using Zlo4NET.Api.DTO;
+using Zlo4NET.Core.ZClientAPI;
 
 namespace Zlo4NET.Core.Services
 {
     /// <summary>
-    /// Defines user info parser
+    /// 
     /// </summary>
     internal interface IZUserInfoParser
     {
         /// <summary>
-        /// Parses provided packets
+        /// 
         /// </summary>
-        /// <param name="packets">The packets for parsing</param>
+        /// <param name="packet"></param>
         /// <returns>Parsed data</returns>
-        ZUser Parse(ZPacket[] packets);
+        ZUserDTO Parse(ZPacket packet);
     }
 }

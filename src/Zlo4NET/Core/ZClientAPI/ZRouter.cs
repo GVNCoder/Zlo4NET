@@ -123,6 +123,7 @@ namespace Zlo4NET.Core.ZClientAPI
         /// </summary>
         /// <param name="request"></param>
         /// <param name="onPacketsReceivedCallback"></param>
+        /// <param name="streamRejectedCallback"></param>
         /// <returns></returns>
         public static async Task<ZResponse> OpenStreamAsync(ZRequest request, ZPacketsStreamCallback onPacketsReceivedCallback, ZStreamRejectedCallback streamRejectedCallback = null)
         {

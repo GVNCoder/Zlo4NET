@@ -1,27 +1,24 @@
 ﻿using System.IO;
-using System.Linq;
 using System.Text;
-using Zlo4NET.Api.Models.Shared;
+
+using Zlo4NET.Api.DTO;
 using Zlo4NET.Core.Extensions;
 using Zlo4NET.Core.Services;
-using Zlo4NET.Core.ZClient.Data;
+using Zlo4NET.Core.ZClientAPI;
 
 namespace Zlo4NET.Core.Data.Parsers
 {
     internal class ZUserInfoParser : IZUserInfoParser
     {
-        public ZUser Parse(ZPacket[] packets)
+        public ZUserDTO Parse(ZPacket packet)
         {
-            var packet = packets
-                .First();
+            var user = new ZUserDTO();
 
-            var user = new ZUser();
-
-            using (var memory = new MemoryStream(packet.Content, false))
-            using (var br = new BinaryReader(memory, Encoding.ASCII))
+            using (var memory = new MemoryStream(packet.Payload, false))
+            using (var binaryReader = new BinaryReader(memory, Encoding.ASCII))
             {
-                user.Id   = br.ReadZUInt32();
-                user.Name = br.ReadZString();
+                user.UserId   = binaryReader.ReadZUInt32();
+                user.UserName = binaryReader.ReadZString();
             }
 
             return user;

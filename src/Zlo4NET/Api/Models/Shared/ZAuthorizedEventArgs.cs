@@ -1,4 +1,6 @@
 ﻿using System;
+
+using Zlo4NET.Api.DTO;
 using Zlo4NET.Api.Service;
 
 namespace Zlo4NET.Api.Models.Shared
@@ -11,11 +13,11 @@ namespace Zlo4NET.Api.Models.Shared
         /// <summary>
         /// Authorized in ZClient user
         /// </summary>
-        public ZUser AuthorizedUser { get; }
+        public ZUserDTO AuthorizedUser { get; }
         /// <summary>
         /// Creates an instance of <see cref="ZAuthorizedEventArgs"/>
         /// </summary>
-        public ZAuthorizedEventArgs(ZUser user)
+        public ZAuthorizedEventArgs(ZUserDTO user)
         {
             AuthorizedUser = user;
         }
