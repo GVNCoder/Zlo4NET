@@ -38,6 +38,7 @@ namespace Zlo4NET.Core.Data
         private readonly ZLogger _logger;
 
         private ZUserDTO _currentUserInfo;
+        private bool _raiseOnConnectionChangedEvent = true;
 
         public ZConnection()
         {
@@ -86,7 +87,12 @@ namespace Zlo4NET.Core.Data
                 _currentUserInfo = null;
             }
 
-            _RaiseOnConnectionChangedEvent(clientConnectionState);
+            // ReSharper disable once InvertIf
+            if (_raiseOnConnectionChangedEvent)
+            {
+                _RaiseOnConnectionChangedEvent(clientConnectionState);
+                _raiseOnConnectionChangedEvent = true;
+            }
         }
 
         private ZUserDTO _ParseUserInfo(ZPacket[] responsePackets)
@@ -123,17 +129,11 @@ namespace Zlo4NET.Core.Data
         public void Connect() => ZRouter.Start();
         public void Disconnect(bool raiseEvent = true)
         {
-            // first for all, stop the ping!
-            _pingTimer.Stop();
-            
-            // reset internal state
-            ZRouter.Stop();
-            IsConnected = false;
+            // prepare to disconnect
+            _raiseOnConnectionChangedEvent = raiseEvent;
 
-            if (raiseEvent)
-            {
-                _RaiseOnConnectionChangedEvent(IsConnected);
-            }
+            // disconnect
+            ZRouter.Stop();
         }
         public ZUserDTO GetCurrentUserInfo() => _currentUserInfo;
 
