@@ -4,10 +4,13 @@ using System.ComponentModel;
 using System.Threading.Tasks;
 
 using Zlo4NET.Api;
-using Zlo4NET.Api.Models.Shared;
 using Zlo4NET.Api.Service;
 using Zlo4NET.Core.Helpers;
 using Zlo4NET.Core.Services;
+using Zlo4NET.Api.Models.Shared;
+
+// disable Missing xml doc
+#pragma warning disable 1591
 
 namespace Zlo4NET.Core.Data
 {
@@ -19,9 +22,12 @@ namespace Zlo4NET.Core.Data
         // https://csharpindepth.com/articles/singleton
         static ZApi() { }
 
-        private static readonly Lazy<IZApi> lazy = new Lazy<IZApi>(() => new ZApi(), true);
+        private static readonly Lazy<IZApi> Lazy = new Lazy<IZApi>(() => new ZApi(), true);
 
-        public static IZApi Instance => lazy.Value;
+        /// <summary>
+        /// Creates and returns an single instance of <see cref="IZApi"/> implementation
+        /// </summary>
+        public static IZApi Instance => Lazy.Value;
 
         #endregion
 
