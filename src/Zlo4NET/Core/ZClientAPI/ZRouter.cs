@@ -191,7 +191,6 @@ namespace Zlo4NET.Core.ZClientAPI
 
             return closeStreamResponse;
         }
-
         private static async Task<ZResponse> _RegisterStreamAndWaitResponseAsync(ZRequest request, ZPacketsStreamCallback onPacketsReceivedCallback, ZStreamRejectedCallback streamRejectedCallback)
         {
             // create stream metadata to register it
@@ -271,21 +270,25 @@ namespace Zlo4NET.Core.ZClientAPI
             _OnConnectionChanged(connectionState);
 
             // reject all requests and streams
-            foreach (var requestMetadata in _requestsPool)
+            // ReSharper disable once InvertIf
+            if (! connectionState)
             {
-                requestMetadata.Response.StatusCode = ZResponseStatusCode.Rejected;
-                requestMetadata.TaskCompletionSource.SetResult(null);
+                foreach (var requestMetadata in _requestsPool)
+                {
+                    requestMetadata.Response.StatusCode = ZResponseStatusCode.Rejected;
+                    requestMetadata.TaskCompletionSource.SetResult(null);
+                }
+
+                _requestsPool.Clear();
+
+                foreach (var streamMetadata in _streamsPool)
+                {
+                    streamMetadata.StreamRejectedCallback?.BeginInvoke(
+                        ar => streamMetadata.StreamRejectedCallback.EndInvoke(ar), null);
+                }
+
+                _streamsPool.Clear();
             }
-
-            _requestsPool.Clear();
-
-            foreach (var streamMetadata in _streamsPool)
-            {
-                streamMetadata.StreamRejectedCallback?.BeginInvoke(
-                    ar => streamMetadata.StreamRejectedCallback.EndInvoke(ar), null);
-            }
-
-            _streamsPool.Clear();
         }
 
         private static void _ClientOnPacketsReceivedCallback(ZPacket[] packets)

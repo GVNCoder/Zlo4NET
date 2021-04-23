@@ -21,6 +21,9 @@ namespace Examples
             _zloApi = ZApi.Instance;
             _gameFactory = _zloApi.GameFactory;
 
+            _zloApi.Logger.SetMessageFilter(ZLogLevel.Debug | ZLogLevel.Warning | ZLogLevel.Error | ZLogLevel.Info);
+            _zloApi.Logger.OnMessage += (sender, messageArgs) => Console.WriteLine(messageArgs.Message);
+
             var connection = _zloApi.Connection;
 
             // configure api thread synchronization
