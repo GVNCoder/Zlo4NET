@@ -6,12 +6,12 @@ using System.Text;
 using System.IO;
 using System;
 
-using Zlo4NET.Core.ZClient.Data;
 using Zlo4NET.Api.Models.Server;
 using Zlo4NET.Api.Models.Shared;
 using Zlo4NET.Core.Extensions;
 using Zlo4NET.Core.Services;
 using Zlo4NET.Core.Helpers;
+using Zlo4NET.Core.ZClientAPI;
 
 namespace Zlo4NET.Core.Data.Parsers
 {
@@ -333,7 +333,7 @@ namespace Zlo4NET.Core.Data.Parsers
                 // parse all extracted packets
                 foreach (var packet in fParse)
                 {
-                    using (var memStream = new MemoryStream(packet.Content, false))
+                    using (var memStream = new MemoryStream(packet.Payload, false))
                     using (var reader = new BinaryReader(memStream, Encoding.ASCII))
                     {
                         var action = (ZServerParserAction) reader.ReadByte();

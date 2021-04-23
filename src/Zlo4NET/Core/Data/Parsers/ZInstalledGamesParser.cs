@@ -2,25 +2,23 @@
 using System.IO;
 using System.Linq;
 using System.Text;
+
 using Zlo4NET.Api.Models.Shared;
 using Zlo4NET.Core.Extensions;
 using Zlo4NET.Core.Helpers;
 using Zlo4NET.Core.Services;
-using Zlo4NET.Core.ZClient.Data;
+using Zlo4NET.Core.ZClientAPI;
 
 namespace Zlo4NET.Core.Data.Parsers
 {
     internal class ZInstalledGamesParser : IZInstalledGamesParser
     {
-        public ZInstalledGames Parse(ZPacket[] packets)
+        public ZInstalledGames Parse(ZPacket packet)
         {
-            var packet = packets
-                .First();
-
             var installedGames = new ZInstalledGames();
             List<ZInstalledGame> games;
 
-            using (var memory = new MemoryStream(packet.Content, false))
+            using (var memory = new MemoryStream(packet.Payload, false))
             using (var br = new BinaryReader(memory, Encoding.ASCII))
             {
                 installedGames.IsX64 = br.ReadBoolean();

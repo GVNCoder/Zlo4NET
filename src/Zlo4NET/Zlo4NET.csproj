@@ -90,7 +90,6 @@
     <Compile Include="Core\Helpers\ZCollectionWrapper.cs" />
     <Compile Include="Core\Helpers\ZConnectionHelper.cs" />
     <Compile Include="Core\Helpers\ZBitConverter.cs" />
-    <Compile Include="Core\Helpers\ZExceptionHelper.cs" />
     <Compile Include="Core\Helpers\ZMapperHelper.cs" />
     <Compile Include="Core\Helpers\ZObservableHelper.cs" />
     <Compile Include="Core\Helpers\ZStringToGameConverter.cs" />

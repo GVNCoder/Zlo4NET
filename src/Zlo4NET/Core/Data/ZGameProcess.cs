@@ -9,14 +9,12 @@ using Zlo4NET.Api.Service;
 using Zlo4NET.Core.Data.Parsers;
 using Zlo4NET.Core.Helpers;
 using Zlo4NET.Core.Services;
-using Zlo4NET.Core.ZClient.Data;
-using Zlo4NET.Core.ZClient.Services;
+using Zlo4NET.Core.ZClientAPI;
 
 namespace Zlo4NET.Core.Data
 {
     internal class ZGameProcess : IZGameProcess
     {
-        private readonly IZClientService _clientService;
         private readonly IZGameRunParser _parser;
         private readonly IZProcessTracker _processTracker;
         private readonly ZInstalledGame _targetGame;
@@ -27,14 +25,12 @@ namespace Zlo4NET.Core.Data
         private _GamePipe _pipe;
 
         public ZGameProcess(
-            IZClientService clientService,
             string runArgs,
             ZInstalledGame targetGame,
             string pipeName,
             string processName)
         {
-            _clientService = clientService;
-            _parser = ZParsersFactory.BuildGameRunInfoParser();
+            _parser = ZParsersFactory.CreateGameRunInfoParser();
             _runArgs = runArgs;
             _targetGame = targetGame;
             _logger = ZLogger.Instance;
@@ -76,14 +72,16 @@ namespace Zlo4NET.Core.Data
         public async Task<ZRunResult> RunAsync()
         {
             // send request to run the game
-            var response = await _clientService.SendGameRunRequestAsync(_targetGame.RunnableName, _runArgs);
-            if (response.Status != ZResponseStatusCode.Ok)
+            var request = ZRequestFactory.CreateRunGameRequest(_targetGame.RunnableName, _runArgs);
+            var response = await ZRouter.GetResponseAsync(request);
+
+            if (response.StatusCode != ZResponseStatusCode.Ok)
             {
                 return ZRunResult.Error;
             }
 
             // parse run results
-            var runResult = _parser.Parse(response.Packets);
+            var runResult = _parser.Parse(response.ResponsePackets.Single());
             // ReSharper disable once InvertIf
             if (runResult == ZRunResult.Success)
             {

@@ -1,6 +1,4 @@
-﻿using Zlo4NET.Core.ZClient.Data;
-
-namespace Zlo4NET.Core.ZClientAPI
+﻿namespace Zlo4NET.Core.ZClientAPI
 {
     /// <summary>
     /// Represents the unit of communication with the ZClient

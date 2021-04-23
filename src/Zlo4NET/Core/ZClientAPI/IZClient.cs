@@ -1,7 +1,5 @@
 ﻿using System;
 
-using Zlo4NET.Core.ZClient.Data;
-
 namespace Zlo4NET.Core.ZClientAPI
 {
     /// <summary>

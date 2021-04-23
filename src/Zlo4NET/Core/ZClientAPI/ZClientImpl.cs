@@ -8,7 +8,6 @@ using System.Collections.Generic;
 
 using Zlo4NET.Core.Data;
 using Zlo4NET.Core.Extensions;
-using Zlo4NET.Core.ZClient.Data;
 
 namespace Zlo4NET.Core.ZClientAPI
 {

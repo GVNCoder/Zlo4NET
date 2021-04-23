@@ -9,8 +9,7 @@ using Zlo4NET.Api.Service;
 using Zlo4NET.Core.Data.Parsers;
 using Zlo4NET.Core.Helpers;
 using Zlo4NET.Core.Services;
-using Zlo4NET.Core.ZClient.Data;
-using Zlo4NET.Core.ZClient.Services;
+using Zlo4NET.Core.ZClientAPI;
 
 namespace Zlo4NET.Core.Data
 {
@@ -19,25 +18,22 @@ namespace Zlo4NET.Core.Data
         private readonly ZLogger _logger;
         private readonly IZServersListParser _parser;
         private readonly IZChangesMapper _changesMapper;
-        private readonly ZTunnel _packetsStream;
         private readonly ZCollectionWrapper _collectionWrapper;
 
         private int _serversCount;
         private int? _initialCount;
         private bool __disposed;
+        private ZGame _gameContext;
 
-        public ZServersListService(IZClientService clientService, uint myId, ZGame game)
+        public ZServersListService(uint myId, ZGame game)
         {
             _logger = ZLogger.Instance;
-            _parser = ZParsersFactory.BuildServersListInfoParser(myId, game, _logger);
+            _parser = ZParsersFactory.CreateServersListInfoParser(myId, game, _logger);
             _parser.ResultCallback = _ActionHandler;
+            _gameContext = game;
 
             _collectionWrapper = new ZCollectionWrapper(new ObservableCollection<ZServerBase>());
             _changesMapper = new ZChangesMapper();
-            _packetsStream = clientService.CreateTunnel(
-                clientService.RequestFactory.BuildServerListSubscribeRequest(game),
-                clientService.RequestFactory.BuildServerListUnsubscribeRequest(game));
-            _packetsStream.PacketsReceived += _packetsReceivedHandler;
 
             _serversCount = 0;
         }
@@ -51,9 +47,9 @@ namespace Zlo4NET.Core.Data
         public void StartReceiving()
         {
             if (__disposed) throw new InvalidOperationException("Object disposed.");
-            if (_packetsStream.IsOpen) return;
 
-            _packetsStream.Open();
+            var openStreamRequest = ZRequestFactory.CreateServerListOpenStreamRequest(_gameContext);
+            var response = ZRouter.OpenStreamAsync(openStreamRequest, _packetsReceivedHandler).Result;
         }
 
         public void StopReceiving()
@@ -67,7 +63,9 @@ namespace Zlo4NET.Core.Data
         {
             if (__disposed) return;
 
-            _packetsStream.Close();
+            var request = ZRequestFactory.CreateServerListCloseStreamRequest(_gameContext);
+            var response = ZRouter.CloseStreamAsync(request).Result;
+
             _parser.Close();
             _flushServerCollection();
 
@@ -76,7 +74,7 @@ namespace Zlo4NET.Core.Data
 
         #region Private methods
 
-        private void _packetsReceivedHandler(object sender, ZPacket[] e)
+        private void _packetsReceivedHandler(ZPacket[] e)
         {
             if (e == null)
             {
@@ -113,7 +111,7 @@ namespace Zlo4NET.Core.Data
         private int _getCountOfPacketsByType(IEnumerable<ZPacket> packets, ZServerParserAction actionType) =>
             packets
                 .Where(p => p.Length > 0)
-                .Count(p => p.Content.First() == (byte) actionType);
+                .Count(p => p.Payload.First() == (byte) actionType);
 
         private void _ActionHandler(ZServerBase model, ZServerParserAction action)
         {

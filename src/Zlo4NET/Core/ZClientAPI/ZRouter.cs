@@ -3,8 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
-using Zlo4NET.Core.ZClient.Data;
-
 namespace Zlo4NET.Core.ZClientAPI
 {
     /// <summary>
