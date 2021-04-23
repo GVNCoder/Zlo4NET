@@ -21,8 +21,11 @@ namespace Examples
             _zloApi = ZApi.Instance;
             _gameFactory = _zloApi.GameFactory;
 
-            _zloApi.Logger.SetMessageFilter(ZLogLevel.Debug | ZLogLevel.Warning | ZLogLevel.Error | ZLogLevel.Info);
-            _zloApi.Logger.OnMessage += (sender, messageArgs) => Console.WriteLine(messageArgs.Message);
+            var logger = _zloApi.Logger;
+
+            // configure logging
+            logger.SetMessageFilter(ZLogLevel.Debug | ZLogLevel.Warning | ZLogLevel.Error | ZLogLevel.Info);
+            logger.OnMessage += (sender, messageArgs) => Console.WriteLine(messageArgs.Message);
 
             var connection = _zloApi.Connection;
 
