@@ -48,6 +48,7 @@ namespace Zlo4NET.Core.Data
             _pingTimer.Elapsed += _OnPingTimerElapsedCallback;
 
             // track client connection state
+            ZRouter.Initialize();
             ZRouter.ConnectionChanged += _OnClientConnectionStateChangedCallback;
         }
 
