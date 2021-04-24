@@ -11,10 +11,6 @@ using Zlo4NET.Core.Extensions;
 
 namespace Zlo4NET.Core.ZClientAPI
 {
-    /// <inheritdoc />
-    /// <summary>
-    /// Defines default implementation of <see cref="T:Zlo4NET.Core.ZClientAPI.IZClient" /> interface
-    /// </summary>
     internal class ZClientImpl : IZClient
     {
         #region Constants

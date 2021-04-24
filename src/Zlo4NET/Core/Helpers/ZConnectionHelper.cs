@@ -15,5 +15,15 @@ namespace Zlo4NET.Core.Helpers
             if (_connection.IsConnected) return;
             throw new InvalidOperationException("API not connected");
         }
+
+        public static void ThrowIfNotConnected()
+        {
+            if (_connection.IsConnected)
+            {
+                return;
+            }
+
+            throw new InvalidOperationException("No connection with ZClient");
+        }
     }
 }

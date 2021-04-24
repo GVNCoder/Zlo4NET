@@ -37,63 +37,60 @@ namespace Zlo4NET.Core.Data
         private readonly IZGameFactory _gameFactory;
 
         private ZConfiguration _config;
+        private IZServersList _lastCreatedServerListInstance;
 
         private ZApi()
         {
             // creating a client services
-            _connection = new ZConnection();
+            _connection   = new ZConnection();
             _statsService = new ZStatsService();
-            _gameFactory = new ZGameFactory(_connection);
-            _injector = new ZInjectorService();
+            _gameFactory  = new ZGameFactory(_connection);
+            _injector     = new ZInjectorService();
 
             // initializing the static helpers
             ZConnectionHelper.Initialize(_connection);
         }
 
-        #region Impl
+        #region IZApi
 
-        private async Task<ZStatsBase> _GetStatsImpl(ZGame game)
-        {
-            var result = await _statsService.GetStatsAsync(game);
-            return result;
-        }
-
-        private IZServersListService _BuildServerListService(ZGame game)
-            => new ZServersListService(Connection.GetCurrentUserInfo().UserId, game);
-
-        #endregion
-
-        /// <inheritdoc />
         public IZGameFactory GameFactory => _gameFactory;
 
-        /// <inheritdoc />
         public IZConnection Connection => _connection;
 
-        /// <inheritdoc />
         public IZLogger Logger => ZLogger.Instance;
 
-        /// <inheritdoc />
-        public Task<ZStatsBase> GetStatsAsync(ZGame game)
+        public async Task<ZStatsBase> GetStatsAsync(ZGame game)
         {
             ZConnectionHelper.MakeSureConnection();
             if (game == ZGame.BFH) throw new NotSupportedException("Stats not implemented for Battlefield Hardline.");
 
-            return _GetStatsImpl(game);
+            var result = await _statsService.GetStatsAsync(game);
+
+            return result;
         }
 
-        /// <inheritdoc />
-        public IZServersListService CreateServersListService(ZGame game)
+        public async Task<IZServersList> CreateServersListAsync(ZGame game)
         {
-            ZConnectionHelper.MakeSureConnection();
+            // pre-validation
+            ZConnectionHelper.ThrowIfNotConnected();
 
-            if (_config == null) throw new InvalidOperationException("You cannot create a service until the api is configured.");
-            if (game == ZGame.None) throw new InvalidEnumArgumentException(nameof(game), (int) game, typeof(ZGame));
+            if (game == ZGame.None)
+            {
+                throw new InvalidEnumArgumentException(nameof(game), (int)game, typeof(ZGame));
+            }
 
-            var service = _BuildServerListService(game);
-            return service;
+            // first of all need to destroy last created instance
+            if (_lastCreatedServerListInstance != null)
+            {
+                await _lastCreatedServerListInstance.StopReceivingAsync();
+            }
+
+            // now, we can create a new instance ;)
+            _lastCreatedServerListInstance = new ZServersList(game, Connection);
+
+            return _lastCreatedServerListInstance;
         }
 
-        /// <inheritdoc />
         public void InjectDll(ZGame game, IEnumerable<string> paths)
         {
             ZConnectionHelper.MakeSureConnection();
@@ -101,7 +98,6 @@ namespace Zlo4NET.Core.Data
             _injector.Inject(game, paths);
         }
 
-        /// <inheritdoc />
         public void Configure(ZConfiguration config)
         {
             if (_config != null) throw new InvalidOperationException("This method can only be called once.");
@@ -111,5 +107,7 @@ namespace Zlo4NET.Core.Data
             ZSynchronizationWrapper.Initialize(config);
             _config = config;
         }
+
+        #endregion
     }
 }
