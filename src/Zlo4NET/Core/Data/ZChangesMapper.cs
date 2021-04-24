@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using Zlo4NET.Core.Helpers;
-using Zlo4NET.Core.Services;
 
 namespace Zlo4NET.Core.Data
 {
-    internal class ZChangesMapper : IZChangesMapper
+    internal class ZChangesMapper
     {
         public void MapChanges<T>(T source, T target)
         {

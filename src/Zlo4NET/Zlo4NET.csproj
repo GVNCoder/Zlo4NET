@@ -97,7 +97,6 @@
     <Compile Include="Core\Helpers\ZStringToGameConverter.cs" />
     <Compile Include="Core\Helpers\ZSynchronizationWrapper.cs" />
     <Compile Include="Core\Helpers\ZUnsafeMethods.cs" />
-    <Compile Include="Core\Services\IZChangesMapper.cs" />
     <Compile Include="Core\Services\IZGameRunParser.cs" />
     <Compile Include="Core\Services\IZInjectorService.cs" />
     <Compile Include="Core\Services\IZInstalledGamesParser.cs" />
