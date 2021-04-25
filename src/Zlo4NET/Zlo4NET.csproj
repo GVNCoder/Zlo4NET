@@ -46,7 +46,11 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Api\DTO\ZServerDTO.cs" />
+    <Compile Include="Api\DTO\ZMapDto.cs" />
+    <Compile Include="Api\DTO\ZMapRotationDto.cs" />
+    <Compile Include="Api\DTO\ZPlayerDto.cs" />
+    <Compile Include="Api\DTO\ZServerAttributesDto.cs" />
+    <Compile Include="Api\DTO\ZServerDto.cs" />
     <Compile Include="Api\DTO\ZUserDTO.cs" />
     <Compile Include="Api\Models\Server\ZBFHAttributes.cs" />
     <Compile Include="Api\Models\Server\ZBF3Attributes.cs" />
@@ -58,7 +62,7 @@
     <Compile Include="Api\Models\Shared\ZConfiguration.cs" />
     <Compile Include="Api\Models\Shared\ZConnectionChangedEventArgs.cs" />
     <Compile Include="Api\Models\Shared\ZCoopParams.cs" />
-    <Compile Include="Api\Models\Shared\ZMapRole.cs" />
+    <Compile Include="Api\Models\Shared\ZMapInMapRotation.cs" />
     <Compile Include="Api\Models\Shared\ZMapRotation.cs" />
     <Compile Include="Api\Models\Shared\ZPlayerRole.cs" />
     <Compile Include="Api\Models\Shared\ZProcessParameters.cs" />
@@ -122,7 +126,7 @@
     <Compile Include="Core\Helpers\CollectionHelper.cs" />
     <Compile Include="Core\Helpers\PHPDeserializer.cs" />
     <Compile Include="Core\Helpers\ZPingService.cs" />
-    <Compile Include="Core\Helpers\UIntToIPAddress.cs" />
+    <Compile Include="Core\Helpers\ZUIntToIpAddress.cs" />
     <Compile Include="Api\Models\Shared\ZCoopDifficulty.cs" />
     <Compile Include="Api\Models\Shared\ZCoopLevels.cs" />
     <Compile Include="Api\Models\Shared\ZGameArchitecture.cs" />

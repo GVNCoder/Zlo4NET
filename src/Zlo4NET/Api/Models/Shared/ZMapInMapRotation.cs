@@ -1,21 +1,21 @@
 ﻿namespace Zlo4NET.Api.Models.Shared
 {
     /// <summary>
-    /// Rotation role
+    /// 
     /// </summary>
-    public enum ZMapRole : byte
+    public enum ZMapInMapRotation
     {
         /// <summary>
-        /// Map in map list rotation
+        /// 
         /// </summary>
-        Other,
+        InRotation,
         /// <summary>
-        /// Current map
+        /// 
         /// </summary>
-        Current,
+        CurrentInRotation,
         /// <summary>
-        /// Next map
+        /// 
         /// </summary>
-        Next
+        NextInRotation
     }
 }

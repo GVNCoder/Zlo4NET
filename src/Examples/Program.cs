@@ -15,7 +15,7 @@ namespace Examples
         private static IZApi _zloApi;
         private static IZGameFactory _gameFactory;
 
-        internal static void Main(string[] args)
+        private static void Main(string[] args)
         {
             // setup internal state
             _zloApi = ZApi.Instance;
@@ -59,7 +59,7 @@ namespace Examples
             }
         }
 
-        internal static async Task MainAsync(string[] args)
+        private static async Task MainAsync(string[] args)
         {
             #region Get target game from User
 
@@ -121,7 +121,7 @@ namespace Examples
             }
         }
 
-        internal static async Task _RunAndTrack(IZGameProcess gameProcess)
+        private static async Task _RunAndTrack(IZGameProcess gameProcess)
         {
             var resetEvent = new ManualResetEvent(false);
 
@@ -150,10 +150,10 @@ namespace Examples
             resetEvent.WaitOne();
         }
 
-        internal static async Task _MultiplayerHandler(ZGame game)
+        private static async Task _MultiplayerHandler(ZGame game)
         {
             // build the server list service instance
-            var serverListService = _zloApi.CreateServersListService(game);
+            var serverListService = await _zloApi.CreateServersListAsync(game);
             var resetEvent = new ManualResetEvent(false);
 
             // configure server list service

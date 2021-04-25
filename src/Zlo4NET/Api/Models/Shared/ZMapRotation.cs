@@ -9,7 +9,6 @@ namespace Zlo4NET.Api.Models.Shared
     /// <summary>
     /// 
     /// </summary>
-    // ReSharper disable once InheritdocConsiderUsage
     public class ZMapRotation : ZObservableObject
     {
         private int[] _rotationIndexes;

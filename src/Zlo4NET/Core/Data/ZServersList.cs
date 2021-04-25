@@ -80,7 +80,7 @@ namespace Zlo4NET.Core.Data
             _parser.Parse(packets);
         }
 
-        private void _OnParsingResultCallback(ZServerDTO server, ZServerListAction serverListAction)
+        private void _OnParsingResultCallback(ZServerDto server, ZServerListAction serverListAction)
         {
             ServerListActionCallback?.Invoke(serverListAction, server.Id, server);
         }

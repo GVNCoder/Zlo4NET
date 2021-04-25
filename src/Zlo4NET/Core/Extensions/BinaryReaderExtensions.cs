@@ -4,17 +4,8 @@ using System;
 
 namespace Zlo4NET.Core.Extensions
 {
-    /// <summary>
-    /// BinaryReader extensions
-    /// </summary>
     internal static class BinaryReaderExtensions
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="br"></param>
-        /// <param name="count"></param>
-        /// <returns></returns>
         internal static byte[] ReadReversedBytes(this BinaryReader br, int count)
         {
             // get bytes from reader
@@ -25,14 +16,8 @@ namespace Zlo4NET.Core.Extensions
 
             return bytes;
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="br"></param>
-        /// <returns></returns>
         internal static string ReadZString(this BinaryReader br)
         {
-            // create sb
             var sb = new StringBuilder();
 
             try
@@ -67,12 +52,6 @@ namespace Zlo4NET.Core.Extensions
         {
             br.BaseStream.Seek(bytesNumber, SeekOrigin.Current);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="br"></param>
-        /// <param name="count"></param>
-        /// <returns></returns>
         internal static string ReadCountedString(this BinaryReader br, int count)
         {
             var s = new StringBuilder();
@@ -83,38 +62,18 @@ namespace Zlo4NET.Core.Extensions
             }
             return s.ToString();
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="br"></param>
-        /// <returns></returns>
         internal static uint ReadZUInt32(this BinaryReader br)
         {
             return BitConverter.ToUInt32(br.ReadReversedBytes(4), 0);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="br"></param>
-        /// <returns></returns>
         internal static ulong ReadZUInt64(this BinaryReader br)
         {
             return BitConverter.ToUInt64(br.ReadReversedBytes(8), 0);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="br"></param>
-        /// <returns></returns>
         internal static ushort ReadZUInt16(this BinaryReader br)
         {
             return BitConverter.ToUInt16(br.ReadReversedBytes(2), 0);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="br"></param>
-        /// <returns></returns>
         public static float ReadZFloat(this BinaryReader br)
         {
             return BitConverter.ToSingle(br.ReadReversedBytes(4), 0);
