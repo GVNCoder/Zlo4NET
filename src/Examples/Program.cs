@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 using Zlo4NET.Api;
+using Zlo4NET.Api.DTO;
 using Zlo4NET.Api.Models.Shared;
 using Zlo4NET.Api.Service;
 using Zlo4NET.Core.Data;
@@ -154,11 +156,40 @@ namespace Examples
         {
             // build the server list service instance
             var serverListService = await _zloApi.CreateServersListAsync(game);
+            var serverListCollection = new List<ZServerDto>();
             var resetEvent = new ManualResetEvent(false);
 
             // configure server list service
-            serverListService.InitialSizeReached += (s, e) => resetEvent.Set();
-            serverListService.StartReceiving();
+            serverListService.ServerListActionCallback = (action, id, server) =>
+            {
+                switch (action)
+                {
+                    case ZServerListAction.ServerAddOrUpdate:
+                        serverListCollection.Add(server);
+                        break;
+                    case ZServerListAction.ServerPlayersList:
+
+                        resetEvent.Set();
+
+                        var serverModel = serverListCollection.FirstOrDefault(i => i.Id == id);
+                        if (serverModel != null)
+                        {
+                            serverModel.PlayersList = server.PlayersList;
+                        }
+                        break;
+                    case ZServerListAction.ServerRemove:
+                        var index = serverListCollection.FindIndex(i => i.Id == id);
+                        if (index != -1)
+                        {
+                            serverListCollection.RemoveAt(index);
+                        }
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(action), action, null);
+                }
+            };
+
+            await serverListService.StartReceivingAsync();
             
             // wait to server list full load
             resetEvent.WaitOne();
@@ -170,7 +201,7 @@ namespace Examples
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("\n {0,88} \n {1,5} {2,50}| {3,20}| \n {4,88}", straightLine, "ID:", "ServerName", "Map:", straightLine);
 
-            foreach (var item in serverListService.ServersCollection)
+            foreach (var item in serverListCollection)
             {
                 Console.WriteLine("{0,5}| {1,50}| {2,20}|", item.Id, item.Name, item.MapRotation.Current.Name);
             }

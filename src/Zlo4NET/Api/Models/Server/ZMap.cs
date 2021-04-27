@@ -1,5 +1,4 @@
-﻿using Zlo4NET.Api.Models.Shared;
-using Zlo4NET.Core.Data;
+﻿using Zlo4NET.Core.Data;
 using Zlo4NET.Core.Data.Attributes;
 
 namespace Zlo4NET.Api.Models.Server
@@ -19,9 +18,5 @@ namespace Zlo4NET.Api.Models.Server
         /// </summary>
         [ZObservableProperty]
         public string GameModeName { get; set; }
-        /// <summary>
-        /// Rotation role
-        /// </summary>
-        public ZMapRole Role { get; set; }
     }
 }
