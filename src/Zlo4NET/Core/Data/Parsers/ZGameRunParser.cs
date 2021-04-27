@@ -14,9 +14,9 @@ namespace Zlo4NET.Core.Data.Parsers
             var runStatus = ZRunResult.None;
 
             using (var memory = new MemoryStream(packet.Payload, false))
-            using (var br = new BinaryReader(memory, Encoding.ASCII))
+            using (var binaryReader = new BinaryReader(memory, Encoding.ASCII))
             {
-                runStatus = (ZRunResult) br.ReadByte();
+                runStatus = (ZRunResult) binaryReader.ReadByte();
             }
 
             return runStatus;

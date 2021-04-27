@@ -68,7 +68,7 @@ namespace Zlo4NET.Core.ZClientAPI
         #region Public Interface
 
         /// <summary>
-        /// 
+        /// Occurs when connection state with ZClient changed
         /// </summary>
         public static event Action<bool> ConnectionChanged; 
 
