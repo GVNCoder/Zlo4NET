@@ -68,7 +68,7 @@ namespace Zlo4NET.Core.ZClientAPI
         #region Public Interface
 
         /// <summary>
-        /// 
+        /// Occurs when connection state with ZClient changed
         /// </summary>
         public static event Action<bool> ConnectionChanged; 
 
@@ -304,7 +304,8 @@ namespace Zlo4NET.Core.ZClientAPI
                 if (streamMetadata != null)
                 {
                     // begin async execution
-                    streamMetadata.OnPacketsReceivedCallback.BeginInvoke(responsePackets, ar => streamMetadata.OnPacketsReceivedCallback.EndInvoke(ar), null);
+                    //streamMetadata.OnPacketsReceivedCallback.BeginInvoke(responsePackets, ar => streamMetadata.OnPacketsReceivedCallback.EndInvoke(ar), null);
+                    streamMetadata.OnPacketsReceivedCallback.Invoke(responsePackets);
 
                     continue;
                 }

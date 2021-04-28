@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -14,7 +13,6 @@ using Zlo4NET.Core.ZClientAPI;
 
 namespace Zlo4NET.Core.Data.Parsers
 {
-    [SuppressMessage("ReSharper", "StringLiteralTypo")]
     internal class ZStatsParser : IZStatsParser
     {
         private readonly JObject _statsTemplates;
