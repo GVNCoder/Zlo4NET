@@ -21,6 +21,6 @@ namespace Zlo4NET.Core.Data
             }
         }
 
-        public string GetMapNameByKey(string mapNameKey) => _jMapDictionary[mapNameKey].ToObject<string>();
+        public string GetMapNameByKey(string mapNameKey) => _jMapDictionary[mapNameKey]?.ToObject<string>();
     }
 }

@@ -22,6 +22,7 @@ namespace Zlo4NET.Core.Data.Parsers
     internal class ZServersListParser : IZServersListParser
     {
         private readonly object _lock = new object();
+        private readonly object _threadInstanceLock = new object();
 
         private readonly uint _authorizedUserId;
         private readonly ZGame _gameContext;
@@ -401,11 +402,14 @@ namespace Zlo4NET.Core.Data.Parsers
             }
 
             // check and create thread if need
-            _thread = _thread ?? new Thread(_ParsingLoop) { IsBackground = true, Name = "ServerListParserThread" };
-
-            if (! _thread.IsAlive)
+            lock (_threadInstanceLock)
             {
-                _thread.Start();
+                _thread = _thread ?? new Thread(_ParsingLoop) { IsBackground = true, Name = "ServerListParserThread" };
+
+                if (! _thread.IsAlive)
+                {
+                    _thread.Start();
+                }
             }
 
             lock (_lock)

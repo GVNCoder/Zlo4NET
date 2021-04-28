@@ -21,6 +21,6 @@ namespace Zlo4NET.Core.Data
             }
         }
 
-        public string GetGameModeNameByKey(string gameModeKey) => _jGameModeDictionary[gameModeKey].ToObject<string>();
+        public string GetGameModeNameByKey(string gameModeKey) => _jGameModeDictionary[gameModeKey]?.ToObject<string>();
     }
 }
