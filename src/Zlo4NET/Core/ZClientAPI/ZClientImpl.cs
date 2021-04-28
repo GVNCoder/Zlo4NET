@@ -20,7 +20,7 @@ namespace Zlo4NET.Core.ZClientAPI
         #region Constants
 
         // size of static buffer 4KBytes
-        private const int BUFFER_SIZE = 4096;
+        private const int BUFFER_SIZE = 4092;
         // size of packet header
         private const int HEADER_SIZE = sizeof(byte) + sizeof(uint);
 
@@ -243,14 +243,19 @@ namespace Zlo4NET.Core.ZClientAPI
                     }
                     else
                     {
-                        // go to get mote bytes
-                        return;
+                        // go to get more bytes
+                        break;
                     }
                 }
             }
 
-            _OnPacketsReceived(receivedPackets.ToArray());
+            if (receivedPackets.Count != 0)
+            {
+                _OnPacketsReceived(receivedPackets.ToArray());
+            }
         }
+
+        private void _Print(byte[] bytes) => Console.WriteLine(bytes.Length);
 
         private void _OnConnectionStateChanged(bool connectionState) => ConnectionStateChanged?.Invoke(connectionState);
 

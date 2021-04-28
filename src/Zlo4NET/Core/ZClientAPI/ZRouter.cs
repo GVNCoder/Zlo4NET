@@ -304,7 +304,8 @@ namespace Zlo4NET.Core.ZClientAPI
                 if (streamMetadata != null)
                 {
                     // begin async execution
-                    streamMetadata.OnPacketsReceivedCallback.BeginInvoke(responsePackets, ar => streamMetadata.OnPacketsReceivedCallback.EndInvoke(ar), null);
+                    //streamMetadata.OnPacketsReceivedCallback.BeginInvoke(responsePackets, ar => streamMetadata.OnPacketsReceivedCallback.EndInvoke(ar), null);
+                    streamMetadata.OnPacketsReceivedCallback.Invoke(responsePackets);
 
                     continue;
                 }
