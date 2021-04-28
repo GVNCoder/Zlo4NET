@@ -16,7 +16,7 @@ namespace Zlo4NET.Core.ZClientAPI
         #region Constants
 
         // size of static buffer 4KBytes
-        private const int BUFFER_SIZE = 4092;
+        private const int BUFFER_SIZE = 4096;
         // size of packet header
         private const int HEADER_SIZE = sizeof(byte) + sizeof(uint);
 
