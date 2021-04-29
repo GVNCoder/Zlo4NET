@@ -141,7 +141,6 @@ namespace Zlo4NET.Core.Data.Parsers
             _ParseServerAttributes(model, binaryReader);
 
             model.Name = binaryReader.ReadZString();
-            model.PlayersList = CollectionHelper.GetEmptyEnumerable<ZPlayerDto>(); // the stub
 
             // skip data block
             binaryReader.SkipBytes(17); // skip 17 bytes [ GameSet=4bytes; ServerState=1byte; IGNO=1byte; MaxPlayers=1byte; NNAT=8bytes; NRES=1byte; NTOP=1byte; ]
@@ -208,7 +207,7 @@ namespace Zlo4NET.Core.Data.Parsers
                     .Select(int.Parse)
                     .ToArray();
         }
-        private List<ZMapDto> _ParseMapList(string mapsAttributeValue, ZGame game)
+        private List<ZMapDto> _ParseMapList(string mapsAttributeValue)
         {
             ZMapDto ParseMap(string[] keyValue)
             {
@@ -262,46 +261,48 @@ namespace Zlo4NET.Core.Data.Parsers
 
             return maps;
         }
-        private ZMapRotationDto _CreateMapRotation(ZGame game, IDictionary<string, string> attributes)
+        private ZMapRotationDto _CreateMapRotation(IDictionary<string, string> attributes)
         {
-            var mapList = _ParseMapList(attributes["maps"], game);
+            var mapList = _ParseMapList(attributes["maps"]);
             var mapRotationIndexes = _ParseMapRotationIndexes(attributes.ContainsKey("mapsinfo") ? attributes["mapsinfo"] : string.Empty);
             var rotation = new ZMapRotationDto { Rotation = mapList };
 
             // try find out Current and Next maps in map rotation
-            if (mapRotationIndexes != null && mapRotationIndexes.Length == 2)
+            if (mapRotationIndexes == null || mapRotationIndexes.Length != 2)
             {
-                // find current map
-                var currentMapIndex = mapRotationIndexes.First();
-                var currentMapModel = mapList.ElementAtOrDefault(currentMapIndex);
+                return rotation;
+            }
 
-                if (currentMapModel == null)
+            // find current map
+            var currentMapIndex = mapRotationIndexes.First();
+            var currentMapModel = mapList.ElementAtOrDefault(currentMapIndex);
+
+            if (currentMapModel == null)
+            {
+                var mapName = _mapConverter.GetMapNameByKey(attributes["level"]);
+                var gameModeName = _gameModeConverter.GetGameModeNameByKey(attributes["levellocation"]);
+
+                currentMapModel = new ZMapDto
                 {
-                    var mapName = _mapConverter.GetMapNameByKey(attributes["level"]);
-                    var gameModeName = _gameModeConverter.GetGameModeNameByKey(attributes["levellocation"]);
+                    Name = mapName,
+                    GameModeName = gameModeName,
+                    RawKeys = new[] { attributes["level"], attributes["levellocation"] }
+                };
 
-                    currentMapModel = new ZMapDto
-                    {
-                        Name = mapName,
-                        GameModeName = gameModeName,
-                        RawKeys = new[] { attributes["level"], attributes["levellocation"] }
-                    };
+                mapList.Add(currentMapModel);
+            }
 
-                    mapList.Add(currentMapModel);
-                }
+            currentMapModel.InRotationPosition = ZMapInMapRotation.CurrentInRotation;
+            rotation.Current = currentMapModel;
 
-                currentMapModel.InRotationPosition = ZMapInMapRotation.CurrentInRotation;
-                rotation.Current = currentMapModel;
+            // find next map
+            var nextMapIndex = mapRotationIndexes.Last();
+            var nextMapModel = mapList.ElementAtOrDefault(nextMapIndex);
 
-                // find next map
-                var nextMapIndex = mapRotationIndexes.Last();
-                var nextMapModel = mapList.ElementAtOrDefault(nextMapIndex);
-
-                if (nextMapModel != null)
-                {
-                    nextMapModel.InRotationPosition = ZMapInMapRotation.NextInRotation;
-                }
-                
+            // ReSharper disable once InvertIf
+            if (nextMapModel != null)
+            {
+                nextMapModel.InRotationPosition = ZMapInMapRotation.NextInRotation;
                 rotation.Next = nextMapModel;
             }
 
@@ -373,7 +374,7 @@ namespace Zlo4NET.Core.Data.Parsers
             model.RawServerAttributesDictionary = normalizedAttributes;
             model.Attributes  = _CreateAndMapAttributes(normalizedAttributes);
             model.Settings    = _CreateSettings(normalizedAttributes);
-            model.MapRotation = _CreateMapRotation(model.TargetGame, normalizedAttributes);
+            model.MapRotation = _CreateMapRotation(normalizedAttributes);
         }
         private static void _ParseServerIps(ZServerDto model, BinaryReader binaryReader)
         {
