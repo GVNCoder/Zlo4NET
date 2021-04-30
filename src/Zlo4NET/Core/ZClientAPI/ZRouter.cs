@@ -3,28 +3,30 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
+// ReSharper disable InconsistentNaming
+
 namespace Zlo4NET.Core.ZClientAPI
 {
     /// <summary>
-    /// 
+    /// Encapsulates a method that handle received packets from ZClient
     /// </summary>
-    /// <param name="packets"></param>
+    /// <param name="packets">Received packets</param>
     internal delegate void ZPacketsStreamCallback(ZPacket[] packets);
     /// <summary>
-    /// 
+    /// Encapsulates a method that handle stream rejected case
     /// </summary>
     internal delegate void ZStreamRejectedCallback();
 
     /// <summary>
-    /// 
+    /// Represents the point to interact with the ZClient
     /// </summary>
     internal static class ZRouter
     {
         #region Internal types
 
-        private class _RequestMetadata
+        private class ZRequestMetadata
         {
-            public _RequestMetadata(ZRequest request)
+            public ZRequestMetadata(ZRequest request)
             {
                 Request = request;
                 Response = new ZResponse(request);
@@ -38,10 +40,9 @@ namespace Zlo4NET.Core.ZClientAPI
             public ZResponse Response { get; }
             public Guid RequestGuid => Request.RequestGuid;
         }
-
-        private class _StreamMetadata
+        private class ZStreamMetadata
         {
-            public _StreamMetadata(ZCommand streamCommand, ZPacketsStreamCallback packetsReceivedCallback, ZStreamRejectedCallback streamRejectedCallback)
+            public ZStreamMetadata(ZCommand streamCommand, ZPacketsStreamCallback packetsReceivedCallback, ZStreamRejectedCallback streamRejectedCallback)
             {
                 StreamCommand = streamCommand;
                 OnPacketsReceivedCallback = packetsReceivedCallback;
@@ -57,13 +58,14 @@ namespace Zlo4NET.Core.ZClientAPI
 
         #region Constants
 
+        // request timeout
         private const int RQ_TIMEOUT = 3000;
 
         #endregion
 
         private static IZClient _client;
-        private static IList<_RequestMetadata> _requestsPool;
-        private static IList<_StreamMetadata> _streamsPool;
+        private static IList<ZRequestMetadata> _requestsPool;
+        private static IList<ZStreamMetadata> _streamsPool;
 
         #region Public Interface
 
@@ -78,25 +80,25 @@ namespace Zlo4NET.Core.ZClientAPI
         public static void Initialize()
         {
             _client = new ZClientImpl();
-            _requestsPool = new List<_RequestMetadata>();
-            _streamsPool = new List<_StreamMetadata>();
+            _requestsPool = new List<ZRequestMetadata>();
+            _streamsPool = new List<ZStreamMetadata>();
 
             _client.ConnectionStateChanged += _ClientOnConnectionChangedCallback;
             _client.PacketsReceived += _ClientOnPacketsReceivedCallback;
         }
         /// <summary>
-        /// 
+        /// Starts asynchronous pending to connect to ZClient
         /// </summary>
         public static void Start() => _client.Run();
         /// <summary>
-        /// 
+        /// Stops current connection with ZClient
         /// </summary>
         public static void Stop() => _client.Close();
         /// <summary>
-        /// 
+        /// Sends request to ZClient and routes response back as an asynchronous operation
         /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
+        /// <param name="request">A request to send</param>
+        /// <returns>The task object representing the asynchronous operation</returns>
         public static async Task<ZResponse> GetResponseAsync(ZRequest request)
         {
             // check incoming argument
@@ -117,12 +119,12 @@ namespace Zlo4NET.Core.ZClientAPI
             return response;
         }
         /// <summary>
-        /// 
+        /// Sends request to ZClient to open packets streaming back as an asynchronous operation
         /// </summary>
-        /// <param name="request"></param>
-        /// <param name="onPacketsReceivedCallback"></param>
-        /// <param name="streamRejectedCallback"></param>
-        /// <returns></returns>
+        /// <param name="request">A request to open stream</param>
+        /// <param name="onPacketsReceivedCallback">An <see cref="ZPacketsStreamCallback"/> delegate that references the method to invoke when the stream packets received</param>
+        /// <param name="streamRejectedCallback">(Optional) An <see cref="ZStreamRejectedCallback"/> delegate that references the method to invoke when the stream was rejected</param>
+        /// <returns>The task object representing the asynchronous operation</returns>
         public static async Task<ZResponse> OpenStreamAsync(ZRequest request, ZPacketsStreamCallback onPacketsReceivedCallback, ZStreamRejectedCallback streamRejectedCallback = null)
         {
             // check incoming arguments
@@ -143,15 +145,15 @@ namespace Zlo4NET.Core.ZClientAPI
             }
 
             // send request and get response
-            var response = await _RegisterStreamAndWaitResponseAsync(request, onPacketsReceivedCallback, streamRejectedCallback);
+            var response = await _TryRegisterStreamAndWaitResponseAsync(request, onPacketsReceivedCallback, streamRejectedCallback);
 
             return response;
         }
         /// <summary>
-        /// 
+        /// Sends request to ZClient to close packets streaming back as an asynchronous operation
         /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
+        /// <param name="request">A request to close stream</param>
+        /// <returns>The task object representing the asynchronous operation</returns>
         public static async Task<ZResponse> CloseStreamAsync(ZRequest request)
         {
             // check incoming arguments
@@ -191,10 +193,10 @@ namespace Zlo4NET.Core.ZClientAPI
 
             return closeStreamResponse;
         }
-        private static async Task<ZResponse> _RegisterStreamAndWaitResponseAsync(ZRequest request, ZPacketsStreamCallback onPacketsReceivedCallback, ZStreamRejectedCallback streamRejectedCallback)
+        private static async Task<ZResponse> _TryRegisterStreamAndWaitResponseAsync(ZRequest request, ZPacketsStreamCallback onPacketsReceivedCallback, ZStreamRejectedCallback streamRejectedCallback)
         {
             // create stream metadata to register it
-            var streamMetadata = new _StreamMetadata(request.RequestCommand, onPacketsReceivedCallback, streamRejectedCallback);
+            var streamMetadata = new ZStreamMetadata(request.RequestCommand, onPacketsReceivedCallback, streamRejectedCallback);
 
             // register stream to help find it and pass packets
             _streamsPool.Add(streamMetadata);
@@ -213,7 +215,7 @@ namespace Zlo4NET.Core.ZClientAPI
         private static async Task<ZResponse> _RegisterRequestAndWaitResponseAsync(ZRequest request)
         {
             // create request metadata to register it
-            var requestMetadata = new _RequestMetadata(request);
+            var requestMetadata = new ZRequestMetadata(request);
 
             // register request to help find it and set response
             _requestsPool.Add(requestMetadata);
@@ -241,7 +243,7 @@ namespace Zlo4NET.Core.ZClientAPI
             // send request to ZClient
             return _client.SendRequest(requestBytes);
         }
-        private static async Task _WaitResponseAsync(ZRequest request, _RequestMetadata metadata)
+        private static async Task _WaitResponseAsync(ZRequest request, ZRequestMetadata metadata)
         {
             if (request.Method == ZRequestMethod.Get)
             {
@@ -290,8 +292,7 @@ namespace Zlo4NET.Core.ZClientAPI
                 _streamsPool.Clear();
             }
         }
-
-        private static void _ClientOnPacketsReceivedCallback(ZPacket[] packets)
+        private static void _ClientOnPacketsReceivedCallback(IEnumerable<ZPacket> packets)
         {
             var packetGroups = packets.GroupBy(i => i.Id);
 
@@ -311,6 +312,7 @@ namespace Zlo4NET.Core.ZClientAPI
 
                 // check requests
                 var requestMetadata = _requestsPool.FirstOrDefault(i => i.Request.RequestCommand == packetGroup.Key);
+                // ReSharper disable once InvertIf
                 if (requestMetadata != null)
                 {
                     // set response

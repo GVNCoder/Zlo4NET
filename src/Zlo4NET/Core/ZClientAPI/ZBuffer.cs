@@ -5,28 +5,17 @@ using Zlo4NET.Core.Helpers;
 
 namespace Zlo4NET.Core.ZClientAPI
 {
-    /// <summary>
-    /// Represents the buffer based on byte array with additional helping methods
-    /// </summary>
-    public class ZBuffer
+    internal class ZBuffer
     {
         private byte[] _buffer;
 
         #region Ctors
 
-        /// <summary>
-        /// Creates empty buffer
-        /// </summary>
         public ZBuffer()
         {
             _buffer = CollectionHelper.GetEmptyEnumerable<byte>()
                 .ToArray();
         }
-        /// <inheritdoc />
-        /// <summary>
-        /// Creates buffer from <paramref name="buffer" />
-        /// </summary>
-        /// <param name="buffer">The buffer</param>
         public ZBuffer(byte[] buffer) : this()
         {
             _buffer = buffer;
