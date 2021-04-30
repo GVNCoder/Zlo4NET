@@ -9,12 +9,10 @@ using System.Collections.Generic;
 using Zlo4NET.Core.Data;
 using Zlo4NET.Core.Extensions;
 
+// ReSharper disable InconsistentNaming
+
 namespace Zlo4NET.Core.ZClientAPI
 {
-    /// <inheritdoc />
-    /// <summary>
-    /// Defines default implementation of <see cref="T:Zlo4NET.Core.ZClientAPI.IZClient" /> interface
-    /// </summary>
     internal class ZClientImpl : IZClient
     {
         #region Constants
@@ -35,9 +33,6 @@ namespace Zlo4NET.Core.ZClientAPI
 
         #region Ctors
 
-        /// <summary>
-        /// Creates default instance of <see cref="ZClientImpl"/>
-        /// </summary>
         public ZClientImpl()
         {
             _endPoint   = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 48486);
@@ -52,22 +47,18 @@ namespace Zlo4NET.Core.ZClientAPI
 
         private Socket _createSocket()
             => new Socket(_endPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-
         private IAsyncResult _socketBeginConnect()
             => _socket.BeginConnect(_endPoint,
                 new AsyncCallback(_EndConnectCallback),
                 null);
-
         private IAsyncResult _socketBeginReceive()
             => _socket.BeginReceive(_readBuffer, 0, BUFFER_SIZE, SocketFlags.None,
                 new AsyncCallback(_EndReceiveCallback),
                 null);
-
         private IAsyncResult _socketBeginSend(byte[] buffer)
             => _socket.BeginSend(buffer, 0, buffer.Length, SocketFlags.None,
                 new AsyncCallback(_EndSendCallback),
                 buffer);
-
         private void _closeSocket()
         {
             try
@@ -119,7 +110,6 @@ namespace Zlo4NET.Core.ZClientAPI
                 _OnConnectionStateChanged(_socket.Connected);
             }
         }
-
         private void _EndReceiveCallback(IAsyncResult asyncResult)
         {
             var bytesReceived = 0;
@@ -139,7 +129,7 @@ namespace Zlo4NET.Core.ZClientAPI
                 _buffer.Append(receivedBytes);
 
                 // process internal buffer
-                _onBytesReceived();
+                _OnBytesReceived();
 
                 // I need more bytes! if we still connected
                 if (_socket.Connected)
@@ -165,12 +155,11 @@ namespace Zlo4NET.Core.ZClientAPI
                 // the sender has closed their connection
                 if (!_socket.Connected || bytesReceived == 0)
                 {
-                    _OnConnectionStateChanged(false);
                     _closeSocket();
+                    _OnConnectionStateChanged(false);
                 }
             }
         }
-
         private void _EndSendCallback(IAsyncResult asyncResult)
         {
             var requestBytes = (byte[]) asyncResult.AsyncState;
@@ -202,8 +191,8 @@ namespace Zlo4NET.Core.ZClientAPI
             {
                 if (!_socket.Connected || bytesSent == 0)
                 {
-                    _OnConnectionStateChanged(false);
                     _closeSocket();
+                    _OnConnectionStateChanged(false);
                 }
             }
         }
@@ -212,26 +201,26 @@ namespace Zlo4NET.Core.ZClientAPI
 
         #region Private methods
 
-        private void _onBytesReceived()
+        private void _OnBytesReceived()
         {
             // parse received packets
             var receivedPackets = new List<ZPacket>(1);
 
             using (var memoryStream = new MemoryStream(_buffer, false))
-            using (var reader = new BinaryReader(memoryStream, Encoding.ASCII))
+            using (var binaryReader = new BinaryReader(memoryStream, Encoding.ASCII))
             {
                 // read until can
-                while (reader.PeekChar() != -1)
+                while (binaryReader.PeekChar() != -1)
                 {
-                    var id = (ZCommand) reader.ReadByte();
-                    var length = (int) reader.ReadZUInt32();
+                    var id = (ZCommand) binaryReader.ReadByte();
+                    var length = (int) binaryReader.ReadZUInt32();
 
                     // check, are we get full packet ?
                     if (length <= memoryStream.Length - memoryStream.Position)
                     {
                         var payload = new byte[length];
 
-                        reader.Read(payload, 0, length);
+                        binaryReader.Read(payload, 0, length);
                         receivedPackets.Add(new ZPacket
                         {
                             Id = id,
@@ -251,15 +240,12 @@ namespace Zlo4NET.Core.ZClientAPI
 
             if (receivedPackets.Count != 0)
             {
-                _OnPacketsReceived(receivedPackets.ToArray());
+                _OnPacketsReceived(receivedPackets);
             }
         }
 
-        private void _Print(byte[] bytes) => Console.WriteLine(bytes.Length);
-
         private void _OnConnectionStateChanged(bool connectionState) => ConnectionStateChanged?.Invoke(connectionState);
-
-        private void _OnPacketsReceived(ZPacket[] packets) => PacketsReceived?.Invoke(packets);
+        private void _OnPacketsReceived(IEnumerable<ZPacket> packets) => PacketsReceived?.Invoke(packets);
 
         #endregion
 

@@ -10,9 +10,6 @@ namespace Zlo4NET.Core.ZClientAPI
     /// </summary>
     internal class ZRequest
     {
-        /// <summary>
-        /// Creates instance of <see cref="ZRequest"/>
-        /// </summary>
         public ZRequest()
         {
             RequestGuid = Guid.NewGuid();
@@ -23,7 +20,7 @@ namespace Zlo4NET.Core.ZClientAPI
         /// </summary>
         public Guid RequestGuid { get; }
         /// <summary>
-        /// Gets or sets request method. By default it's <see cref="ZRequestMethod.Get"/>
+        /// Gets or sets method of request. By default it's <see cref="ZRequestMethod.Get"/>
         /// </summary>
         public ZRequestMethod Method { get; set; } = ZRequestMethod.Get;
         /// <summary>
@@ -33,7 +30,7 @@ namespace Zlo4NET.Core.ZClientAPI
         /// <summary>
         /// Gets or sets request payload. By default it's Empty
         /// </summary>
-        public byte[] RequestPayload { get; set; } = { };
+        public byte[] RequestPayload { private get; set; } = { };
         /// <summary>
         /// Converts this instance to byte array representation
         /// </summary>
@@ -52,7 +49,7 @@ namespace Zlo4NET.Core.ZClientAPI
 
         public override string ToString()
         {
-            return $"Request {RequestGuid} - M {Method} C {RequestCommand} P {BitConverter.ToString(RequestPayload)}";
+            return $"Request {RequestGuid} - Method {Method} Command {RequestCommand} Payload {BitConverter.ToString(RequestPayload)}";
         }
 
         #endregion

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Zlo4NET.Core.ZClientAPI
 {
@@ -6,7 +7,7 @@ namespace Zlo4NET.Core.ZClientAPI
     /// Encapsulates a method that handle received packets from ZClient
     /// </summary>
     /// <param name="packets">Received packets</param>
-    internal delegate void ZPacketsReceivedHandler(ZPacket[] packets);
+    internal delegate void ZPacketsReceivedHandler(IEnumerable<ZPacket> packets);
 
     /// <summary>
     /// Represents the ZClient client
