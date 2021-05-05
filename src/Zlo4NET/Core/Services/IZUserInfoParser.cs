@@ -5,6 +5,6 @@ namespace Zlo4NET.Core.Services
 {
     internal interface IZUserInfoParser
     {
-        ZUserDTO Parse(ZPacket packet);
+        ZUserDto Parse(ZPacket packet);
     }
 }
