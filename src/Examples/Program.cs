@@ -10,9 +10,12 @@ using Zlo4NET.Api.Models.Shared;
 using Zlo4NET.Api.Service;
 using Zlo4NET.Core.Data;
 
+// ReSharper disable UnusedParameter.Local
+
 namespace Examples
 {
-    public class Program
+    // ReSharper disable once InconsistentNaming
+    public static class Program
     {
         private static IZApi _zloApi;
         private static IZGameFactory _gameFactory;
@@ -22,12 +25,6 @@ namespace Examples
             // setup internal state
             _zloApi = ZApi.Instance;
             _gameFactory = _zloApi.GameFactory;
-
-            var logger = _zloApi.Logger;
-
-            // configure logging
-            logger.SetMessageFilter(ZLogLevel.Debug | ZLogLevel.Warning | ZLogLevel.Error | ZLogLevel.Info);
-            logger.OnMessage += (sender, messageArgs) => Console.WriteLine(messageArgs.Message);
 
             var connection = _zloApi.Connection;
 
@@ -50,15 +47,19 @@ namespace Examples
 
             if (_zloApi.Connection.IsConnected)
             {
-                Console.WriteLine("Connected\n");
+                var user = connection.GetCurrentUserInfo();
 
-                // call async version of Main(...)                  
+                Console.WriteLine($"Connected as {user.UserName} {user.UserId}\n");
+
+                // call async version of Main(...)
                 MainAsync(args).GetAwaiter().GetResult();
             }
             else
             {
-                Console.WriteLine("Cannot connect to ZClient\n");
+                Console.WriteLine("Can`t connect to ZClient\n");
             }
+
+            Console.ReadKey();
         }
 
         private static async Task MainAsync(string[] args)
@@ -97,6 +98,7 @@ namespace Examples
 
             #endregion
 
+            // ReSharper disable once SwitchStatementMissingSomeCases
             switch (gameMode)
             {
                 // create and run singleplayer game
