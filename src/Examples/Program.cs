@@ -149,6 +149,9 @@ namespace Examples
             if (runResult != ZRunResult.Success)
             {
                 // TODO: Do some stuff here
+                Console.WriteLine("Run error! See ZClient for details");
+
+                resetEvent.Set();
             }
 
             resetEvent.WaitOne();
