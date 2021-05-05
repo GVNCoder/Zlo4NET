@@ -157,7 +157,11 @@ namespace Examples
             var resetEvent = new ManualResetEvent(false);
 
             // configure server list service
-            serverListService.InitialSizeReached += (s, e) => resetEvent.Set();
+            serverListService.InitialSizeReached += (s, e) =>
+            {
+                resetEvent.Set();
+                serverListService.StopReceiving();
+            };
             serverListService.StartReceiving();
             
             // wait to server list full load

@@ -296,6 +296,7 @@ namespace Zlo4NET.Core.Data.Parsers
         private const string __threadName = "sl_parse"; // server list parse thread
 
         private readonly object _sync = new object();
+        private readonly object _threadInstanceLock = new object();
         private readonly IEnumerable<ZPacket> _emptyEnumerable = CollectionHelper.GetEmptyEnumerable<ZPacket>();
 
         private readonly uint _myId;
@@ -372,12 +373,15 @@ namespace Zlo4NET.Core.Data.Parsers
 
         public void ParseAsync(ZPacket[] packets)
         {
-            if (_thread == null || ! _thread.IsAlive)
+            lock (_threadInstanceLock)
             {
-                _thread = new Thread(new ThreadStart(_parseLoop)) { IsBackground = true, Name = __threadName };
-                _thread.Start();
+                if (_thread == null || ! _thread.IsAlive)
+                {
+                    _thread = new Thread(new ThreadStart(_parseLoop)) { IsBackground = true, Name = __threadName };
+                    _thread.Start();
 
-                _logger.Debug("Created a thread for parsing the server list");
+                    _logger.Debug("Created a thread for parsing the server list");
+                }
             }
 
             lock (_sync)

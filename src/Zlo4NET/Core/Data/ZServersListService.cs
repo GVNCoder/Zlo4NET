@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -20,8 +19,8 @@ namespace Zlo4NET.Core.Data
         private readonly IZChangesMapper _changesMapper;
         private readonly ZCollectionWrapper _collectionWrapper;
 
-        private int _serversCount;
-        private int? _initialCount;
+        private int _initialCount;
+        private int _initialCountPlayerList;
         private bool __disposed;
         private ZGame _gameContext;
 
@@ -34,8 +33,6 @@ namespace Zlo4NET.Core.Data
 
             _collectionWrapper = new ZCollectionWrapper(new ObservableCollection<ZServerBase>());
             _changesMapper = new ZChangesMapper();
-
-            _serversCount = 0;
         }
 
         public ObservableCollection<ZServerBase> ServersCollection => _collectionWrapper.Collection;
@@ -67,7 +64,6 @@ namespace Zlo4NET.Core.Data
             var response = ZRouter.CloseStreamAsync(request).Result;
 
             _parser.Close();
-            _flushServerCollection();
 
             __disposed = true;
         }
@@ -76,25 +72,7 @@ namespace Zlo4NET.Core.Data
 
         private void _packetsReceivedHandler(ZPacket[] e)
         {
-            if (e == null)
-            {
-                _flushServerCollection();
-                _logger.Error($"Servers collection was flushed.");
-            }
-            else
-            {
-                if (_initialCount == null)
-                {
-                    _initialCount = _getCountOfPacketsByType(e, ZServerParserAction.Add);
-                    if (_initialCount != e.Length && _initialCount != (e.Length / 2))
-                    {
-                        var PL = _getCountOfPacketsByType(e, ZServerParserAction.PlayersList);
-                        _logger.Warning($"Input servers packets not match with player_list packets. COUNT_OF_A {_initialCount} COUNT_OF_PL {PL}");
-                    }
-                }
-
-                _parser.ParseAsync(e);
-            }
+            _parser.ParseAsync(e);
         }
 
         private void _OnInitialSizeReached()
@@ -102,29 +80,21 @@ namespace Zlo4NET.Core.Data
             InitialSizeReached?.Invoke(this, EventArgs.Empty);
         }
 
-        private void _flushServerCollection()
-        {
-            _serversCount = 0;
-            _collectionWrapper.Flush();
-        }
-
-        private int _getCountOfPacketsByType(IEnumerable<ZPacket> packets, ZServerParserAction actionType) =>
-            packets
-                .Where(p => p.Length > 0)
-                .Count(p => p.Payload.First() == (byte) actionType);
-
         private void _ActionHandler(ZServerBase model, ZServerParserAction action)
         {
             switch (action)
                 {
                     case ZServerParserAction.Add:
                         _AddActionHandler(model);
+                        _initialCount++;
 
                         break;
                     case ZServerParserAction.PlayersList:
                         _PlayerListActionHandler(model);
 
-                        break;
+                        _initialCountPlayerList++;
+
+                    break;
                     case ZServerParserAction.Remove:
                         _RemoveActionHandler(model);
 
@@ -133,6 +103,11 @@ namespace Zlo4NET.Core.Data
                     default:
                         break;
                 }
+
+            if (_initialCountPlayerList >= _initialCount)
+            {
+                _OnInitialSizeReached();
+            }
         }
 
         private void _AddActionHandler(ZServerBase model)
@@ -155,12 +130,6 @@ namespace Zlo4NET.Core.Data
             else
             {
                 _collectionWrapper.Add(model);
-                _serversCount++;
-            }
-
-            if (_serversCount >= _initialCount)
-            {
-                _OnInitialSizeReached();
             }
         }
 
@@ -185,7 +154,6 @@ namespace Zlo4NET.Core.Data
             var item = _collectionWrapper.Collection.FirstOrDefault(s => s.Id == model.Id);
             if (item != null)
             {
-                _serversCount--;
                 _collectionWrapper.Remove(item);
             }
             else
