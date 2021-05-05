@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Threading.Tasks;
 
 using Zlo4NET.Api;
+using Zlo4NET.Api.DTO;
 using Zlo4NET.Api.Service;
 using Zlo4NET.Core.Helpers;
 using Zlo4NET.Core.Services;
@@ -33,7 +34,7 @@ namespace Zlo4NET.Core.Data
 
         private readonly IZConnection _connection;
         private readonly IZInjectorService _injector;
-        private readonly IZStatsService _statsService;
+        private readonly IZPlayerStatsService _playerStatsService;
         private readonly IZGameFactory _gameFactory;
 
         private ZConfiguration _config;
@@ -42,10 +43,10 @@ namespace Zlo4NET.Core.Data
         private ZApi()
         {
             // creating a client services
-            _connection   = new ZConnection();
-            _statsService = new ZStatsService();
-            _gameFactory  = new ZGameFactory(_connection);
-            _injector     = new ZInjectorService();
+            _connection         = new ZConnection();
+            _playerStatsService = new ZPlayerStatsService();
+            _gameFactory        = new ZGameFactory(_connection);
+            _injector           = new ZInjectorService();
 
             // initializing the static helpers
             ZConnectionHelper.Initialize(_connection);
@@ -59,12 +60,18 @@ namespace Zlo4NET.Core.Data
 
         public IZLogger Logger => ZLogger.Instance;
 
-        public async Task<ZStatsBase> GetStatsAsync(ZGame game)
+        public async Task<ZPlayerStatsDto> GetPlayerStatsAsync(ZGame game)
         {
-            ZConnectionHelper.MakeSureConnection();
-            if (game == ZGame.BFH) throw new NotSupportedException("Stats not implemented for Battlefield Hardline.");
+            // pre-validation
+            ZConnectionHelper.ThrowIfNotConnected();
 
-            var result = await _statsService.GetStatsAsync(game);
+            if (game == ZGame.None)
+            {
+                throw new ArgumentException("Argument out of range", nameof(game));
+            }
+
+            // get player stats
+            var result = await _playerStatsService.GetStatsAsync(game);
 
             return result;
         }
