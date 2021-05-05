@@ -49,6 +49,7 @@
     <Compile Include="Api\DTO\ZMapDto.cs" />
     <Compile Include="Api\DTO\ZMapRotationDto.cs" />
     <Compile Include="Api\DTO\ZPlayerDto.cs" />
+    <Compile Include="Api\DTO\ZPlayerStatsDto.cs" />
     <Compile Include="Api\DTO\ZServerAttributesDto.cs" />
     <Compile Include="Api\DTO\ZServerDto.cs" />
     <Compile Include="Api\DTO\ZUserDTO.cs" />
@@ -81,7 +82,7 @@
     <Compile Include="Api\Service\IZGameProcess.cs" />
     <Compile Include="Core\Data\Parsers\ZGameRunParser.cs" />
     <Compile Include="Core\Data\Parsers\ZInstalledGamesParser.cs" />
-    <Compile Include="Core\Data\Parsers\ZStatsParser.cs" />
+    <Compile Include="Core\Data\Parsers\ZPlayerStatsParser.cs" />
     <Compile Include="Core\Data\ZActionState.cs" />
     <Compile Include="Core\Data\ZGameFactory.cs" />
     <Compile Include="Core\Data\ZInjectorService.cs" />
@@ -105,8 +106,8 @@
     <Compile Include="Core\Services\IZInjectorService.cs" />
     <Compile Include="Core\Services\IZInstalledGamesParser.cs" />
     <Compile Include="Core\Services\IZInstalledGamesService.cs" />
-    <Compile Include="Core\Services\IZStatsParser.cs" />
-    <Compile Include="Core\Services\IZStatsService.cs" />
+    <Compile Include="Core\Services\IZPlayerStatsParser.cs" />
+    <Compile Include="Core\Services\IZPlayerStatsService.cs" />
     <Compile Include="Api\Models\Server\ZAttributesBase.cs" />
     <Compile Include="Api\Models\Server\ZBF3Server.cs" />
     <Compile Include="Api\Models\Server\ZBF4Server.cs" />
@@ -160,7 +161,7 @@
     <Compile Include="Core\Data\ZProcessTracker.cs" />
     <Compile Include="Core\Data\ZServersList.cs" />
     <Compile Include="Core\Data\ZApi.cs" />
-    <Compile Include="Core\Data\ZStatsService.cs" />
+    <Compile Include="Core\Data\ZPlayerStatsService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

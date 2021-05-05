@@ -9,6 +9,6 @@ namespace Zlo4NET.Core.Data.Parsers
         public static IZServersListParser CreateServersListInfoParser(uint authorizedUserId, ZGame gameContext, ZLogger logger) => new ZServersListParser(authorizedUserId, gameContext, logger);
         public static IZInstalledGamesParser CreateInstalledGamesInfoParser() => new ZInstalledGamesParser();
         public static IZGameRunParser CreateGameRunInfoParser() => new ZGameRunParser();
-        public static IZStatsParser CreateStatsInfoParser() => new ZStatsParser();
+        public static IZPlayerStatsParser CreateStatsInfoParser() => new ZPlayerStatsParser();
     }
 }
