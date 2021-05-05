@@ -59,7 +59,7 @@ namespace Zlo4NET.Core.ZClientAPI
         #region Constants
 
         // request timeout
-        private const int RQ_TIMEOUT = 3000;
+        private const int RQ_TIMEOUT = 7000;
 
         #endregion
 
