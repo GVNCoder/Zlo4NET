@@ -37,7 +37,7 @@ namespace Zlo4NET.Core.Data
         private readonly Timer _pingTimer;
         private readonly ZLogger _logger;
 
-        private ZUserDTO _currentUserInfo;
+        private ZUserDto _currentUserInfo;
         private bool _raiseOnConnectionChangedEvent = true;
 
         public ZConnection()
@@ -95,7 +95,7 @@ namespace Zlo4NET.Core.Data
             }
         }
 
-        private ZUserDTO _ParseUserInfo(ZPacket[] responsePackets)
+        private ZUserDto _ParseUserInfo(ZPacket[] responsePackets)
         {
             var payloadPacket = responsePackets.Single();
             var user = _userInfoParser.Parse(payloadPacket);
@@ -117,7 +117,7 @@ namespace Zlo4NET.Core.Data
         }
 
         private void _RaiseOnConnectionChangedEvent(bool connectionState) => ConnectionChanged?.Invoke((IZConnection) this, new ZConnectionChangedEventArgs(connectionState));
-        private void _RaiseOnAuthorizedEvent(ZUserDTO userInfo) => Authorized?.Invoke((IZConnection) this, new ZAuthorizedEventArgs(userInfo));
+        private void _RaiseOnAuthorizedEvent(ZUserDto userInfo) => Authorized?.Invoke((IZConnection) this, new ZAuthorizedEventArgs(userInfo));
 
         #endregion
 
@@ -135,7 +135,7 @@ namespace Zlo4NET.Core.Data
             // disconnect
             ZRouter.Stop();
         }
-        public ZUserDTO GetCurrentUserInfo() => _currentUserInfo;
+        public ZUserDto GetCurrentUserInfo() => _currentUserInfo;
 
         public bool IsConnected { get; private set; }
 
