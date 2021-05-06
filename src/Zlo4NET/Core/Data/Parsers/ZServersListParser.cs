@@ -30,15 +30,15 @@ namespace Zlo4NET.Core.Data.Parsers
             return attributesModel;
         }
 
-        public ZServerBase BuildServerModel(ZGame game)
+        public ZServerBase BuildServerModel(ZGame game, uint serverId)
         {
             ZServerBase model = null;
 
             switch (game)
             {
-                case ZGame.BF3: model = new ZBF3Server(); break;
-                case ZGame.BF4: model = new ZBF4Server(); break;
-                case ZGame.BFH: model = new ZBFHServer(); break;
+                case ZGame.BF3: model = new ZBF3Server() {Id = serverId}; break;
+                case ZGame.BF4: model = new ZBF4Server() { Id = serverId }; break;
+                case ZGame.BFH: model = new ZBFHServer() { Id = serverId }; break;
             }
 
             model.Game = game;
@@ -48,7 +48,7 @@ namespace Zlo4NET.Core.Data.Parsers
 
         public void ParsePlayers(uint id, ZServerBase model, BinaryReader reader)
         {
-            model.Id = reader.ReadZUInt32();
+            //model.Id = reader.ReadZUInt32();
 
             var playerList = new ObservableCollection<ZPlayer>();
             var arrLen = reader.ReadByte();
@@ -80,7 +80,7 @@ namespace Zlo4NET.Core.Data.Parsers
         {
             // at first parse bytes from reader
             // parse some basic info
-            model.Id = reader.ReadZUInt32();
+            //model.Id = reader.ReadZUInt32();
             model.Ip = UIntToIPAddress.Convert(reader.ReadZUInt32());
             model.Port = reader.ReadZUInt16();
 
@@ -339,7 +339,8 @@ namespace Zlo4NET.Core.Data.Parsers
                     {
                         var action = (ZServerParserAction) reader.ReadByte();
                         var game = (ZGame) reader.ReadByte();
-                        var serverModel = BuildServerModel(game);
+                        var serverId = reader.ReadZUInt32();
+                        var serverModel = BuildServerModel(game, serverId);
 
                         if (_gameContext != game)
                         {
