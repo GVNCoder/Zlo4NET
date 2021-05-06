@@ -6,12 +6,12 @@ using System.Text;
 using System.IO;
 using System;
 
-using Zlo4NET.Core.ZClient.Data;
 using Zlo4NET.Api.Models.Server;
 using Zlo4NET.Api.Models.Shared;
 using Zlo4NET.Core.Extensions;
 using Zlo4NET.Core.Services;
 using Zlo4NET.Core.Helpers;
+using Zlo4NET.Core.ZClientAPI;
 
 namespace Zlo4NET.Core.Data.Parsers
 {
@@ -30,15 +30,15 @@ namespace Zlo4NET.Core.Data.Parsers
             return attributesModel;
         }
 
-        public ZServerBase BuildServerModel(ZGame game)
+        public ZServerBase BuildServerModel(ZGame game, uint serverId)
         {
             ZServerBase model = null;
 
             switch (game)
             {
-                case ZGame.BF3: model = new ZBF3Server(); break;
-                case ZGame.BF4: model = new ZBF4Server(); break;
-                case ZGame.BFH: model = new ZBFHServer(); break;
+                case ZGame.BF3: model = new ZBF3Server() {Id = serverId}; break;
+                case ZGame.BF4: model = new ZBF4Server() { Id = serverId }; break;
+                case ZGame.BFH: model = new ZBFHServer() { Id = serverId }; break;
             }
 
             model.Game = game;
@@ -48,7 +48,7 @@ namespace Zlo4NET.Core.Data.Parsers
 
         public void ParsePlayers(uint id, ZServerBase model, BinaryReader reader)
         {
-            model.Id = reader.ReadZUInt32();
+            //model.Id = reader.ReadZUInt32();
 
             var playerList = new ObservableCollection<ZPlayer>();
             var arrLen = reader.ReadByte();
@@ -80,7 +80,7 @@ namespace Zlo4NET.Core.Data.Parsers
         {
             // at first parse bytes from reader
             // parse some basic info
-            model.Id = reader.ReadZUInt32();
+            //model.Id = reader.ReadZUInt32();
             model.Ip = UIntToIPAddress.Convert(reader.ReadZUInt32());
             model.Port = reader.ReadZUInt16();
 
@@ -296,6 +296,7 @@ namespace Zlo4NET.Core.Data.Parsers
         private const string __threadName = "sl_parse"; // server list parse thread
 
         private readonly object _sync = new object();
+        private readonly object _threadInstanceLock = new object();
         private readonly IEnumerable<ZPacket> _emptyEnumerable = CollectionHelper.GetEmptyEnumerable<ZPacket>();
 
         private readonly uint _myId;
@@ -333,12 +334,13 @@ namespace Zlo4NET.Core.Data.Parsers
                 // parse all extracted packets
                 foreach (var packet in fParse)
                 {
-                    using (var memStream = new MemoryStream(packet.Content, false))
+                    using (var memStream = new MemoryStream(packet.Payload, false))
                     using (var reader = new BinaryReader(memStream, Encoding.ASCII))
                     {
                         var action = (ZServerParserAction) reader.ReadByte();
                         var game = (ZGame) reader.ReadByte();
-                        var serverModel = BuildServerModel(game);
+                        var serverId = reader.ReadZUInt32();
+                        var serverModel = BuildServerModel(game, serverId);
 
                         if (_gameContext != game)
                         {
@@ -372,12 +374,15 @@ namespace Zlo4NET.Core.Data.Parsers
 
         public void ParseAsync(ZPacket[] packets)
         {
-            if (_thread == null || ! _thread.IsAlive)
+            lock (_threadInstanceLock)
             {
-                _thread = new Thread(new ThreadStart(_parseLoop)) { IsBackground = true, Name = __threadName };
-                _thread.Start();
+                if (_thread == null || ! _thread.IsAlive)
+                {
+                    _thread = new Thread(new ThreadStart(_parseLoop)) { IsBackground = true, Name = __threadName };
+                    _thread.Start();
 
-                _logger.Debug("Created a thread for parsing the server list");
+                    _logger.Debug("Created a thread for parsing the server list");
+                }
             }
 
             lock (_sync)

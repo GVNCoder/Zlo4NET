@@ -1,7 +1,7 @@
-﻿namespace Zlo4NET.Core.ZClient.Data
+﻿namespace Zlo4NET.Core.ZClientAPI
 {
     /// <summary>
-    /// Defines packet command identifier
+    /// Represents ZClient commands identifiers
     /// </summary>
     internal enum ZCommand : byte
     {

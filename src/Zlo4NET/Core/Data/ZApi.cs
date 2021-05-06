@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading.Tasks;
+
 using Zlo4NET.Api;
-using Zlo4NET.Api.Models.Shared;
 using Zlo4NET.Api.Service;
 using Zlo4NET.Core.Helpers;
 using Zlo4NET.Core.Services;
-using Zlo4NET.Core.ZClient.Data;
-using Zlo4NET.Core.ZClient.Services;
+using Zlo4NET.Api.Models.Shared;
+
+// disable Missing xml doc
+#pragma warning disable 1591
 
 namespace Zlo4NET.Core.Data
 {
@@ -20,13 +22,14 @@ namespace Zlo4NET.Core.Data
         // https://csharpindepth.com/articles/singleton
         static ZApi() { }
 
-        private static readonly Lazy<IZApi> lazy = new Lazy<IZApi>(() => new ZApi(), true);
+        private static readonly Lazy<IZApi> Lazy = new Lazy<IZApi>(() => new ZApi(), true);
 
-        public static IZApi Instance => lazy.Value;
+        /// <summary>
+        /// Creates and returns an single instance of <see cref="IZApi"/> implementation
+        /// </summary>
+        public static IZApi Instance => Lazy.Value;
 
         #endregion
-
-        private readonly IZClientService _clientService;
 
         private readonly IZConnection _connection;
         private readonly IZInjectorService _injector;
@@ -35,19 +38,13 @@ namespace Zlo4NET.Core.Data
 
         private ZConfiguration _config;
 
-        internal ZApi()
+        private ZApi()
         {
-            // creating a base client
-            _clientService = new ZClientService();
-
-            // creating a needed services (local too, for to resolve dependencies)
-            var userService = new ZUserService(_clientService);
-
             // creating a client services
-            _connection = new ZConnection(userService, _clientService);
-            _statsService = new ZStatsService(_clientService);
-            _gameFactory = new ZGameFactory(_clientService, _connection);
-            _injector = new ZInjectorService(_clientService);
+            _connection = new ZConnection();
+            _statsService = new ZStatsService();
+            _gameFactory = new ZGameFactory(_connection);
+            _injector = new ZInjectorService();
 
             // initializing the static helpers
             ZConnectionHelper.Initialize(_connection);
@@ -62,7 +59,7 @@ namespace Zlo4NET.Core.Data
         }
 
         private IZServersListService _BuildServerListService(ZGame game)
-            => new ZServersListService(_clientService, Connection.AuthorizedUser.Id, game);
+            => new ZServersListService(Connection.GetCurrentUserInfo().UserId, game);
 
         #endregion
 

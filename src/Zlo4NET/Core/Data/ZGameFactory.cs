@@ -4,12 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using Newtonsoft.Json.Linq;
-
+using Zlo4NET.Api.DTO;
 using Zlo4NET.Api.Models.Shared;
 using Zlo4NET.Api.Service;
 using Zlo4NET.Core.Helpers;
 using Zlo4NET.Core.Services;
-using Zlo4NET.Core.ZClient.Services;
 
 namespace Zlo4NET.Core.Data
 {
@@ -31,17 +30,15 @@ namespace Zlo4NET.Core.Data
 
         private const string _spectatorValue = "isspectator=\\\"true\\\"";
 
-        private readonly IZClientService _clientService;
         private readonly IZInstalledGamesService _installedGamesService;
         private readonly IZConnection _connection;
 
         private JObject __runStrings;
-        private ZUser __userContext => _connection.AuthorizedUser;
+        private ZUserDTO __userContext => _connection.GetCurrentUserInfo();
 
-        public ZGameFactory(IZClientService clientService, IZConnection connection)
+        public ZGameFactory(IZConnection connection)
         {
-            _clientService = clientService;
-            _installedGamesService = new ZInstalledGamesService(clientService);
+            _installedGamesService = new ZInstalledGamesService();
             _connection = connection;
 
             _loadRunJSON();
@@ -53,12 +50,12 @@ namespace Zlo4NET.Core.Data
         {
             switch (game)
             {
-                case ZGame.BF3: return new ZGameProcess(_clientService, command, target, "venice_snowroller", "bf3");
+                case ZGame.BF3: return new ZGameProcess(command, target, "venice_snowroller", "bf3");
                 case ZGame.BF4:
-                    return new ZGameProcess(_clientService, command, target, "warsaw_snowroller",
+                    return new ZGameProcess(command, target, "warsaw_snowroller",
                         architecture == ZGameArchitecture.x64 ? "bf4" : "bf4_x86");
                 case ZGame.BFH:
-                    return new ZGameProcess(_clientService, command, target, "omaha_snowroller",
+                    return new ZGameProcess(command, target, "omaha_snowroller",
                         architecture == ZGameArchitecture.x64 ? "bfh" : "bfh_x86");
 
                 case ZGame.None:
@@ -102,7 +99,7 @@ namespace Zlo4NET.Core.Data
             }
 
             var commandRun = __runStrings[_SingleKey].ToObject<string>();
-            commandRun = commandRun.Replace(_personaRefReplaceable, __userContext.Id.ToString());
+            commandRun = commandRun.Replace(_personaRefReplaceable, __userContext.UserId.ToString());
 
             var runGame = _createRunGame(targetGame, commandRun, args.Game, architecture);
             return runGame;
@@ -148,13 +145,13 @@ namespace Zlo4NET.Core.Data
                 commandRun = __runStrings[_CoopHostKey].ToObject<string>();
                 commandRun = commandRun.Replace(_levelReplaceable, args.Level.ToString().ToUpper());
                 commandRun = commandRun.Replace(_difficultyReplaceable, args.Difficulty.ToString().ToUpper());
-                commandRun = commandRun.Replace(_personaRefReplaceable, __userContext.Id.ToString());
+                commandRun = commandRun.Replace(_personaRefReplaceable, __userContext.UserId.ToString());
             }
             else
             {
                 commandRun = __runStrings[_CoopJoinKey].ToObject<string>();
                 commandRun = commandRun.Replace(_friendIdReplaceable, args.FriendId.ToString());
-                commandRun = commandRun.Replace(_personaRefReplaceable, __userContext.Id.ToString());
+                commandRun = commandRun.Replace(_personaRefReplaceable, __userContext.UserId.ToString());
             }
 
             var runGame = _createRunGame(targetGame, commandRun, ZGame.BF3, architecture);
@@ -196,7 +193,7 @@ namespace Zlo4NET.Core.Data
             }
 
             var commandRun = __runStrings[_TestRangeKey].ToObject<string>();
-            commandRun = commandRun.Replace(_personaRefReplaceable, __userContext.Id.ToString());
+            commandRun = commandRun.Replace(_personaRefReplaceable, __userContext.UserId.ToString());
 
             var runGame = _createRunGame(targetGame, commandRun, args.Game, architecture);
             return runGame;
@@ -233,7 +230,7 @@ namespace Zlo4NET.Core.Data
 
             var commandRun = __runStrings[_MultiKey].ToObject<string>();
             commandRun = commandRun.Replace(_gameIdReplaceable, args.ServerId.ToString());
-            commandRun = commandRun.Replace(_personaRefReplaceable, __userContext.Id.ToString());
+            commandRun = commandRun.Replace(_personaRefReplaceable, __userContext.UserId.ToString());
 
             if (args.Role != ZRole.Spectator)
             {

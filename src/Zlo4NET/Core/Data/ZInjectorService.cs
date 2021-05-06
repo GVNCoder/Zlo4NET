@@ -1,24 +1,19 @@
 ﻿using System.Collections.Generic;
+
 using Zlo4NET.Api.Models.Shared;
 using Zlo4NET.Core.Services;
-using Zlo4NET.Core.ZClient.Services;
+using Zlo4NET.Core.ZClientAPI;
 
 namespace Zlo4NET.Core.Data
 {
     internal class ZInjectorService : IZInjectorService
     {
-        private readonly IZClientService _clientService;
-
-        public ZInjectorService(IZClientService clientService)
-        {
-            _clientService = clientService;
-        }
-
         public async void Inject(ZGame game, IEnumerable<string> dllPaths)
         {
             foreach (var dllPath in dllPaths)
             {
-                await _clientService.SendDllInjectRequestAsync(game, dllPath);
+                var request = ZRequestFactory.CreateDllInjectRequest(game, dllPath);
+                var response = await ZRouter.GetResponseAsync(request);
             }
         }
     }

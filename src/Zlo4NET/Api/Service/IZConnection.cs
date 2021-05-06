@@ -1,34 +1,39 @@
 ﻿using System;
+using Zlo4NET.Api.DTO;
 using Zlo4NET.Api.Models.Shared;
 
 namespace Zlo4NET.Api.Service
 {
     /// <summary>
-    /// Defines API connection
+    /// Represents a service that allows you to manage and control the connection to the ZClient
     /// </summary>
     public interface IZConnection
     {
         /// <summary>
-        /// Initiates an asynchronous ZClient connection process.
+        /// Initiates an asynchronous connection to the ZClient
         /// </summary>
         void Connect();
         /// <summary>
-        /// Terminates the connection with ZClient.
+        /// Initiates a disconnection to the ZClient. Raises a <see cref="ConnectionChanged"/> event by default
         /// </summary>
-        void Disconnect();
-
+        /// <param name="raiseEvent">Indicates whether the connection state change event should be raised or not</param>
+        void Disconnect(bool raiseEvent = true);
         /// <summary>
-        /// Occurs when the connection changes state.
+        /// Gets current authorized in ZClient user
         /// </summary>
-        event EventHandler<ZConnectionChangedArgs> ConnectionChanged;
-
+        /// <returns>Returns current authorized in ZClient user</returns>
+        ZUserDTO GetCurrentUserInfo();
         /// <summary>
-        /// Gets connection state
+        /// Occurs when the connection changes state
+        /// </summary>
+        event EventHandler<ZConnectionChangedEventArgs> ConnectionChanged;
+        /// <summary>
+        /// Occurs when received user that authorized in ZClient
+        /// </summary>
+        event EventHandler<ZAuthorizedEventArgs> Authorized;
+        /// <summary>
+        /// Gets current connection state with ZClient
         /// </summary>
         bool IsConnected { get; }
-        /// <summary>
-        /// Gets authorized user
-        /// </summary>
-        ZUser AuthorizedUser { get; }
     }
 }

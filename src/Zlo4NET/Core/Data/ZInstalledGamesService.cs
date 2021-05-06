@@ -1,37 +1,38 @@
-﻿using System.Threading.Tasks;
-using Zlo4NET.Api.Models.Shared;
+﻿using System.Linq;
+using System.Threading.Tasks;
+
 using Zlo4NET.Core.Data.Parsers;
 using Zlo4NET.Core.Services;
-using Zlo4NET.Core.ZClient.Data;
-using Zlo4NET.Core.ZClient.Services;
+using Zlo4NET.Core.ZClientAPI;
 
 namespace Zlo4NET.Core.Data
 {
     internal class ZInstalledGamesService : IZInstalledGamesService
     {
         private readonly IZInstalledGamesParser _installedGamesParser;
-        private readonly IZClientService _clientService;
         private readonly ZLogger _logger;
 
-        public ZInstalledGamesService(IZClientService clientService)
+        public ZInstalledGamesService()
         {
-            _clientService = clientService;
-            _installedGamesParser = ZParsersFactory.BuildInstalledGamesInfoParser();
+            _installedGamesParser = ZParsersFactory.CreateInstalledGamesInfoParser();
             _logger = ZLogger.Instance;
         }
 
         public async Task<ZInstalledGames> GetInstalledGamesAsync()
         {
             ZInstalledGames installedGames = null;
-            var response = await _clientService.SendInstalledGamesRequestAsync();
 
-            if (response.Status != ZResponseStatusCode.Ok)
+            var request = ZRequestFactory.CreateInstalledGamesRequest();
+            var response = await ZRouter.GetResponseAsync(request);
+
+            if (response.StatusCode != ZResponseStatusCode.Ok)
             {
-                _logger.Warning($"Received response id: {response.Request.Id} with {response.Status}.");
+                _logger.Warning($"Request fail {request}");
             }
             else
             {
-                installedGames = _installedGamesParser.Parse(response.Packets);
+                var responsePacket = response.ResponsePackets.Single();
+                installedGames = _installedGamesParser.Parse(responsePacket);
             }
 
             return installedGames;

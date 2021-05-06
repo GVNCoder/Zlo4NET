@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading.Tasks;
-using Zlo4NET.Api.Models.Shared;
+using System.Collections.Generic;
+
 using Zlo4NET.Api.Service;
+using Zlo4NET.Api.Models.Shared;
 
 namespace Zlo4NET.Api
 {

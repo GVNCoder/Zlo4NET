@@ -21,6 +21,12 @@ namespace Examples
             _zloApi = ZApi.Instance;
             _gameFactory = _zloApi.GameFactory;
 
+            var logger = _zloApi.Logger;
+
+            // configure logging
+            logger.SetMessageFilter(ZLogLevel.Debug | ZLogLevel.Warning | ZLogLevel.Error | ZLogLevel.Info);
+            logger.OnMessage += (sender, messageArgs) => Console.WriteLine(messageArgs.Message);
+
             var connection = _zloApi.Connection;
 
             // configure api thread synchronization
@@ -151,7 +157,11 @@ namespace Examples
             var resetEvent = new ManualResetEvent(false);
 
             // configure server list service
-            serverListService.InitialSizeReached += (s, e) => resetEvent.Set();
+            serverListService.InitialSizeReached += (s, e) =>
+            {
+                resetEvent.Set();
+                serverListService.StopReceiving();
+            };
             serverListService.StartReceiving();
             
             // wait to server list full load
