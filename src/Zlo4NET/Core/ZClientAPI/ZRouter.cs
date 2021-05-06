@@ -150,7 +150,8 @@ namespace Zlo4NET.Core.ZClientAPI
             return response;
         }
         /// <summary>
-        /// Sends request to ZClient to close packets streaming back as an asynchronous operation
+        /// Sends request to ZClient to close packets streaming back as an asynchronous operation.
+        /// The stream will close in any case, but despite this, it remains possible to react to the response
         /// </summary>
         /// <param name="request">A request to close stream</param>
         /// <returns>The task object representing the asynchronous operation</returns>
@@ -186,10 +187,8 @@ namespace Zlo4NET.Core.ZClientAPI
             // send close stream request
             var closeStreamResponse = await _RegisterRequestAndWaitResponseAsync(request);
 
-            if (closeStreamResponse.StatusCode == ZResponseStatusCode.Ok)
-            {
-                _streamsPool.Remove(streamMetadata);
-            }
+            // in any case, we need to stop the stream of packets, no matter what the response was
+            _streamsPool.Remove(streamMetadata);
 
             return closeStreamResponse;
         }
