@@ -216,7 +216,7 @@ namespace Zlo4NET.Core.ZClientAPI
                     var length = (int) binaryReader.ReadZUInt32();
 
                     // check, are we get full packet ?
-                    if (length <= memoryStream.Length - memoryStream.Position)
+                    if (length <= binaryReader.BytesRemaining())
                     {
                         var payload = new byte[length];
 
