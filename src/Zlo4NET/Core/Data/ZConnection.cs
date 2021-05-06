@@ -126,9 +126,24 @@ namespace Zlo4NET.Core.Data
         public event EventHandler<ZConnectionChangedEventArgs> ConnectionChanged;
         public event EventHandler<ZAuthorizedEventArgs> Authorized;
 
-        public void Connect() => ZRouter.Start();
+        public void Connect()
+        {
+            // already connected ?
+            if (IsConnected)
+            {
+                return;
+            }
+
+            ZRouter.Start();
+        }
         public void Disconnect(bool raiseEvent = true)
         {
+            // already disconnected ?
+            if (!IsConnected)
+            {
+                return;
+            }
+
             // prepare to disconnect
             _raiseOnConnectionChangedEvent = raiseEvent;
 
