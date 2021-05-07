@@ -37,6 +37,7 @@ namespace Zlo4NET.Core.Data
         private readonly IZGameFactory _gameFactory;
 
         private ZConfiguration _config;
+        private IZServersListService _lastCreatedServerListInstance;
 
         private ZApi()
         {
@@ -86,10 +87,25 @@ namespace Zlo4NET.Core.Data
         {
             ZConnectionHelper.MakeSureConnection();
 
-            if (_config == null) throw new InvalidOperationException("You cannot create a service until the api is configured.");
-            if (game == ZGame.None) throw new InvalidEnumArgumentException(nameof(game), (int) game, typeof(ZGame));
+            if (_config == null)
+            {
+                throw new InvalidOperationException("You cannot create a service until the api is configured.");
+            }
+
+            if (game == ZGame.None)
+            {
+                throw new InvalidEnumArgumentException(nameof(game), (int)game, typeof(ZGame));
+            }
+
+            if (_lastCreatedServerListInstance != null && _lastCreatedServerListInstance.CanUse)
+            {
+                _lastCreatedServerListInstance.StopReceiving();
+            }
 
             var service = _BuildServerListService(game);
+
+            _lastCreatedServerListInstance = service;
+
             return service;
         }
 
