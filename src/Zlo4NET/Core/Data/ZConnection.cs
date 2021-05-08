@@ -112,7 +112,7 @@ namespace Zlo4NET.Core.Data
                 // ReSharper disable once InvertIf
                 if (_raiseOnConnectionChangedEvent)
                 {
-                    _RaiseOnConnectionChangedEvent(clientConnectionState, _currentUserInfo);
+                    _RaiseOnConnectionChangedEvent(IsConnected, _currentUserInfo);
                     _raiseOnConnectionChangedEvent = true;
                 }
             }
