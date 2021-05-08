@@ -69,11 +69,16 @@ namespace Zlo4NET.Core.Data
             // lock current execution context
             await _semaphore.WaitAsync();
 
-            // TODO: Explain logic, cuz this code is difficult to understand
+            // due to the peculiarities of the work of the old and new client
+            // where the old one, in case of an unauthorized state, generates two events of changing the state of the connection at once
+            // the first is positive, and the second, negative
+            // while a negative one is generated after receiving the first request (which is a request to obtain data about an authorized user)
+            // the new client, in an unauthorized state, generates only one event, negative
 
-            // check if this is the first processing of the connection state, or not
-            // where internalConnectionState.Value is last connection state
-            // if this is not the first processing attempt, and nothing has changed from the previous state, then we simply exit the method
+            // so the code is structured to be compatible with these two situations
+
+            // to solve this problem, the concept of an internal state was introduced (there are three of them at once)
+            // no decisions about the state of the connection will be made until the incoming state is different from the previous one
             if (_internalConnectionState == null || _internalConnectionState.Value != clientConnectionState)
             {
                 var isAuthorized = false;
