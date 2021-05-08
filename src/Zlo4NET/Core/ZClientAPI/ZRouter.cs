@@ -232,7 +232,10 @@ namespace Zlo4NET.Core.ZClientAPI
             }
 
             // remove closed request from pool
-            _requestsPool.Remove(requestMetadata);
+            if (requestMetadata.Response.StatusCode != ZResponseStatusCode.Rejected)
+            {
+                _requestsPool.Remove(requestMetadata);
+            }
 
             return requestMetadata.Response;
         }
