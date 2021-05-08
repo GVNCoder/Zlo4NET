@@ -232,6 +232,7 @@ namespace Zlo4NET.Core.ZClientAPI
             }
 
             // remove closed request from pool
+            // while we were waiting for a response, a disconnection could occur and the request could be rejected
             if (requestMetadata.Response.StatusCode != ZResponseStatusCode.Rejected)
             {
                 _requestsPool.Remove(requestMetadata);
