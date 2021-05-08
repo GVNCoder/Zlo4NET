@@ -98,7 +98,7 @@ namespace Zlo4NET.Core.Data
                     }
 
                     // set current connection state
-                    _internalConnectionState = isAuthorized;
+                    _internalConnectionState = IsConnected = isAuthorized;
                 }
                 else
                 {
@@ -176,7 +176,7 @@ namespace Zlo4NET.Core.Data
         }
         public ZUserDto GetCurrentUserInfo() => _currentUserInfo;
 
-        public bool IsConnected => _internalConnectionState.GetValueOrDefault(false);
+        public bool IsConnected { get; private set; }
 
         #endregion
     }
