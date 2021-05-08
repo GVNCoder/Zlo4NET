@@ -29,7 +29,7 @@ namespace Zlo4NET.Core.ZClientAPI
             public ZRequestMetadata(ZRequest request)
             {
                 Request = request;
-                Response = new ZResponse(request);
+                Response = new ZResponse(request) { StatusCode = RQ_DEFAULT_STATUS };
                 TaskCompletionSource = request.Method == ZRequestMethod.Get
                     ? new TaskCompletionSource<object>()
                     : null;
@@ -60,6 +60,8 @@ namespace Zlo4NET.Core.ZClientAPI
 
         // request timeout
         private const int RQ_TIMEOUT = 7000;
+        // request default response status
+        private const ZResponseStatusCode RQ_DEFAULT_STATUS = ZResponseStatusCode.Ok;
 
         #endregion
 
@@ -252,8 +254,13 @@ namespace Zlo4NET.Core.ZClientAPI
                 // wait response or timeout
                 var task = await Task.WhenAny(metadata.TaskCompletionSource.Task, timeoutTask);
 
-                // set result status code
-                metadata.Response.StatusCode = task == timeoutTask ? ZResponseStatusCode.Timeout : ZResponseStatusCode.Ok;
+                // check if it's rejected, or not
+                // while waiting for a response, a disconnection may occur, which will close the request with the Rejected status
+                if (task == timeoutTask || metadata.Response.StatusCode == RQ_DEFAULT_STATUS)
+                {
+                    // set result status code
+                    metadata.Response.StatusCode = task == timeoutTask ? ZResponseStatusCode.Timeout : ZResponseStatusCode.Ok;
+                }
             }
             else
             {
@@ -268,8 +275,6 @@ namespace Zlo4NET.Core.ZClientAPI
 
         private static void _ClientOnConnectionChangedCallback(bool connectionState)
         {
-            _OnConnectionChanged(connectionState);
-
             // reject all requests and streams
             // ReSharper disable once InvertIf
             if (! connectionState)
@@ -290,6 +295,8 @@ namespace Zlo4NET.Core.ZClientAPI
 
                 _streamsPool.Clear();
             }
+
+            _OnConnectionChanged(connectionState);
         }
         private static void _ClientOnPacketsReceivedCallback(IEnumerable<ZPacket> packets)
         {

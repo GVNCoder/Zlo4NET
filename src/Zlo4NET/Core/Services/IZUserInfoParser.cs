@@ -13,6 +13,6 @@ namespace Zlo4NET.Core.Services
         /// </summary>
         /// <param name="packet"></param>
         /// <returns>Parsed data</returns>
-        ZUserDTO Parse(ZPacket packet);
+        ZUserDto Parse(ZPacket packet);
     }
 }

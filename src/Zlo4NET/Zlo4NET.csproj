@@ -46,7 +46,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Api\DTO\ZUserDTO.cs" />
+    <Compile Include="Api\DTO\ZUserDto.cs" />
     <Compile Include="Api\Models\Server\ZBFHAttributes.cs" />
     <Compile Include="Api\Models\Server\ZBF3Attributes.cs" />
     <Compile Include="Api\Models\Server\ZBF4Attributes.cs" />

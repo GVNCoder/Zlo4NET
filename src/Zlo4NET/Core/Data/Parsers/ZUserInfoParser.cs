@@ -10,9 +10,9 @@ namespace Zlo4NET.Core.Data.Parsers
 {
     internal class ZUserInfoParser : IZUserInfoParser
     {
-        public ZUserDTO Parse(ZPacket packet)
+        public ZUserDto Parse(ZPacket packet)
         {
-            var user = new ZUserDTO();
+            var user = new ZUserDto();
 
             using (var memory = new MemoryStream(packet.Payload, false))
             using (var binaryReader = new BinaryReader(memory, Encoding.ASCII))

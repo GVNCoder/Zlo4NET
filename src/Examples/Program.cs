@@ -57,6 +57,8 @@ namespace Examples
             {
                 Console.WriteLine("Cannot connect to ZClient\n");
             }
+
+            Console.ReadKey();
         }
 
         internal static async Task MainAsync(string[] args)

@@ -22,15 +22,11 @@ namespace Zlo4NET.Api.Service
         /// Gets current authorized in ZClient user
         /// </summary>
         /// <returns>Returns current authorized in ZClient user</returns>
-        ZUserDTO GetCurrentUserInfo();
+        ZUserDto GetCurrentUserInfo();
         /// <summary>
         /// Occurs when the connection changes state
         /// </summary>
         event EventHandler<ZConnectionChangedEventArgs> ConnectionChanged;
-        /// <summary>
-        /// Occurs when received user that authorized in ZClient
-        /// </summary>
-        event EventHandler<ZAuthorizedEventArgs> Authorized;
         /// <summary>
         /// Gets current connection state with ZClient
         /// </summary>
