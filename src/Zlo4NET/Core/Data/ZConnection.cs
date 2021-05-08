@@ -96,6 +96,9 @@ namespace Zlo4NET.Core.Data
                     {
                         _logger.Warning($"Request failed {userRequest}");
                     }
+
+                    // set current connection state
+                    _internalConnectionState = IsConnected = isAuthorized;
                 }
                 else
                 {
@@ -105,9 +108,6 @@ namespace Zlo4NET.Core.Data
 
                     _pingTimer.Stop();
                 }
-
-                // set current connection state
-                _internalConnectionState = IsConnected = isAuthorized;
 
                 // ReSharper disable once InvertIf
                 if (_raiseOnConnectionChangedEvent)
