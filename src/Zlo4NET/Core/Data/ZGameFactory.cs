@@ -34,7 +34,7 @@ namespace Zlo4NET.Core.Data
         private readonly IZConnection _connection;
 
         private JObject __runStrings;
-        private ZUserDTO __userContext => _connection.GetCurrentUserInfo();
+        private ZUserDto __userContext => _connection.GetCurrentUserInfo();
 
         public ZGameFactory(IZConnection connection)
         {

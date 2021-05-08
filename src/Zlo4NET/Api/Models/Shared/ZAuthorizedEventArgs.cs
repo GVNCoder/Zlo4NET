@@ -13,11 +13,11 @@ namespace Zlo4NET.Api.Models.Shared
         /// <summary>
         /// Authorized in ZClient user
         /// </summary>
-        public ZUserDTO AuthorizedUser { get; }
+        public ZUserDto AuthorizedUser { get; }
         /// <summary>
         /// Creates an instance of <see cref="ZAuthorizedEventArgs"/>
         /// </summary>
-        public ZAuthorizedEventArgs(ZUserDTO user)
+        public ZAuthorizedEventArgs(ZUserDto user)
         {
             AuthorizedUser = user;
         }

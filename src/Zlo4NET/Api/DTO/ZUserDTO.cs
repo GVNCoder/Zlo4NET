@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents an authorized in ZClient user DTO (Data Transfer Object)
     /// </summary>
-    public class ZUserDTO
+    public class ZUserDto
     {
         /// <summary>
         /// Gets user name that authorized in ZClient

@@ -1,10 +1,16 @@
 ﻿using System;
+
+using Zlo4NET.Api.DTO;
 using Zlo4NET.Api.Service;
+
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace Zlo4NET.Api.Models.Shared
 {
+    /// <inheritdoc />
     /// <summary>
-    /// Represents <see cref="IZConnection.ConnectionChanged"/> event args
+    /// Represents <see cref="E:Zlo4NET.Api.Service.IZConnection.ConnectionChanged" /> event args
     /// </summary>
     public class ZConnectionChangedEventArgs : EventArgs
     {
@@ -13,11 +19,18 @@ namespace Zlo4NET.Api.Models.Shared
         /// </summary>
         public bool IsConnected { get; }
         /// <summary>
-        /// Creates an instance of <see cref="ZConnectionChangedEventArgs"/>
+        /// Gets current authorized in ZClient user
         /// </summary>
-        public ZConnectionChangedEventArgs(bool isConnected)
+        public ZUserDto AuthorizedUser { get; }
+
+        /// <inheritdoc />
+        /// <summary>
+        /// Creates an instance of <see cref="T:Zlo4NET.Api.Models.Shared.ZConnectionChangedEventArgs" />
+        /// </summary>
+        public ZConnectionChangedEventArgs(bool isConnected, ZUserDto authorizedUserDto)
         {
             IsConnected = isConnected;
+            AuthorizedUser = authorizedUserDto;
         }
     }
 }
