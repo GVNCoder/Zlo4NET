@@ -123,7 +123,7 @@
     <Compile Include="Api\Service\IZServersList.cs" />
     <Compile Include="Core\Data\ZChangesMapper.cs" />
     <Compile Include="Core\Data\ZLogger.cs" />
-    <Compile Include="Core\Extensions\BinaryReaderExtensions.cs" />
+    <Compile Include="Core\Extensions\ZBinaryReaderExtensions.cs" />
     <Compile Include="Core\Helpers\CollectionHelper.cs" />
     <Compile Include="Core\Helpers\PHPDeserializer.cs" />
     <Compile Include="Core\Helpers\ZPingService.cs" />

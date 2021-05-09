@@ -28,10 +28,6 @@ namespace Zlo4NET.Api.Service
         /// </summary>
         event EventHandler<ZConnectionChangedEventArgs> ConnectionChanged;
         /// <summary>
-        /// Occurs when received user that authorized in ZClient
-        /// </summary>
-        event EventHandler<ZAuthorizedEventArgs> Authorized;
-        /// <summary>
         /// Gets current connection state with ZClient
         /// </summary>
         bool IsConnected { get; }

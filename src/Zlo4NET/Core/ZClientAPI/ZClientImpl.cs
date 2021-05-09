@@ -210,13 +210,13 @@ namespace Zlo4NET.Core.ZClientAPI
             using (var binaryReader = new BinaryReader(memoryStream, Encoding.ASCII))
             {
                 // read until can
-                while (binaryReader.PeekChar() != -1)
+                while (binaryReader.PeekChar() != -1 && binaryReader.BytesRemaining() >= HEADER_SIZE)
                 {
                     var id = (ZCommand) binaryReader.ReadByte();
                     var length = (int) binaryReader.ReadZUInt32();
 
                     // check, are we get full packet ?
-                    if (length <= memoryStream.Length - memoryStream.Position)
+                    if (length <= binaryReader.BytesRemaining())
                     {
                         var payload = new byte[length];
 
