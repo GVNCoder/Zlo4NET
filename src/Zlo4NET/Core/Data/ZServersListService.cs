@@ -23,6 +23,7 @@ namespace Zlo4NET.Core.Data
         private int _initialCountPlayerList;
         private bool __disposed;
         private ZGame _gameContext;
+        private bool _isStreamRejected = false;
 
         public ZServersListService(uint myId, ZGame game)
         {
@@ -46,7 +47,12 @@ namespace Zlo4NET.Core.Data
             if (__disposed) throw new InvalidOperationException("Object disposed.");
 
             var openStreamRequest = ZRequestFactory.CreateServerListOpenStreamRequest(_gameContext);
-            var response = ZRouter.OpenStreamAsync(openStreamRequest, _packetsReceivedHandler).Result;
+            var response = ZRouter.OpenStreamAsync(openStreamRequest, _packetsReceivedHandler, _OnStreamRejectedCallback).Result;
+        }
+
+        private void _OnStreamRejectedCallback()
+        {
+            _isStreamRejected = true;
         }
 
         public void StopReceiving()
@@ -60,8 +66,11 @@ namespace Zlo4NET.Core.Data
         {
             if (__disposed) return;
 
-            var request = ZRequestFactory.CreateServerListCloseStreamRequest(_gameContext);
-            var response = ZRouter.CloseStreamAsync(request).Result;
+            if (! _isStreamRejected)
+            {
+                var request = ZRequestFactory.CreateServerListCloseStreamRequest(_gameContext);
+                var response = ZRouter.CloseStreamAsync(request).Result;
+            }
 
             _parser.Close();
 
