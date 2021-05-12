@@ -34,5 +34,6 @@ namespace Zlo4NET.Core.Data
         internal void Info(string message) => OnLogMessage(ZLogLevel.Info, message);
         internal void Warning(string message) => OnLogMessage(ZLogLevel.Warning, message);
         internal void Error(string message) => OnLogMessage(ZLogLevel.Error, message);
+        public void Log(ZLogLevel level, string message) => OnLogMessage(level, message);
     }
 }

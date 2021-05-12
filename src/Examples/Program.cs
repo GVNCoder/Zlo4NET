@@ -174,11 +174,11 @@ namespace Examples
 
             // configure console
             Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.WriteLine("\n {0,88} \n {1,5} {2,50}| {3,20}| \n {4,88}", straightLine, "ID:", "ServerName", "Map:", straightLine);
+            Console.WriteLine("\n {0,88} \n {1,5} {2,50}| {3,30}| \n {4,88}", straightLine, "ID:", "ServerName", "Map:", straightLine);
 
             foreach (var item in serverListService.ServersCollection)
             {
-                Console.WriteLine("{0,5}| {1,50}| {2,20}|", item.Id, item.Name, item.MapRotation.Current.Name);
+                Console.WriteLine("{0,5}| {1,50}| {2,30}|", item.Id, item.Name, item.MapRotation.Current.Name);
             }
 
             Console.Write($"{straightLine} \n \nTo join, Enter a server ID: ");
