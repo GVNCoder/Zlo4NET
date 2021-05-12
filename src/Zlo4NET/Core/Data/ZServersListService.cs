@@ -50,9 +50,13 @@ namespace Zlo4NET.Core.Data
             var response = ZRouter.OpenStreamAsync(openStreamRequest, _packetsReceivedHandler, _OnStreamRejectedCallback).Result;
         }
 
-        private void _OnStreamRejectedCallback()
+        private async void _OnStreamRejectedCallback()
         {
             _isStreamRejected = true;
+
+            // close stream
+            var request = ZRequestFactory.CreateServerListCloseStreamRequest(_gameContext);
+            await ZRouter.CloseStreamAsync(request);
         }
 
         public void StopReceiving()
