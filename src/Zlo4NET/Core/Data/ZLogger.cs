@@ -1,6 +1,9 @@
 ﻿using System;
+
 using Zlo4NET.Api.Models.Shared;
 using Zlo4NET.Api.Service;
+
+// ReSharper disable InvertIf
 
 namespace Zlo4NET.Core.Data
 {
@@ -18,21 +21,34 @@ namespace Zlo4NET.Core.Data
         #endregion
 
         private ZLogLevel _levelFilter = ZLogLevel.Warning | ZLogLevel.Error;
-        public event EventHandler<ZLogMessageArgs> OnMessage;
+        private string _lastLogMessage;
 
-        public void SetMessageFilter(ZLogLevel level)
+        #region Private helpers
+
+        private void OnLogMessage(ZLogLevel level, string message, bool passDuplicates)
         {
-            _levelFilter = level;
+            if ((_lastLogMessage != message || passDuplicates) && _levelFilter.HasFlag(level))
+            {
+                LogMessage?.Invoke(this, new ZLogMessageArgs(message));
+
+                // save last log message
+                _lastLogMessage = message;
+            }
         }
 
-        private void OnLogMessage(ZLogLevel level, string message)
-        {
-            if (_levelFilter.HasFlag(level)) OnMessage?.Invoke(this, new ZLogMessageArgs(message));
-        }
+        #endregion
 
-        internal void Debug(string message) => OnLogMessage(ZLogLevel.Debug, message);
-        internal void Info(string message) => OnLogMessage(ZLogLevel.Info, message);
-        internal void Warning(string message) => OnLogMessage(ZLogLevel.Warning, message);
-        internal void Error(string message) => OnLogMessage(ZLogLevel.Error, message);
+        #region Internal Interface
+
+        public void Debug(string message, bool passDuplicates = false) => OnLogMessage(ZLogLevel.Debug, message, passDuplicates);
+        public void Info(string message, bool passDuplicates = false) => OnLogMessage(ZLogLevel.Info, message, passDuplicates);
+        public void Warning(string message, bool passDuplicates = false) => OnLogMessage(ZLogLevel.Warning, message, passDuplicates);
+        public void Error(string message, bool passDuplicates = false) => OnLogMessage(ZLogLevel.Error, message, passDuplicates);
+        public void Log(ZLogLevel level, string message, bool passDuplicates = false) => OnLogMessage(level, message, passDuplicates);
+        public void SetLogLevelFiltering(ZLogLevel level) => _levelFilter = level;
+
+        public event EventHandler<ZLogMessageArgs> LogMessage;
+
+        #endregion
     }
 }
