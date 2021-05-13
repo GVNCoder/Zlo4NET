@@ -158,7 +158,7 @@ namespace Zlo4NET.Core.Data
             }
             else
             {
-                _logger.Warning($"Parsed players for server id: {model.Id} not found this server.");
+                _logger.Warning($"Parsed players for server id: {model.Id} not found this server.", true);
             }
         }
 
@@ -171,7 +171,7 @@ namespace Zlo4NET.Core.Data
             }
             else
             {
-                _logger.Warning($"Server remove request for id: {model.Id} not found this server.");
+                _logger.Warning($"Server remove request for id: {model.Id} not found this server.", true);
             }
         }
 
