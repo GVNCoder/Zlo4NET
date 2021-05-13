@@ -24,8 +24,8 @@ namespace Examples
             var logger = _zloApi.Logger;
 
             // configure logging
-            logger.SetMessageFilter(ZLogLevel.Debug | ZLogLevel.Warning | ZLogLevel.Error | ZLogLevel.Info);
-            logger.OnMessage += (sender, messageArgs) => Console.WriteLine(messageArgs.Message);
+            logger.SetLogLevelFiltering(ZLogLevel.Debug | ZLogLevel.Warning | ZLogLevel.Error | ZLogLevel.Info);
+            logger.LogMessage += (sender, messageArgs) => Console.WriteLine(messageArgs.Message);
 
             var connection = _zloApi.Connection;
 
