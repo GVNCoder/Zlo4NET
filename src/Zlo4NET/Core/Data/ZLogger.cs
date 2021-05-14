@@ -14,6 +14,7 @@ namespace Zlo4NET.Core.Data
         // https://csharpindepth.com/articles/singleton
         static ZLogger() { }
 
+        // ReSharper disable once InconsistentNaming
         private static readonly Lazy<ZLogger> __lazyInstance = new Lazy<ZLogger>(() => new ZLogger(), true);
 
         public static ZLogger Instance => __lazyInstance.Value;
