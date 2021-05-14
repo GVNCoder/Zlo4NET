@@ -20,6 +20,10 @@ namespace Zlo4NET.Api.Service
     public interface IZServersList
     {
         /// <summary>
+        /// Gets True if the current instance can be used and the <see cref="IZServersList.StopReceivingAsync"/> method has not been called yet, and False otherwise.
+        /// </summary>
+        bool IsInstanceAvailable { get; }
+        /// <summary>
         /// Makes a request to receive data about servers and starts processing them
         /// </summary>
         /// <exception cref="InvalidOperationException">Occurs when object is disposed after call <see cref="IZServersList.StopReceivingAsync"/> method</exception>

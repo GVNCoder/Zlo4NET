@@ -9,6 +9,8 @@ using Zlo4NET.Core.Helpers;
 using Zlo4NET.Core.Services;
 using Zlo4NET.Core.ZClientAPI;
 
+// ReSharper disable ConvertToAutoPropertyWithPrivateSetter
+
 namespace Zlo4NET.Core.Data
 {
     internal class ZServersList : IZServersList
@@ -32,11 +34,13 @@ namespace Zlo4NET.Core.Data
 
         #region IZServerList
 
+        public bool IsInstanceAvailable => _isDisposed;
+        
         public async Task StartReceivingAsync()
         {
             if (_isDisposed)
             {
-                throw new InvalidOperationException("Object disposed");
+                throw new InvalidOperationException("This server list instance is disposed. Please, create a new one.");
             }
 
             ZConnectionHelper.ThrowIfNotConnected();
@@ -49,7 +53,7 @@ namespace Zlo4NET.Core.Data
         {
             if (_isDisposed)
             {
-                throw new InvalidOperationException("Object disposed");
+                throw new InvalidOperationException("This server list instance is disposed. Please, create a new one.");
             }
 
             // set disposed internal state
@@ -70,9 +74,12 @@ namespace Zlo4NET.Core.Data
 
         #region Private helpers
 
-        private void _OnStreamRejectedCallback()
+        private async void _OnStreamRejectedCallback()
         {
             _logger.Info("The server list stream was rejected");
+            
+            // we should free all resources
+            await StopReceivingAsync();
         }
 
         private void _OnStreamPacketsCallback(ZPacket[] packets)

@@ -87,7 +87,7 @@ namespace Zlo4NET.Core.Data
             }
 
             // first of all need to destroy last created instance
-            if (_lastCreatedServerListInstance != null)
+            if (_lastCreatedServerListInstance != null && _lastCreatedServerListInstance.IsInstanceAvailable)
             {
                 await _lastCreatedServerListInstance.StopReceivingAsync();
             }

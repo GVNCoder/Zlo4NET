@@ -222,7 +222,7 @@ namespace Zlo4NET.Core.Data.Parsers
                 }
                 else if (keyValue.Length == 0 || keyValue.Length > 2)
                 {
-                    _logger.Warning($"The string containing the map and game mode data is not in the correct format: {keyValue.Aggregate((stringSum,i) => stringSum += i)}");
+                    _logger.Warning($"The string containing the map and game mode data is not in the correct format: {keyValue.Aggregate((stringSum,i) => stringSum + i)}");
                 }
                 else // so, then we have one element
                 {
@@ -245,7 +245,7 @@ namespace Zlo4NET.Core.Data.Parsers
                 }
                 else
                 {
-                    _logger.Warning($"The string containing the map and game mode data is not in the correct format or key not found: {keyValue.Aggregate((stringSum, i) => stringSum += i)}");
+                    _logger.Warning($"The string containing the map and game mode data is not in the correct format or key not found: {keyValue.Aggregate((stringSum, i) => stringSum + i)}");
                 }
 
                 return mapModel;
