@@ -50,9 +50,13 @@ namespace Zlo4NET.Core.Data
             var response = ZRouter.OpenStreamAsync(openStreamRequest, _packetsReceivedHandler, _OnStreamRejectedCallback).Result;
         }
 
-        private void _OnStreamRejectedCallback()
+        private async void _OnStreamRejectedCallback()
         {
             _isStreamRejected = true;
+
+            // close stream
+            var request = ZRequestFactory.CreateServerListCloseStreamRequest(_gameContext);
+            await ZRouter.CloseStreamAsync(request);
         }
 
         public void StopReceiving()
@@ -154,7 +158,7 @@ namespace Zlo4NET.Core.Data
             }
             else
             {
-                _logger.Warning($"Parsed players for server id: {model.Id} not found this server.");
+                _logger.Warning($"Parsed players for server id: {model.Id} not found this server.", true);
             }
         }
 
@@ -167,7 +171,7 @@ namespace Zlo4NET.Core.Data
             }
             else
             {
-                _logger.Warning($"Server remove request for id: {model.Id} not found this server.");
+                _logger.Warning($"Server remove request for id: {model.Id} not found this server.", true);
             }
         }
 

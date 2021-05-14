@@ -52,6 +52,7 @@ namespace Zlo4NET.Core.ZClientAPI
             public ZCommand StreamCommand { get; }
             public ZPacketsStreamCallback OnPacketsReceivedCallback { get; }
             public ZStreamRejectedCallback StreamRejectedCallback { get; }
+            public bool IsRejected { get; set; }
         }
 
         #endregion
@@ -186,8 +187,10 @@ namespace Zlo4NET.Core.ZClientAPI
             // find stream metadata
             var streamMetadata = _streamsPool.First(i => i.StreamCommand == request.RequestCommand);
 
-            // send close stream request
-            var closeStreamResponse = await _RegisterRequestAndWaitResponseAsync(request);
+            // try close stream
+            var closeStreamResponse = streamMetadata.IsRejected
+                ? new ZResponse(request) { StatusCode = ZResponseStatusCode.Rejected }
+                : await _RegisterRequestAndWaitResponseAsync(request); // send close stream request
 
             // in any case, we need to stop the stream of packets, no matter what the response was
             _streamsPool.Remove(streamMetadata);
@@ -231,12 +234,7 @@ namespace Zlo4NET.Core.ZClientAPI
                 requestMetadata.Response.StatusCode = ZResponseStatusCode.Declined;
             }
 
-            // remove closed request from pool
-            // while we were waiting for a response, a disconnection could occur and the request could be rejected
-            if (requestMetadata.Response.StatusCode != ZResponseStatusCode.Rejected)
-            {
-                _requestsPool.Remove(requestMetadata);
-            }
+            _requestsPool.Remove(requestMetadata);
 
             return requestMetadata.Response;
         }
@@ -289,15 +287,12 @@ namespace Zlo4NET.Core.ZClientAPI
                     requestMetadata.TaskCompletionSource.SetResult(null);
                 }
 
-                _requestsPool.Clear();
-
                 foreach (var streamMetadata in _streamsPool)
                 {
+                    streamMetadata.IsRejected = true;
                     streamMetadata.StreamRejectedCallback?.BeginInvoke(
                         ar => streamMetadata.StreamRejectedCallback.EndInvoke(ar), null);
                 }
-
-                _streamsPool.Clear();
             }
 
             _OnConnectionChanged(connectionState);

@@ -6,6 +6,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Collections.Generic;
 
+using Zlo4NET.Api.Models.Shared;
 using Zlo4NET.Core.Data;
 using Zlo4NET.Core.Extensions;
 
@@ -30,6 +31,7 @@ namespace Zlo4NET.Core.ZClientAPI
         private readonly byte[] _readBuffer;    // used for each read operation
 
         private Socket _socket;
+        private bool _socketCloseInitiated = false;
 
         #region Ctors
 
@@ -71,6 +73,8 @@ namespace Zlo4NET.Core.ZClientAPI
             }
             finally
             {
+                _socketCloseInitiated = false;
+
                 _buffer.Clear();
                 _socket.Close();
             }
@@ -93,11 +97,11 @@ namespace Zlo4NET.Core.ZClientAPI
             }
             catch (SocketException ex)
             {
-                _logger.Error($"Socket connection error {ex.SocketErrorCode} {ex.ErrorCode}");
+                _logSocketMessage(ZLogLevel.Error, $"Socket connection error {ex.SocketErrorCode} {ex.ErrorCode}");
             }
             catch (Exception ex)
             {
-                _logger.Error($"Socket unexpected error {ex.Message}");
+                _logSocketMessage(ZLogLevel.Error, $"Socket unexpected error {ex.Message}");
             }
             finally
             {
@@ -139,7 +143,7 @@ namespace Zlo4NET.Core.ZClientAPI
             }
             catch (SocketException ex)
             {
-                _logger.Warning($"Socket receive error {ex.SocketErrorCode} {ex.ErrorCode}");
+                _logSocketMessage(ZLogLevel.Error, $"Socket receive error {ex.SocketErrorCode} {ex.ErrorCode}");
             }
             catch (ObjectDisposedException)
             {
@@ -148,7 +152,7 @@ namespace Zlo4NET.Core.ZClientAPI
             }
             catch (Exception ex)
             {
-                _logger.Warning($"Socket unexpected error {ex.Message}");
+                _logSocketMessage(ZLogLevel.Error, $"Socket unexpected error {ex.Message}");
             }
             finally
             {
@@ -176,7 +180,7 @@ namespace Zlo4NET.Core.ZClientAPI
             }
             catch (SocketException ex)
             {
-                _logger.Warning($"Socket send error {ex.ErrorCode} {ex.SocketErrorCode}");
+                _logSocketMessage(ZLogLevel.Error, $"Socket send error {ex.ErrorCode} {ex.SocketErrorCode}");
             }
             catch (ObjectDisposedException)
             {
@@ -185,11 +189,11 @@ namespace Zlo4NET.Core.ZClientAPI
             }
             catch (Exception ex)
             {
-                _logger.Warning($"Socket unexpected error {ex.Message}");
+                _logSocketMessage(ZLogLevel.Error, $"Socket unexpected error {ex.Message}");
             }
             finally
             {
-                if (!_socket.Connected || bytesSent == 0)
+                if (! _socket.Connected || bytesSent == 0)
                 {
                     _closeSocket();
                     _OnConnectionStateChanged(false);
@@ -247,6 +251,15 @@ namespace Zlo4NET.Core.ZClientAPI
         private void _OnConnectionStateChanged(bool connectionState) => ConnectionStateChanged?.Invoke(connectionState);
         private void _OnPacketsReceived(IEnumerable<ZPacket> packets) => PacketsReceived?.Invoke(packets);
 
+        // solves the problem that when we disconnect the socket of our own free will, then it is not necessary to log related errors
+        private void _logSocketMessage(ZLogLevel level, string message)
+        {
+            if (! _socketCloseInitiated)
+            {
+                _logger.Log(level, message);
+            }
+        }
+
         #endregion
 
         #region IZClient
@@ -263,6 +276,7 @@ namespace Zlo4NET.Core.ZClientAPI
 
         public void Close()
         {
+            _socketCloseInitiated = true;
             _closeSocket();
         }
 
