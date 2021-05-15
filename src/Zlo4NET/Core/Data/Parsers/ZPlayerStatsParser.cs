@@ -19,24 +19,6 @@ namespace Zlo4NET.Core.Data.Parsers
     {
         private ZGame _gameContext;
 
-        private static string[] ranknames { get; } =
-        {
-            "Noob",
-            "Private First Class","Private First Class 1 Star","Private First Class 2 Stars","Private First Class 3 Stars",
-            "Lance Corporal","Lance Corporal 1 Star","Lance Corporal 2 Stars", "Lance Corporal 3 Stars",
-            "Corporal","Corporal 1 Star", "Corporal 2 Stars","Corporal 3 Stars",
-            "Sergeant","Sergeant 1 Star","Sergeant 2 Stars","Sergeant 3 Stars",
-            "Staff Sergeant","Staff Sergeant 1 Star","Staff Sergeant 2 Stars",
-            "Gunnery Sergeant","Gunnery Sergeant 1 Star","Gunnery Sergeant 2 Stars",
-            "Master Sergeant","Master Sergeant 1 Star","Master Sergeant 2 Stars",
-            "First Sergeant","First Sergeant 1 Star","First Sergeant 2 Stars",
-            "Master Gunnery Sergeant","Master Gunnery Sergeant 1 Star","Master Gunnery Sergeant 2 Stars",
-            "Sergeant Major","Sergeant Major 1 Star","Sergeant Major 2 Star",
-            "Warrant Officer 1","Chief Warrant Officer 2","Chief Warrant Officer 3","Chief Warrant Officer 4","Chief Warrant Officer 5",
-            "Second Lieutenant","First Lieutenant",
-            "Captain","Major","Lt. Colonel","Colonel"
-        };
-
         private static int[] maxranks { get; } =
         {
             1000,
@@ -271,8 +253,6 @@ namespace Zlo4NET.Core.Data.Parsers
             }
         }
 
-       
-
         private double Sumfrom0to(int index)
         {
             float finalsum = 0;
@@ -281,18 +261,6 @@ namespace Zlo4NET.Core.Data.Parsers
                 finalsum += GetRankMaxScore(i);
             }
             return finalsum;
-        }
-
-        public static string GetBF3RankName(int rank)
-        {
-            if (rank <= 45)
-            {
-                return ranknames[rank];
-            }
-            else
-            {
-                return $"Colonel Service Star {rank - 45}";
-            }
         }
 
         public static int GetRankMaxScore(int rank)
