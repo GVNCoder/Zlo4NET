@@ -19,9 +19,48 @@ namespace Zlo4NET.Core.Data.Parsers
     {
         private ZGame _gameContext;
 
-        #region Ctor
+        private static string[] ranknames { get; } =
+        {
+            "Noob",
+            "Private First Class","Private First Class 1 Star","Private First Class 2 Stars","Private First Class 3 Stars",
+            "Lance Corporal","Lance Corporal 1 Star","Lance Corporal 2 Stars", "Lance Corporal 3 Stars",
+            "Corporal","Corporal 1 Star", "Corporal 2 Stars","Corporal 3 Stars",
+            "Sergeant","Sergeant 1 Star","Sergeant 2 Stars","Sergeant 3 Stars",
+            "Staff Sergeant","Staff Sergeant 1 Star","Staff Sergeant 2 Stars",
+            "Gunnery Sergeant","Gunnery Sergeant 1 Star","Gunnery Sergeant 2 Stars",
+            "Master Sergeant","Master Sergeant 1 Star","Master Sergeant 2 Stars",
+            "First Sergeant","First Sergeant 1 Star","First Sergeant 2 Stars",
+            "Master Gunnery Sergeant","Master Gunnery Sergeant 1 Star","Master Gunnery Sergeant 2 Stars",
+            "Sergeant Major","Sergeant Major 1 Star","Sergeant Major 2 Star",
+            "Warrant Officer 1","Chief Warrant Officer 2","Chief Warrant Officer 3","Chief Warrant Officer 4","Chief Warrant Officer 5",
+            "Second Lieutenant","First Lieutenant",
+            "Captain","Major","Lt. Colonel","Colonel"
+        };
 
-        public ZPlayerStatsParser()
+        private static int[] maxranks { get; } =
+        {
+            1000,
+            7000,
+            10000,
+            11000,
+            12000,
+            13000,13000,
+            14000,
+            15000,15000,
+            19000,
+            20000,20000,20000,
+            30000,30000,30000,30000,30000,30000,30000,30000,
+            40000,40000,40000,40000,40000,40000,40000,
+            50000,50000,50000,50000,50000,50000,50000,50000,
+            55000,55000,
+            60000,60000,60000,60000,60000,
+            80000,
+            230000
+        };
+        
+        private ZGame _gameContext;
+
+        public ZStatsParser()
         {
         }
 
@@ -236,44 +275,7 @@ namespace Zlo4NET.Core.Data.Parsers
             }
         }
 
-        private static string[] ranknames { get; } =
-        {
-            "Noob",
-            "Private First Class","Private First Class 1 Star","Private First Class 2 Stars","Private First Class 3 Stars",
-            "Lance Corporal","Lance Corporal 1 Star","Lance Corporal 2 Stars", "Lance Corporal 3 Stars",
-            "Corporal","Corporal 1 Star", "Corporal 2 Stars","Corporal 3 Stars",
-            "Sergeant","Sergeant 1 Star","Sergeant 2 Stars","Sergeant 3 Stars",
-            "Staff Sergeant","Staff Sergeant 1 Star","Staff Sergeant 2 Stars",
-            "Gunnery Sergeant","Gunnery Sergeant 1 Star","Gunnery Sergeant 2 Stars",
-            "Master Sergeant","Master Sergeant 1 Star","Master Sergeant 2 Stars",
-            "First Sergeant","First Sergeant 1 Star","First Sergeant 2 Stars",
-            "Master Gunnery Sergeant","Master Gunnery Sergeant 1 Star","Master Gunnery Sergeant 2 Stars",
-            "Sergeant Major","Sergeant Major 1 Star","Sergeant Major 2 Star",
-            "Warrant Officer 1","Chief Warrant Officer 2","Chief Warrant Officer 3","Chief Warrant Officer 4","Chief Warrant Officer 5",
-            "Second Lieutenant","First Lieutenant",
-            "Captain","Major","Lt. Colonel","Colonel"
-        };
-
-        private static int[] maxranks { get; } =
-        {
-            1000,
-            7000,
-            10000,
-            11000,
-            12000,
-            13000,13000,
-            14000,
-            15000,15000,
-            19000,
-            20000,20000,20000,
-            30000,30000,30000,30000,30000,30000,30000,30000,
-            40000,40000,40000,40000,40000,40000,40000,
-            50000,50000,50000,50000,50000,50000,50000,50000,
-            55000,55000,
-            60000,60000,60000,60000,60000,
-            80000,
-            230000
-        };
+       
 
         private double Sumfrom0to(int index)
         {
