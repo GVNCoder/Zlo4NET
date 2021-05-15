@@ -58,13 +58,9 @@ namespace Zlo4NET.Core.Data.Parsers
             230000
         };
         
-        private ZGame _gameContext;
-
-        public ZStatsParser()
+        public ZPlayerStatsParser()
         {
         }
-
-        #endregion
 
         #region IZPlayerStatsParser interface
 
