@@ -372,6 +372,7 @@ MigrationBackup/
 **/.idea/**/encodings.xml
 **/.idea/**/indexLayout.xml
 **/.idea/**/projectSettingsUpdater.xml
+**/.idea/**/codeStyleConfig.xml
 
 # Rider
 # Rider auto-generates .iml files, and contentModel.xml
