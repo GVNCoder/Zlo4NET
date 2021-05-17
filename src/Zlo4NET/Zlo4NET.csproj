@@ -46,13 +46,13 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Api\DTO\ZMapDto.cs" />
-    <Compile Include="Api\DTO\ZMapRotationDto.cs" />
-    <Compile Include="Api\DTO\ZPlayerDto.cs" />
-    <Compile Include="Api\DTO\ZPlayerStatsDto.cs" />
-    <Compile Include="Api\DTO\ZServerAttributesDto.cs" />
-    <Compile Include="Api\DTO\ZServerDto.cs" />
-    <Compile Include="Api\DTO\ZUserDto.cs" />
+    <Compile Include="Api\DTOs\ZMapDto.cs" />
+    <Compile Include="Api\DTOs\ZMapRotationDto.cs" />
+    <Compile Include="Api\DTOs\ZPlayerDto.cs" />
+    <Compile Include="Api\DTOs\ZPlayerStatsDto.cs" />
+    <Compile Include="Api\DTOs\ZServerAttributesDto.cs" />
+    <Compile Include="Api\DTOs\ZServerDto.cs" />
+    <Compile Include="Api\DTOs\ZUserDto.cs" />
     <Compile Include="Api\Models\Server\ZBFHAttributes.cs" />
     <Compile Include="Api\Models\Server\ZBF3Attributes.cs" />
     <Compile Include="Api\Models\Server\ZBF4Attributes.cs" />
