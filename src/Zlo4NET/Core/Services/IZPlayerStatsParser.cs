@@ -6,6 +6,6 @@ namespace Zlo4NET.Core.Services
 {
     internal interface IZPlayerStatsParser
     {
-        ZPlayerStatsDto Parse(ZGame gameContext, ZPacket packet);
+        ZPlayerStatsDto Parse(ZPacket packet);
     }
 }
