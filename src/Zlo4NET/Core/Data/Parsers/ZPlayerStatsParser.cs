@@ -61,40 +61,21 @@ namespace Zlo4NET.Core.Data.Parsers
 
         private IDictionary<string, float> _ParseStatsDictionary(ZPacket packet)
         {
-            var defaultDictionarySize = _GetDefaultSizeOfStatsDictionary(_gameContext);
-            var stats = new Dictionary<string, float>(defaultDictionarySize);
-
+            IDictionary<string, float> stats;
             using (var memory = new MemoryStream(packet.Payload, false))
             using (var br = new BinaryReader(memory, Encoding.ASCII))
             {
-                // game id
-                br.SkipBytes(1);
-
-                // begin parse
-                var numberOfStats = br.ReadZUInt16();
-
-                for (var i = 0; i < numberOfStats; i++)
+                br.SkipBytes(1); // skip game id
+                var count = br.ReadZUInt16();
+                stats = new Dictionary<string, float>(count);
+                for (ushort i = 0; i < count; i++)
                 {
                     var statName = br.ReadZString();
                     var statValue = br.ReadZFloat();
-
                     stats.Add(statName, statValue);
                 }
             }
-
             return stats;
-        }
-        private static int _GetDefaultSizeOfStatsDictionary(ZGame gameContext)
-        {
-            switch (gameContext)
-            {
-                case ZGame.BF3: return 1500;
-                case ZGame.BF4: return 4000;
-                case ZGame.BFH: return 5000;
-                case ZGame.None:
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(gameContext), gameContext, null);
-            }
         }
 
         #endregion
@@ -196,30 +177,6 @@ namespace Zlo4NET.Core.Data.Parsers
             }
 
             return jObject;
-        }
-
-        private IDictionary<string, float> _parseStatsDictionary(ZPacket packet)
-        {
-            IDictionary<string, float> stats;
-
-            using (var memory = new MemoryStream(packet.Payload, false))
-            using (var br = new BinaryReader(memory, Encoding.ASCII))
-            {
-                br.SkipBytes(1); // skip game id
-
-                var count = br.ReadZUInt16();
-                stats = new Dictionary<string, float>(count);
-
-                for (ushort i = 0; i < count; i++)
-                {
-                    var statName = br.ReadZString();
-                    var statValue = br.ReadZFloat();
-
-                    stats.Add(statName, statValue);
-                }
-            }
-
-            return stats;
         }
 
         private void _assign(IDictionary<string, float> statsDictionary, JObject jToken)
