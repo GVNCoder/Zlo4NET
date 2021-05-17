@@ -1,11 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 using Newtonsoft.Json.Linq;
 
 using Zlo4NET.Api.DTO;
+using Zlo4NET.Api.Models.Shared;
 using Zlo4NET.Core.Extensions;
+using Zlo4NET.Core.Helpers;
 using Zlo4NET.Core.Services;
 using Zlo4NET.Core.ZClientAPI;
 
@@ -13,10 +17,39 @@ namespace Zlo4NET.Core.Data.Parsers
 {
     internal class ZPlayerStatsParser : IZPlayerStatsParser
     {
+        private ZGame _gameContext;
+
+        private static int[] maxranks { get; } =
+        {
+            1000,
+            7000,
+            10000,
+            11000,
+            12000,
+            13000,13000,
+            14000,
+            15000,15000,
+            19000,
+            20000,20000,20000,
+            30000,30000,30000,30000,30000,30000,30000,30000,
+            40000,40000,40000,40000,40000,40000,40000,
+            50000,50000,50000,50000,50000,50000,50000,50000,
+            55000,55000,
+            60000,60000,60000,60000,60000,
+            80000,
+            230000
+        };
+        
+        public ZPlayerStatsParser()
+        {
+        }
+
         #region IZPlayerStatsParser interface
 
-        public ZPlayerStatsDto Parse(ZPacket packet)
+        public ZPlayerStatsDto Parse(ZGame gameContext, ZPacket packet)
         {
+            _gameContext = gameContext;
+
             var statsDictionary = _ParseStatsDictionary(packet);
 
             return null;
@@ -26,31 +59,42 @@ namespace Zlo4NET.Core.Data.Parsers
 
         #region Private helpers
 
-        private static IDictionary<string, float> _ParseStatsDictionary(ZPacket packet)
+        private IDictionary<string, float> _ParseStatsDictionary(ZPacket packet)
         {
-            IDictionary<string, float> stats;
+            var defaultDictionarySize = _GetDefaultSizeOfStatsDictionary(_gameContext);
+            var stats = new Dictionary<string, float>(defaultDictionarySize);
 
-            using (var memoryStream = new MemoryStream(packet.Payload, false))
-            using (var binaryReader = new BinaryReader(memoryStream, Encoding.ASCII))
+            using (var memory = new MemoryStream(packet.Payload, false))
+            using (var br = new BinaryReader(memory, Encoding.ASCII))
             {
-                // skip game id
-                binaryReader.SkipBytes(1);
-                
-                var dictionaryCapacity = binaryReader.ReadZUInt16();
-                
-                // create a dictionary
-                stats = new Dictionary<string, float>(dictionaryCapacity);
+                // game id
+                br.SkipBytes(1);
 
-                for (var i = 0; i < dictionaryCapacity; i++)
+                // begin parse
+                var numberOfStats = br.ReadZUInt16();
+
+                for (var i = 0; i < numberOfStats; i++)
                 {
-                    var key = binaryReader.ReadZString();
-                    var value = binaryReader.ReadZFloat();
+                    var statName = br.ReadZString();
+                    var statValue = br.ReadZFloat();
 
-                    stats.Add(key, value);
+                    stats.Add(statName, statValue);
                 }
             }
 
             return stats;
+        }
+        private static int _GetDefaultSizeOfStatsDictionary(ZGame gameContext)
+        {
+            switch (gameContext)
+            {
+                case ZGame.BF3: return 1500;
+                case ZGame.BF4: return 4000;
+                case ZGame.BFH: return 5000;
+                case ZGame.None:
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(gameContext), gameContext, null);
+            }
         }
 
         #endregion
@@ -154,6 +198,30 @@ namespace Zlo4NET.Core.Data.Parsers
             return jObject;
         }
 
+        private IDictionary<string, float> _parseStatsDictionary(ZPacket packet)
+        {
+            IDictionary<string, float> stats;
+
+            using (var memory = new MemoryStream(packet.Payload, false))
+            using (var br = new BinaryReader(memory, Encoding.ASCII))
+            {
+                br.SkipBytes(1); // skip game id
+
+                var count = br.ReadZUInt16();
+                stats = new Dictionary<string, float>(count);
+
+                for (ushort i = 0; i < count; i++)
+                {
+                    var statName = br.ReadZString();
+                    var statValue = br.ReadZFloat();
+
+                    stats.Add(statName, statValue);
+                }
+            }
+
+            return stats;
+        }
+
         private void _assign(IDictionary<string, float> statsDictionary, JObject jToken)
         {
             foreach (var item in jToken)
@@ -193,6 +261,22 @@ namespace Zlo4NET.Core.Data.Parsers
                 finalsum += GetRankMaxScore(i);
             }
             return finalsum;
+        }
+
+        public static int GetRankMaxScore(int rank)
+        {
+            if (rank <= 45)
+            {
+                return maxranks[rank];
+            }
+            else
+            {
+                if (rank == 145)
+                {
+                    return 0;
+                }
+                return 230000;
+            }
         }
 
         public static double SumIfNum(params JToken[] objects)

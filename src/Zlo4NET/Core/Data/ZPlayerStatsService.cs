@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 
 using Zlo4NET.Api.DTO;
@@ -32,16 +31,16 @@ namespace Zlo4NET.Core.Data
             }
             else
             {
-                return _ParsePlayerStats(response.ResponsePackets);
+                return _ParsePlayerStats(game, response.ResponsePackets);
             }
 
             return null;
         }
 
-        private ZPlayerStatsDto _ParsePlayerStats(IEnumerable<ZPacket> packets)
+        private ZPlayerStatsDto _ParsePlayerStats(ZGame gameContext, ZPacket[] packets)
         {
             var responsePacket = packets.Single();
-            var stats = _parser.Parse(responsePacket);
+            var stats = _parser.Parse(gameContext, responsePacket);
 
             return stats;
         }
