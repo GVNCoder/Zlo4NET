@@ -7,7 +7,7 @@ namespace Zlo4NET.Api.DTO
     /// <summary>
     /// 
     /// </summary>
-    public class ZPlayerStatsDto
+    public abstract class ZPlayerStatsDto
     {
         [ZStatsMapper(MapFromDictionaryKey = "rank")]
         public float Rank { get; set; }

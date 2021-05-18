@@ -49,7 +49,7 @@
     <Compile Include="Api\DTOs\ZMapDto.cs" />
     <Compile Include="Api\DTOs\ZMapRotationDto.cs" />
     <Compile Include="Api\DTOs\ZPlayerDto.cs" />
-    <Compile Include="Api\DTOs\ZPlayerStatsDto.cs" />
+    <Compile Include="Api\DTOs\ZPlayerStatsBase.cs" />
     <Compile Include="Api\DTOs\ZServerAttributesDto.cs" />
     <Compile Include="Api\DTOs\ZServerDto.cs" />
     <Compile Include="Api\DTOs\ZUserDto.cs" />
