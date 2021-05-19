@@ -34,7 +34,6 @@ namespace Zlo4NET.Core.ZClientAPI
         /// Sends request bytes to ZClient
         /// </summary>
         /// <param name="requestBytes">Request bytes to send</param>
-        /// <returns>True if request accepted, False is declined</returns>
-        bool SendRequest(byte[] requestBytes);
+        void SendRequest(byte[] requestBytes);
     }
 }
