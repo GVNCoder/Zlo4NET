@@ -289,28 +289,25 @@ namespace Zlo4NET.Core.ZClientAPI
         {
             _internalConnectionState = connectionState;
 
-            // there is no to do
-            if (_internalConnectionState)
+            if (!_internalConnectionState)
             {
-                return;
-            }
+                // reject all requests and streams
+                // create copies of pools to safe enumeration
+                var requestsPoolCopy = _requestsPool.ToList();
+                var streamsPoolCopy = _streamsPool.ToList();
             
-            // reject all requests and streams
-            // create copies of pools to safe enumeration
-            var requestsPoolCopy = _requestsPool.ToList();
-            var streamsPoolCopy = _streamsPool.ToList();
-            
-            foreach (var requestMetadata in requestsPoolCopy)
-            {
-                requestMetadata.Response.StatusCode = ZResponseStatusCode.Rejected;
-                requestMetadata.TaskCompletionSource.SetResult(null);
-            }
+                foreach (var requestMetadata in requestsPoolCopy)
+                {
+                    requestMetadata.Response.StatusCode = ZResponseStatusCode.Rejected;
+                    requestMetadata.TaskCompletionSource.SetResult(null);
+                }
 
-            foreach (var streamMetadata in streamsPoolCopy)
-            {
-                streamMetadata.IsRejected = true;
-                streamMetadata.StreamRejectedCallback?.BeginInvoke(
-                    ar => streamMetadata.StreamRejectedCallback.EndInvoke(ar), null);
+                foreach (var streamMetadata in streamsPoolCopy)
+                {
+                    streamMetadata.IsRejected = true;
+                    streamMetadata.StreamRejectedCallback?.BeginInvoke(
+                        ar => streamMetadata.StreamRejectedCallback.EndInvoke(ar), null);
+                }
             }
 
             // fire event
