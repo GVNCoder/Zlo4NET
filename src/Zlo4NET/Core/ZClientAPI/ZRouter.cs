@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Threading;
 
 // ReSharper disable InconsistentNaming
 
@@ -69,6 +70,12 @@ namespace Zlo4NET.Core.ZClientAPI
         private static IZClient _client;
         private static IList<ZRequestMetadata> _requestsPool;
         private static IList<ZStreamMetadata> _streamsPool;
+        private static bool _internalConnectionState;
+
+        static ZRouter()
+        {
+            _internalConnectionState = false;
+        }
 
         #region Public Interface
 
@@ -218,15 +225,18 @@ namespace Zlo4NET.Core.ZClientAPI
         }
         private static async Task<ZResponse> _RegisterRequestAndWaitResponseAsync(ZRequest request)
         {
-            // create request metadata to register it
+            // create request metadata
             var requestMetadata = new ZRequestMetadata(request);
-
-            // register request to help find it and set response
+            
+            // register request to help route the response back
             _requestsPool.Add(requestMetadata);
 
-            var acceptResult = _SendRequest(request);
-            if (acceptResult)
+            if (_internalConnectionState)
             {
+                // we are know that we connected to host, so just send it
+                // and even if this is not the case, then the request will be rejected further down the pipeline
+                _SendRequest(request);
+
                 await _WaitResponseAsync(request, requestMetadata);
             }
             else
@@ -235,16 +245,16 @@ namespace Zlo4NET.Core.ZClientAPI
             }
 
             _requestsPool.Remove(requestMetadata);
-
+            
             return requestMetadata.Response;
         }
-        private static bool _SendRequest(ZRequest request)
+        private static void _SendRequest(ZRequest request)
         {
             // convert request to byte array
             var requestBytes = request.ToByteArray();
 
             // send request to ZClient
-            return _client.SendRequest(requestBytes);
+            _client.SendRequest(requestBytes);
         }
         private static async Task _WaitResponseAsync(ZRequest request, ZRequestMetadata metadata)
         {
@@ -277,17 +287,22 @@ namespace Zlo4NET.Core.ZClientAPI
 
         private static void _ClientOnConnectionChangedCallback(bool connectionState)
         {
-            // reject all requests and streams
-            // ReSharper disable once InvertIf
-            if (! connectionState)
+            _internalConnectionState = connectionState;
+
+            if (!_internalConnectionState)
             {
-                foreach (var requestMetadata in _requestsPool)
+                // reject all requests and streams
+                // create copies of pools to safe enumeration
+                var requestsPoolCopy = _requestsPool.ToList();
+                var streamsPoolCopy = _streamsPool.ToList();
+            
+                foreach (var requestMetadata in requestsPoolCopy)
                 {
                     requestMetadata.Response.StatusCode = ZResponseStatusCode.Rejected;
                     requestMetadata.TaskCompletionSource.SetResult(null);
                 }
 
-                foreach (var streamMetadata in _streamsPool)
+                foreach (var streamMetadata in streamsPoolCopy)
                 {
                     streamMetadata.IsRejected = true;
                     streamMetadata.StreamRejectedCallback?.BeginInvoke(
@@ -295,7 +310,8 @@ namespace Zlo4NET.Core.ZClientAPI
                 }
             }
 
-            _OnConnectionChanged(connectionState);
+            // fire event
+            _OnConnectionChanged(_internalConnectionState);
         }
         private static void _ClientOnPacketsReceivedCallback(IEnumerable<ZPacket> packets)
         {
