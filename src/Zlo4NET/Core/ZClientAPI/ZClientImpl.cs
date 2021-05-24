@@ -69,7 +69,7 @@ namespace Zlo4NET.Core.ZClientAPI
             }
             catch
             {
-                // ignore, cuz we fully destroying socket
+                // ignore, cuz we fully destroying a socket
             }
             finally
             {
@@ -273,24 +273,14 @@ namespace Zlo4NET.Core.ZClientAPI
             _socket = _createSocket();
             _socketBeginConnect();
         }
-
         public void Close()
         {
             _socketCloseInitiated = true;
             _closeSocket();
         }
-
-        public bool SendRequest(byte[] requestBytes)
+        public void SendRequest(byte[] requestBytes)
         {
-            // check socket connection state (accepted or declined)
-            var accepted = _socket.Connected;
-
-            if (accepted)
-            {
-                _socketBeginSend(requestBytes);
-            }
-
-            return accepted;
+            _socketBeginSend(requestBytes);
         }
 
         #endregion
