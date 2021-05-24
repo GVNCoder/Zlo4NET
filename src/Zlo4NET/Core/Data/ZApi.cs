@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Threading.Tasks;
 
 using Zlo4NET.Api;
-using Zlo4NET.Api.DTO;
+using Zlo4NET.Api.DTOs;
 using Zlo4NET.Api.Service;
 using Zlo4NET.Core.Helpers;
 using Zlo4NET.Core.Services;
@@ -60,7 +60,7 @@ namespace Zlo4NET.Core.Data
 
         public IZLogger Logger => ZLogger.Instance;
 
-        public async Task<ZPlayerStatsDto> GetPlayerStatsAsync(ZGame game)
+        public async Task<ZPlayerBaseStats> GetPlayerStatsAsync(ZGame game)
         {
             // pre-validation
             ZConnectionHelper.ThrowIfNotConnected();

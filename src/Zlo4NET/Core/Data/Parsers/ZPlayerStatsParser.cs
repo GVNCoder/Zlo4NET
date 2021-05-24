@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 
 using Newtonsoft.Json.Linq;
 
-using Zlo4NET.Api.DTO;
+using Zlo4NET.Api.DTOs;
 using Zlo4NET.Api.Models.Shared;
 using Zlo4NET.Core.Extensions;
-using Zlo4NET.Core.Helpers;
 using Zlo4NET.Core.Services;
 using Zlo4NET.Core.ZClientAPI;
 
@@ -17,8 +15,6 @@ namespace Zlo4NET.Core.Data.Parsers
 {
     internal class ZPlayerStatsParser : IZPlayerStatsParser
     {
-        private ZGame _gameContext;
-
         private static int[] maxranks { get; } =
         {
             1000,
@@ -39,17 +35,33 @@ namespace Zlo4NET.Core.Data.Parsers
             80000,
             230000
         };
-        
+
+        #region Internal types
+
+        // ReSharper disable once InconsistentNaming
+        private class _Stats
+        {
+            public IDictionary<string, float> Stats;
+            public JObject RankInfo;
+        }
+
+        #endregion
+
+        private readonly ZLogger _logger;
+
+        #region Ctor
+
         public ZPlayerStatsParser()
         {
+            _logger = ZLogger.Instance;
         }
+
+        #endregion
 
         #region IZPlayerStatsParser interface
 
-        public ZPlayerStatsDto Parse(ZGame gameContext, ZPacket packet)
+        public ZPlayerBaseStats Parse(ZPacket packet)
         {
-            _gameContext = gameContext;
-
             var statsDictionary = _ParseStatsDictionary(packet);
 
             return null;
@@ -59,23 +71,58 @@ namespace Zlo4NET.Core.Data.Parsers
 
         #region Private helpers
 
-        private IDictionary<string, float> _ParseStatsDictionary(ZPacket packet)
+        private static _Stats _ParseStatsDictionary(ZPacket packet)
         {
-            IDictionary<string, float> stats;
-            using (var memory = new MemoryStream(packet.Payload, false))
-            using (var br = new BinaryReader(memory, Encoding.ASCII))
+            _Stats stats = null;
+
+            using (var memoryStream = new MemoryStream(packet.Payload, false))
+            using (var binaryReader = new BinaryReader(memoryStream, Encoding.ASCII))
             {
-                br.SkipBytes(1); // skip game id
-                var count = br.ReadZUInt16();
-                stats = new Dictionary<string, float>(count);
-                for (ushort i = 0; i < count; i++)
+                // parse packet payload
+                var targetGame = (ZGame) binaryReader.ReadByte();
+                var countOfStats = binaryReader.ReadZUInt16();
+                var statsDictionary = new Dictionary<string, float>(countOfStats);
+
+                for (ushort i = 0; i < countOfStats; i++)
                 {
-                    var statName = br.ReadZString();
-                    var statValue = br.ReadZFloat();
-                    stats.Add(statName, statValue);
+                    var name = binaryReader.ReadZString();
+                    var value = binaryReader.ReadZFloat();
+
+                    statsDictionary.Add(name, value);
                 }
+
+                // load json rank info
+                var rankInfo = _LoadJsonByGame(targetGame);
+
+                // create internal stats object
+                stats = new _Stats
+                {
+                    Stats = statsDictionary,
+                    RankInfo = rankInfo
+                };
             }
+
             return stats;
+        }
+
+        private static JObject _LoadJsonByGame(ZGame game)
+        {
+            JObject jObject;
+
+            // convert game to resource key
+            var resourceKey = game.ToString().ToLowerInvariant();
+
+            // get resource by resource key
+            using (var streamReader = new StreamReader(ZInternalResource.GetResourceStream($"stats.{resourceKey}_rankDetails.json")))
+            {
+                // load all json content
+                var jsonContent = streamReader.ReadToEnd();
+
+                // parse into jObject
+                jObject = JObject.Parse(jsonContent);
+            }
+
+            return jObject;
         }
 
         #endregion
@@ -167,17 +214,7 @@ namespace Zlo4NET.Core.Data.Parsers
 
         #region Private methods
 
-        private JObject _LoadResourceByName(string name)
-        {
-            JObject jObject;
-            using (var sr = new StreamReader(ZInternalResource.GetResourceStream(name)))
-            {
-                var content = sr.ReadToEnd();
-                jObject = JObject.Parse(content);
-            }
 
-            return jObject;
-        }
 
         private void _assign(IDictionary<string, float> statsDictionary, JObject jToken)
         {

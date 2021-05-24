@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
-using Zlo4NET.Api.DTO;
+using Zlo4NET.Api.DTOs;
 using Zlo4NET.Api.Service;
 using Zlo4NET.Api.Models.Shared;
 
@@ -23,7 +23,7 @@ namespace Zlo4NET.Api
         /// <exception cref="NotSupportedException">Occurs when specifying the unsupported parameter (like Battlefield Hardline)</exception>
         /// <exception cref="InvalidOperationException">Occurs when Api is not connected to ZClient</exception>
         /// <returns>A task that represents the asynchronous get soldier statistics operation</returns>
-        Task<ZPlayerStatsDto> GetPlayerStatsAsync(ZGame game);
+        Task<ZPlayerBaseStats> GetPlayerStatsAsync(ZGame game);
         /// <summary>
         /// Makes an asynchronous request to create <see cref="IZServersList"/> instance
         /// </summary>

@@ -1,12 +1,20 @@
 ﻿using System.Threading.Tasks;
 
-using Zlo4NET.Api.DTO;
+using Zlo4NET.Api.DTOs;
 using Zlo4NET.Api.Models.Shared;
 
 namespace Zlo4NET.Core.Services
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public interface IZPlayerStatsService
     {
-        Task<ZPlayerStatsDto> GetStatsAsync(ZGame game);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="game"></param>
+        /// <returns></returns>
+        Task<ZPlayerBaseStats> GetStatsAsync(ZGame game);
     }
 }

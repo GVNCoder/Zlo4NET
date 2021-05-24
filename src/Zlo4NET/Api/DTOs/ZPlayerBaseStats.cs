@@ -10,7 +10,7 @@ namespace Zlo4NET.Api.DTOs
     /// <summary>
     /// 
     /// </summary>
-    public abstract class ZPlayerStatsDto
+    public abstract class ZPlayerBaseStats
     {
         #region Auto-mapped properties
 

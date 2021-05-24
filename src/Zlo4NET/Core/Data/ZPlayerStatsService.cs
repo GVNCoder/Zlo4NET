@@ -1,7 +1,8 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
-using Zlo4NET.Api.DTO;
+using Zlo4NET.Api.DTOs;
 using Zlo4NET.Api.Models.Shared;
 using Zlo4NET.Core.Data.Parsers;
 using Zlo4NET.Core.Services;
@@ -20,7 +21,7 @@ namespace Zlo4NET.Core.Data
             _logger = ZLogger.Instance;
         }
 
-        public async Task<ZPlayerStatsDto> GetStatsAsync(ZGame game)
+        public async Task<ZPlayerBaseStats> GetStatsAsync(ZGame game)
         {
             var request = ZRequestFactory.CreateStatsRequest(game);
             var response = await ZRouter.GetResponseAsync(request);
@@ -31,16 +32,16 @@ namespace Zlo4NET.Core.Data
             }
             else
             {
-                return _ParsePlayerStats(game, response.ResponsePackets);
+                return _ParsePlayerStats(response.ResponsePackets);
             }
 
             return null;
         }
 
-        private ZPlayerStatsDto _ParsePlayerStats(ZGame gameContext, ZPacket[] packets)
+        private ZPlayerBaseStats _ParsePlayerStats(IEnumerable<ZPacket> packets)
         {
             var responsePacket = packets.Single();
-            var stats = _parser.Parse(gameContext, responsePacket);
+            var stats = _parser.Parse(responsePacket);
 
             return stats;
         }
