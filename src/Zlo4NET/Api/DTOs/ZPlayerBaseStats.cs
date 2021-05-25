@@ -10,7 +10,7 @@ namespace Zlo4NET.Api.DTOs
     /// <summary>
     /// 
     /// </summary>
-    public abstract class ZPlayerBaseStats
+    public class ZPlayerBaseStats
     {
         #region Auto-mapped properties
 
@@ -43,7 +43,7 @@ namespace Zlo4NET.Api.DTOs
         [ZStatsMapper(MapFromDictionaryKey = "c___nk_ghva")]
         public float NemesisStreak { get; set; }
         [ZStatsMapper(MapFromDictionaryKey = "c___k_ghvs")]
-        public float HighestKillstream { get; set; }
+        public float HighestKillStreak { get; set; }
 
         // Kits
 
@@ -71,16 +71,16 @@ namespace Zlo4NET.Api.DTOs
 
         #region Calculated properies
 
-        public float ScoreToRankUp { get; set; } // MaxScore - ShortScore
-        public float ScoreToRunkUpPercent { get; set; } // current score / max score * 100
-        public float Accuracy { get; set; } // Hits / Shots * 100
-        public float WL { get; set; } // Wins / Losses
-        public float KD { get; set; } // Kills / Deaths
-        public float AssaultStarProgressPercent { get; set; } // AssaultCurrentScore / AssaultScoreMax * 100
+        public float ScoreToRankUp { get; set; }
+        public float ScoreToRankUpPercent { get; set; }
+        public float Accuracy { get; set; }
+        public float WL { get; set; }
+        public float KD { get; set; }
+        public float AssaultStarProgressPercent { get; set; }
         public float EngineerStarProgressPercent { get; set; }
         public float ReconStarProgressPercent { get; set; }
         public float SupportStarProgressPercent { get; set; }
-        public float TimePlayedHours { get; set; } // TimeSeconds / 60 / 60
+        public float TimePlayedHours { get; set; }
 
         #endregion
 
