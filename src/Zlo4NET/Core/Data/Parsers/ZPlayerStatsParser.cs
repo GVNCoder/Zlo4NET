@@ -62,7 +62,7 @@ namespace Zlo4NET.Core.Data.Parsers
 
         public ZPlayerBaseStats Parse(ZPacket packet)
         {
-            var statsDictionary = _ParseStatsDictionary(packet);
+            var statsObject = _ParseStatsObject(packet);
 
             return null;
         }
@@ -71,7 +71,7 @@ namespace Zlo4NET.Core.Data.Parsers
 
         #region Private helpers
 
-        private static _Stats _ParseStatsDictionary(ZPacket packet)
+        private static _Stats _ParseStatsObject(ZPacket packet)
         {
             _Stats stats = null;
 
