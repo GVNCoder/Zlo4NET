@@ -21,7 +21,7 @@ namespace Zlo4NET.Core.Data
             _logger = ZLogger.Instance;
         }
 
-        public async Task<ZPlayerBaseStats> GetStatsAsync(ZGame game)
+        public async Task<ZPlayerStatsBase> GetStatsAsync(ZGame game)
         {
             var request = ZRequestFactory.CreateStatsRequest(game);
             var response = await ZRouter.GetResponseAsync(request);
@@ -38,7 +38,7 @@ namespace Zlo4NET.Core.Data
             return null;
         }
 
-        private ZPlayerBaseStats _ParsePlayerStats(IEnumerable<ZPacket> packets)
+        private ZPlayerStatsBase _ParsePlayerStats(IEnumerable<ZPacket> packets)
         {
             var responsePacket = packets.Single();
             var stats = _parser.Parse(responsePacket);

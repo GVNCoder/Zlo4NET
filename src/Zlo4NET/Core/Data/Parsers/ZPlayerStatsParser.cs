@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 
 using Newtonsoft.Json.Linq;
@@ -8,6 +8,7 @@ using Newtonsoft.Json.Linq;
 using Zlo4NET.Api.DTOs;
 using Zlo4NET.Api.Models.Shared;
 using Zlo4NET.Core.Extensions;
+using Zlo4NET.Core.Helpers;
 using Zlo4NET.Core.Services;
 using Zlo4NET.Core.ZClientAPI;
 
@@ -15,39 +16,25 @@ namespace Zlo4NET.Core.Data.Parsers
 {
     internal class ZPlayerStatsParser : IZPlayerStatsParser
     {
-        private static int[] maxranks { get; } =
-        {
-            1000,
-            7000,
-            10000,
-            11000,
-            12000,
-            13000,13000,
-            14000,
-            15000,15000,
-            19000,
-            20000,20000,20000,
-            30000,30000,30000,30000,30000,30000,30000,30000,
-            40000,40000,40000,40000,40000,40000,40000,
-            50000,50000,50000,50000,50000,50000,50000,50000,
-            55000,55000,
-            60000,60000,60000,60000,60000,
-            80000,
-            230000
-        };
-
         #region Internal types
 
         // ReSharper disable once InconsistentNaming
         private class _Stats
         {
             public IDictionary<string, float> Stats;
-            public JObject RankInfo;
+            public ZGame TargetGame;
         }
 
         #endregion
 
         private readonly ZLogger _logger;
+
+        private readonly IDictionary<ZGame, Func<IDictionary<string, float>, ZPlayerStatsBase>>
+            _gameSpecificStatsHandlers = new Dictionary<ZGame, Func<IDictionary<string, float>, ZPlayerStatsBase>>
+            {
+                { ZGame.BF3, ZGameSpecificStatsHandlerProvider.BF3StatsHandler },
+                { ZGame.BF4, ZGameSpecificStatsHandlerProvider.BF4StatsHandler },
+            };
 
         #region Ctor
 
@@ -60,11 +47,16 @@ namespace Zlo4NET.Core.Data.Parsers
 
         #region IZPlayerStatsParser interface
 
-        public ZPlayerBaseStats Parse(ZPacket packet)
+        public ZPlayerStatsBase Parse(ZPacket packet)
         {
+            // parse stats object and load some internal resources
             var statsObject = _ParseStatsObject(packet);
 
-            return null;
+            // assign stats to object
+            var statsAssignHandler = _gameSpecificStatsHandlers[statsObject.TargetGame];
+            var stats = statsAssignHandler.Invoke(statsObject.Stats);
+
+            return stats;
         }
 
         #endregion
@@ -91,38 +83,14 @@ namespace Zlo4NET.Core.Data.Parsers
                     statsDictionary.Add(name, value);
                 }
 
-                // load json rank info
-                var rankInfo = _LoadJsonByGame(targetGame);
-
-                // create internal stats object
                 stats = new _Stats
                 {
                     Stats = statsDictionary,
-                    RankInfo = rankInfo
+                    TargetGame = targetGame
                 };
             }
 
             return stats;
-        }
-
-        private static JObject _LoadJsonByGame(ZGame game)
-        {
-            JObject jObject;
-
-            // convert game to resource key
-            var resourceKey = game.ToString().ToLowerInvariant();
-
-            // get resource by resource key
-            using (var streamReader = new StreamReader(ZInternalResource.GetResourceStream($"stats.{resourceKey}_rankDetails.json")))
-            {
-                // load all json content
-                var jsonContent = streamReader.ReadToEnd();
-
-                // parse into jObject
-                jObject = JObject.Parse(jsonContent);
-            }
-
-            return jObject;
         }
 
         #endregion
@@ -214,63 +182,14 @@ namespace Zlo4NET.Core.Data.Parsers
 
         #region Private methods
 
-
-
-        private void _assign(IDictionary<string, float> statsDictionary, JObject jToken)
-        {
-            foreach (var item in jToken)
-            {
-                if (item.Value.Type == JTokenType.String)
-                {
-                    var oldstr = item.Value.ToObject<string>();
-                    if (oldstr.StartsWith("stat."))
-                    {
-                        statsDictionary.TryGetValue(oldstr.Substring(5), out var val);
-                        jToken[item.Key] = val;
-                    }
-                }
-                else if (item.Value.Type == JTokenType.Object)
-                {
-                    _assign(statsDictionary, (JObject)item.Value);
-                }
-                else if (item.Value.Type == JTokenType.Array)
-                {
-                    var JAr = (JArray)item.Value;
-                    foreach (var JAri in JAr)
-                    {
-                        if (JAri.Type == JTokenType.Object)
-                        {
-                            _assign(statsDictionary, (JObject)JAri);
-                        }
-                    }
-                }
-            }
-        }
-
         private double Sumfrom0to(int index)
         {
             float finalsum = 0;
             for (int i = 0; i < index; ++i)
             {
-                finalsum += GetRankMaxScore(i);
+                //finalsum += GetRankMaxScore(i);
             }
             return finalsum;
-        }
-
-        public static int GetRankMaxScore(int rank)
-        {
-            if (rank <= 45)
-            {
-                return maxranks[rank];
-            }
-            else
-            {
-                if (rank == 145)
-                {
-                    return 0;
-                }
-                return 230000;
-            }
         }
 
         public static double SumIfNum(params JToken[] objects)

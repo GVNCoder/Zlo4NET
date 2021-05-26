@@ -23,7 +23,7 @@ namespace Zlo4NET.Api
         /// <exception cref="NotSupportedException">Occurs when specifying the unsupported parameter (like Battlefield Hardline)</exception>
         /// <exception cref="InvalidOperationException">Occurs when Api is not connected to ZClient</exception>
         /// <returns>A task that represents the asynchronous get soldier statistics operation</returns>
-        Task<ZPlayerBaseStats> GetPlayerStatsAsync(ZGame game);
+        Task<ZPlayerStatsBase> GetPlayerStatsAsync(ZGame game);
         /// <summary>
         /// Makes an asynchronous request to create <see cref="IZServersList"/> instance
         /// </summary>

@@ -6,6 +6,6 @@ namespace Zlo4NET.Core.Services
 {
     internal interface IZPlayerStatsParser
     {
-        ZPlayerBaseStats Parse(ZPacket packet);
+        ZPlayerStatsBase Parse(ZPacket packet);
     }
 }

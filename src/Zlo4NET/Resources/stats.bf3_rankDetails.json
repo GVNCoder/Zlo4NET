@@ -2,37 +2,37 @@
   "0": {
     "rank": 0,
     "rankName": "Recruit",
-    "xpRelative": 0,
+    "xpRelative": 1000,
     "xpTotal": 0
   },
   "1": {
     "rank": 1,
     "rankName": "Private First Class",
-    "xpRelative": 1000,
+    "xpRelative": 7000,
     "xpTotal": 3000
   },
   "2": {
     "rank": 2,
     "rankName": "Private First Class 1 Star",
-    "xpRelative": 7000,
+    "xpRelative": 10000,
     "xpTotal": 11000
   },
   "3": {
     "rank": 3,
     "rankName": "Private First Class 2 Stars",
-    "xpRelative": 10000,
+    "xpRelative": 11000,
     "xpTotal": 22000
   },
   "4": {
     "rank": 4,
     "rankName": "Private First Class 3 Stars",
-    "xpRelative": 11000,
+    "xpRelative": 12000,
     "xpTotal": 35000
   },
   "5": {
     "rank": 5,
     "rankName": "Lance Corporal",
-    "xpRelative": 12000,
+    "xpRelative": 13000,
     "xpTotal": 52000
   },
   "6": {
@@ -44,13 +44,13 @@
   "7": {
     "rank": 7,
     "rankName": "Lance Corporal 2 Stars",
-    "xpRelative": 13000,
+    "xpRelative": 14000,
     "xpTotal": 91000
   },
   "8": {
     "rank": 8,
     "rankName": "Lance Corporal 3 Stars",
-    "xpRelative": 14000,
+    "xpRelative": 15000,
     "xpTotal": 115000
   },
   "9": {
@@ -62,13 +62,13 @@
   "10": {
     "rank": 10,
     "rankName": "Corporal 1 Star",
-    "xpRelative": 15000,
+    "xpRelative": 19000,
     "xpTotal": 168000
   },
   "11": {
     "rank": 11,
     "rankName": "Corporal 2 Stars",
-    "xpRelative": 19000,
+    "xpRelative": 20000,
     "xpTotal": 197000
   },
   "12": {
@@ -86,7 +86,7 @@
   "14": {
     "rank": 14,
     "rankName": "Sergeant 1 Star",
-    "xpRelative": 20000,
+    "xpRelative": 30000,
     "xpTotal": 297000
   },
   "15": {
@@ -134,7 +134,7 @@
   "22": {
     "rank": 22,
     "rankName": "Gunnery Sergeant 2 Stars",
-    "xpRelative": 30000,
+    "xpRelative": 40000,
     "xpTotal": 640000
   },
   "23": {
@@ -176,7 +176,7 @@
   "29": {
     "rank": 29,
     "rankName": "Master Gunnery Sergeant",
-    "xpRelative": 40000,
+    "xpRelative": 50000,
     "xpTotal": 1023000
   },
   "30": {
@@ -224,7 +224,7 @@
   "37": {
     "rank": 37,
     "rankName": "Chief Warrant Officer 3",
-    "xpRelative": 50000,
+    "xpRelative": 55000,
     "xpTotal": 1550000
   },
   "38": {
@@ -236,7 +236,7 @@
   "39": {
     "rank": 39,
     "rankName": "Chief Warrant Officer 5",
-    "xpRelative": 55000,
+    "xpRelative": 60000,
     "xpTotal": 1690000
   },
   "40": {
@@ -272,13 +272,13 @@
   "45": {
     "rank": 45,
     "rankName": "Colonel",
-    "xpRelative": 60000,
+    "xpRelative": 80000,
     "xpTotal": 2160000
   },
   "46": {
     "rank": 46,
     "rankName": "Colonel Service Star 1",
-    "xpRelative": 80000,
+    "xpRelative": 230000,
     "xpTotal": 2240000
   },
   "47": {

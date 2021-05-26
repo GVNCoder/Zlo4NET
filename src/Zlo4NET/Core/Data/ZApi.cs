@@ -60,7 +60,7 @@ namespace Zlo4NET.Core.Data
 
         public IZLogger Logger => ZLogger.Instance;
 
-        public async Task<ZPlayerBaseStats> GetPlayerStatsAsync(ZGame game)
+        public async Task<ZPlayerStatsBase> GetPlayerStatsAsync(ZGame game)
         {
             // pre-validation
             ZConnectionHelper.ThrowIfNotConnected();

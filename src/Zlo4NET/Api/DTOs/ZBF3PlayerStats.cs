@@ -1,5 +1,6 @@
 ﻿using Zlo4NET.Core.Data.Attributes;
 
+// ReSharper disable InconsistentNaming
 // ReSharper disable IdentifierTypo
 // ReSharper disable StringLiteralTypo
 
@@ -7,10 +8,8 @@
 
 namespace Zlo4NET.Api.DTOs
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public class ZPlayerBaseStats
+    /// <inheritdoc />
+    public class ZBF3PlayerStats : ZPlayerStatsBase
     {
         #region Auto-mapped properties
 
@@ -71,6 +70,7 @@ namespace Zlo4NET.Api.DTOs
 
         #region Calculated properies
 
+        public double CurrentScore { get; set; }
         public float ScoreToRankUp { get; set; }
         public float ScoreToRankUpPercent { get; set; }
         public float Accuracy { get; set; }

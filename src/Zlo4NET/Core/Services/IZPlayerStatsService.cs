@@ -15,6 +15,6 @@ namespace Zlo4NET.Core.Services
         /// </summary>
         /// <param name="game"></param>
         /// <returns></returns>
-        Task<ZPlayerBaseStats> GetStatsAsync(ZGame game);
+        Task<ZPlayerStatsBase> GetStatsAsync(ZGame game);
     }
 }

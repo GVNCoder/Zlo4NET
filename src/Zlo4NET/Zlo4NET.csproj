@@ -49,7 +49,8 @@
     <Compile Include="Api\DTOs\ZMapDto.cs" />
     <Compile Include="Api\DTOs\ZMapRotationDto.cs" />
     <Compile Include="Api\DTOs\ZPlayerDto.cs" />
-    <Compile Include="Api\DTOs\ZPlayerBaseStats.cs" />
+    <Compile Include="Api\DTOs\ZBF3PlayerStats.cs" />
+    <Compile Include="Api\DTOs\ZPlayerStatsBase.cs" />
     <Compile Include="Api\DTOs\ZServerAttributesDto.cs" />
     <Compile Include="Api\DTOs\ZServerDto.cs" />
     <Compile Include="Api\DTOs\ZUserDto.cs" />
@@ -98,6 +99,7 @@
     <Compile Include="Core\Helpers\ZCollectionWrapper.cs" />
     <Compile Include="Core\Helpers\ZConnectionHelper.cs" />
     <Compile Include="Core\Helpers\ZBitConverter.cs" />
+    <Compile Include="Core\Helpers\ZGameSpecificStatsHandlerProvider.cs" />
     <Compile Include="Core\Helpers\ZMapperHelper.cs" />
     <Compile Include="Core\Helpers\ZObservableHelper.cs" />
     <Compile Include="Core\Helpers\ZStringToGameConverter.cs" />
@@ -163,6 +165,7 @@
     <Compile Include="Core\Data\ZServersList.cs" />
     <Compile Include="Core\Data\ZApi.cs" />
     <Compile Include="Core\Data\ZPlayerStatsService.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
