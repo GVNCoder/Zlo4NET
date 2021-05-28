@@ -70,8 +70,9 @@ namespace Zlo4NET.Api.DTOs
 
         #region Calculated properies
 
-        public double CurrentScore { get; set; }
-        public float ScoreToRankUp { get; set; }
+        public double RankCurrentScore { get; set; }
+        public double RankShortScore { get; set; }
+        public double ScoreToRankUp { get; set; }
         public float ScoreToRankUpPercent { get; set; }
         public float Accuracy { get; set; }
         public float WL { get; set; }
@@ -87,8 +88,7 @@ namespace Zlo4NET.Api.DTOs
         #region Manually assigned properties
 
         public string RankName { get; set; }
-        public float ShortScore { get; set; }
-        public float MaxScore { get; set; }
+        public float RankMaxScore { get; set; } // relative xp
 
         #endregion
 

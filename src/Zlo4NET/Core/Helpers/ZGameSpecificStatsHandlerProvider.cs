@@ -22,45 +22,20 @@ namespace Zlo4NET.Core.Helpers
             var statsObject = new ZBF3PlayerStats();
             var ranksDetails = _LoadJsonByGame(ZGame.BF3);
 
-            //int index = 0;
-            //foreach (var ranksDetailKeyValue in ranksDetails)
-            //{
-            //    var ranksDetail = ranksDetailKeyValue.Value;
-            //    var sum = 0;
-
-            //    for (int i = 0; i < index + 1; i++)
-            //    {
-            //        var rank = ranksDetails[i.ToString()];
-
-            //        sum += rank["xpRelative"].ToObject<int>();
-            //    }
-
-            //    ranksDetail["xpTotal"] = sum == 0 ? ranksDetail["xpRelative"] : sum;
-            //    index++;
-
-            //    //float finalsum = 0;
-            //    //for (int i = 0; i < index; ++i)
-            //    //{
-            //    //    //finalsum += GetRankMaxScore(i);
-            //    //}
-            //}
-
-            //File.WriteAllText(@"someJson.json", ranksDetails.ToString());
-
             _MapAutoMapperProperties(statsObject, statsDictionary);
 
             // set some rank properties
-            var currentRank = ranksDetails[statsObject.Rank.ToString(CultureInfo.InvariantCulture)];
+            var currentRank = ranksDetails[(int) statsObject.Rank];
 
             statsObject.RankName = currentRank["rankName"].ToObject<string>();
-            statsObject.MaxScore = currentRank["xpTotal"].ToObject<float>();
-            statsObject.ShortScore = currentRank["xpRelative"].ToObject<float>();
+            statsObject.RankMaxScore = currentRank["xpRelative"].ToObject<float>();
 
             // calculate some fields
-            statsObject.CurrentScore = _SumKeys(statsDictionary,
+            statsObject.RankCurrentScore = _SumKeys(statsDictionary,
                 "sc_specialkit", "sc_vehiclembt", "sc_vehicleaa", "sc_vehicleah", "sc_vehiclesh", "sc_vehiclejet", "sc_vehiclelbt", "sc_vehicleart", "sc_award", "sc_support", "sc_assault", "sc_engineer", "sc_recon");
-            statsObject.ScoreToRankUp = statsObject.MaxScore - statsObject.ShortScore;
-            statsObject.ScoreToRankUpPercent = statsObject.MaxScore / statsObject.ShortScore * 100;
+            statsObject.RankShortScore = statsObject.RankCurrentScore - currentRank["xpTotal"].ToObject<float>();
+            statsObject.ScoreToRankUp = statsObject.RankMaxScore - statsObject.RankShortScore;
+            statsObject.ScoreToRankUpPercent = (float) (statsObject.RankMaxScore / statsObject.RankShortScore * 100);
             statsObject.Accuracy = statsObject.Hits / statsObject.Shots * 100;
             statsObject.WL = statsObject.Wins / statsObject.Losses;
             statsObject.KD = statsObject.Kills / statsObject.Deaths;
@@ -82,9 +57,9 @@ namespace Zlo4NET.Core.Helpers
 
         #region Private helpers
 
-        private static JObject _LoadJsonByGame(ZGame game)
+        private static JArray _LoadJsonByGame(ZGame game)
         {
-            JObject jObject;
+            JArray jObject;
 
             // convert game to resource key
             var resourceKey = game.ToString().ToLowerInvariant();
@@ -96,7 +71,7 @@ namespace Zlo4NET.Core.Helpers
                 var jsonContent = streamReader.ReadToEnd();
 
                 // parse into jObject
-                jObject = JObject.Parse(jsonContent);
+                jObject = JArray.Parse(jsonContent);
             }
 
             return jObject;
