@@ -3,871 +3,871 @@
     "rank": 0,
     "rankName": "Recruit",
     "xpRelative": 1000,
-    "xpTotal": 0
+    "xpTotal": 1000
   },
   "1": {
     "rank": 1,
     "rankName": "Private First Class",
     "xpRelative": 7000,
-    "xpTotal": 3000
+    "xpTotal": 8000
   },
   "2": {
     "rank": 2,
     "rankName": "Private First Class 1 Star",
     "xpRelative": 10000,
-    "xpTotal": 11000
+    "xpTotal": 18000
   },
   "3": {
     "rank": 3,
     "rankName": "Private First Class 2 Stars",
     "xpRelative": 11000,
-    "xpTotal": 22000
+    "xpTotal": 29000
   },
   "4": {
     "rank": 4,
     "rankName": "Private First Class 3 Stars",
     "xpRelative": 12000,
-    "xpTotal": 35000
+    "xpTotal": 41000
   },
   "5": {
     "rank": 5,
     "rankName": "Lance Corporal",
     "xpRelative": 13000,
-    "xpTotal": 52000
+    "xpTotal": 54000
   },
   "6": {
     "rank": 6,
     "rankName": "Lance Corporal 1 Star",
     "xpRelative": 13000,
-    "xpTotal": 70000
+    "xpTotal": 67000
   },
   "7": {
     "rank": 7,
     "rankName": "Lance Corporal 2 Stars",
     "xpRelative": 14000,
-    "xpTotal": 91000
+    "xpTotal": 81000
   },
   "8": {
     "rank": 8,
     "rankName": "Lance Corporal 3 Stars",
     "xpRelative": 15000,
-    "xpTotal": 115000
+    "xpTotal": 96000
   },
   "9": {
     "rank": 9,
     "rankName": "Corporal",
     "xpRelative": 15000,
-    "xpTotal": 140000
+    "xpTotal": 111000
   },
   "10": {
     "rank": 10,
     "rankName": "Corporal 1 Star",
     "xpRelative": 19000,
-    "xpTotal": 168000
+    "xpTotal": 130000
   },
   "11": {
     "rank": 11,
     "rankName": "Corporal 2 Stars",
     "xpRelative": 20000,
-    "xpTotal": 197000
+    "xpTotal": 150000
   },
   "12": {
     "rank": 12,
     "rankName": "Corporal 3 Stars",
     "xpRelative": 20000,
-    "xpTotal": 229000
+    "xpTotal": 170000
   },
   "13": {
     "rank": 13,
     "rankName": "Sergeant",
     "xpRelative": 20000,
-    "xpTotal": 262000
+    "xpTotal": 190000
   },
   "14": {
     "rank": 14,
     "rankName": "Sergeant 1 Star",
     "xpRelative": 30000,
-    "xpTotal": 297000
+    "xpTotal": 220000
   },
   "15": {
     "rank": 15,
     "rankName": "Sergeant 2 Stars",
     "xpRelative": 30000,
-    "xpTotal": 334000
+    "xpTotal": 250000
   },
   "16": {
     "rank": 16,
     "rankName": "Sergeant 3 Stars",
     "xpRelative": 30000,
-    "xpTotal": 373000
+    "xpTotal": 280000
   },
   "17": {
     "rank": 17,
     "rankName": "Staff Sergeant",
     "xpRelative": 30000,
-    "xpTotal": 413000
+    "xpTotal": 310000
   },
   "18": {
     "rank": 18,
     "rankName": "Staff Sergeant 1 Star",
     "xpRelative": 30000,
-    "xpTotal": 455000
+    "xpTotal": 340000
   },
   "19": {
     "rank": 19,
     "rankName": "Staff Sergeant 2 Stars",
     "xpRelative": 30000,
-    "xpTotal": 499000
+    "xpTotal": 370000
   },
   "20": {
     "rank": 20,
     "rankName": "Gunnery Sergeant",
     "xpRelative": 30000,
-    "xpTotal": 545000
+    "xpTotal": 400000
   },
   "21": {
     "rank": 21,
     "rankName": "Gunnery Sergeant 1 Star",
     "xpRelative": 30000,
-    "xpTotal": 592000
+    "xpTotal": 430000
   },
   "22": {
     "rank": 22,
     "rankName": "Gunnery Sergeant 2 Stars",
     "xpRelative": 40000,
-    "xpTotal": 640000
+    "xpTotal": 470000
   },
   "23": {
     "rank": 23,
     "rankName": "Master Sergeant",
     "xpRelative": 40000,
-    "xpTotal": 691000
+    "xpTotal": 510000
   },
   "24": {
     "rank": 24,
     "rankName": "Master Sergeant 1 Star",
     "xpRelative": 40000,
-    "xpTotal": 742000
+    "xpTotal": 550000
   },
   "25": {
     "rank": 25,
     "rankName": "Master Sergeant 2 Stars",
     "xpRelative": 40000,
-    "xpTotal": 796000
+    "xpTotal": 590000
   },
   "26": {
     "rank": 26,
     "rankName": "First Sergeant",
     "xpRelative": 40000,
-    "xpTotal": 851000
+    "xpTotal": 630000
   },
   "27": {
     "rank": 27,
     "rankName": "First Sergeant 1 Star",
     "xpRelative": 40000,
-    "xpTotal": 907000
+    "xpTotal": 670000
   },
   "28": {
     "rank": 28,
     "rankName": "First Sergeant 2 Stars",
     "xpRelative": 40000,
-    "xpTotal": 965000
+    "xpTotal": 710000
   },
   "29": {
     "rank": 29,
     "rankName": "Master Gunnery Sergeant",
     "xpRelative": 50000,
-    "xpTotal": 1023000
+    "xpTotal": 760000
   },
   "30": {
     "rank": 30,
     "rankName": "Master Gunnery Sergeant 1 Star",
     "xpRelative": 50000,
-    "xpTotal": 1081000
+    "xpTotal": 810000
   },
   "31": {
     "rank": 31,
     "rankName": "Master Gunnery Sergeant 2 Stars",
     "xpRelative": 50000,
-    "xpTotal": 1150000
+    "xpTotal": 860000
   },
   "32": {
     "rank": 32,
     "rankName": "Sergeant Major",
     "xpRelative": 50000,
-    "xpTotal": 1215000
+    "xpTotal": 910000
   },
   "33": {
     "rank": 33,
     "rankName": "Sergeant Major 1 Star",
     "xpRelative": 50000,
-    "xpTotal": 1280000
+    "xpTotal": 960000
   },
   "34": {
     "rank": 34,
     "rankName": "Sergeant Major 2 Star",
     "xpRelative": 50000,
-    "xpTotal": 1345000
+    "xpTotal": 1010000
   },
   "35": {
     "rank": 35,
     "rankName": "Warrant Officer 1",
     "xpRelative": 50000,
-    "xpTotal": 1410000
+    "xpTotal": 1060000
   },
   "36": {
     "rank": 36,
     "rankName": "Chief Warrant Officer 2",
     "xpRelative": 50000,
-    "xpTotal": 1480000
+    "xpTotal": 1110000
   },
   "37": {
     "rank": 37,
     "rankName": "Chief Warrant Officer 3",
     "xpRelative": 55000,
-    "xpTotal": 1550000
+    "xpTotal": 1165000
   },
   "38": {
     "rank": 38,
     "rankName": "Chief Warrant Officer 4",
     "xpRelative": 55000,
-    "xpTotal": 1620000
+    "xpTotal": 1220000
   },
   "39": {
     "rank": 39,
     "rankName": "Chief Warrant Officer 5",
     "xpRelative": 60000,
-    "xpTotal": 1690000
+    "xpTotal": 1280000
   },
   "40": {
     "rank": 40,
     "rankName": "Second Lieutenant",
     "xpRelative": 60000,
-    "xpTotal": 1770000
+    "xpTotal": 1340000
   },
   "41": {
     "rank": 41,
     "rankName": "First Lieutenant",
     "xpRelative": 60000,
-    "xpTotal": 1850000
+    "xpTotal": 1400000
   },
   "42": {
     "rank": 42,
     "rankName": "Captain",
     "xpRelative": 60000,
-    "xpTotal": 1925000
+    "xpTotal": 1460000
   },
   "43": {
     "rank": 43,
     "rankName": "Major",
     "xpRelative": 60000,
-    "xpTotal": 2000000
+    "xpTotal": 1520000
   },
   "44": {
     "rank": 44,
     "rankName": "Lt. Colonel",
-    "xpRelative": 60000,
-    "xpTotal": 2080000
+    "xpRelative": 80000,
+    "xpTotal": 1600000
   },
   "45": {
     "rank": 45,
     "rankName": "Colonel",
-    "xpRelative": 80000,
-    "xpTotal": 2160000
+    "xpRelative": 230000,
+    "xpTotal": 1830000
   },
   "46": {
     "rank": 46,
     "rankName": "Colonel Service Star 1",
     "xpRelative": 230000,
-    "xpTotal": 2240000
+    "xpTotal": 2060000
   },
   "47": {
     "rank": 47,
     "rankName": "Colonel Service Star 2",
     "xpRelative": 230000,
-    "xpTotal": 2330000
+    "xpTotal": 2290000
   },
   "48": {
     "rank": 48,
     "rankName": "Colonel Service Star 3",
     "xpRelative": 230000,
-    "xpTotal": 2410000
+    "xpTotal": 2520000
   },
   "49": {
     "rank": 49,
     "rankName": "Colonel Service Star 4",
     "xpRelative": 230000,
-    "xpTotal": 2500000
+    "xpTotal": 2750000
   },
   "50": {
     "rank": 50,
     "rankName": "Colonel Service Star 5",
     "xpRelative": 230000,
-    "xpTotal": 2590000
+    "xpTotal": 2980000
   },
   "51": {
     "rank": 51,
     "rankName": "Colonel Service Star 6",
     "xpRelative": 230000,
-    "xpTotal": 2670000
+    "xpTotal": 3210000
   },
   "52": {
     "rank": 52,
     "rankName": "Colonel Service Star 7",
     "xpRelative": 230000,
-    "xpTotal": 2760000
+    "xpTotal": 3440000
   },
   "53": {
     "rank": 53,
     "rankName": "Colonel Service Star 8",
     "xpRelative": 230000,
-    "xpTotal": 2860000
+    "xpTotal": 3670000
   },
   "54": {
     "rank": 54,
     "rankName": "Colonel Service Star 9",
     "xpRelative": 230000,
-    "xpTotal": 2960000
+    "xpTotal": 3900000
   },
   "55": {
     "rank": 55,
     "rankName": "Colonel Service Star 10",
     "xpRelative": 230000,
-    "xpTotal": 3050000
+    "xpTotal": 4130000
   },
   "56": {
     "rank": 56,
     "rankName": "Colonel Service Star 11",
     "xpRelative": 230000,
-    "xpTotal": 3140000
+    "xpTotal": 4360000
   },
   "57": {
     "rank": 57,
     "rankName": "Colonel Service Star 12",
     "xpRelative": 230000,
-    "xpTotal": 3230000
+    "xpTotal": 4590000
   },
   "58": {
     "rank": 58,
     "rankName": "Colonel Service Star 13",
     "xpRelative": 230000,
-    "xpTotal": 3330000
+    "xpTotal": 4820000
   },
   "59": {
     "rank": 59,
     "rankName": "Colonel Service Star 14",
     "xpRelative": 230000,
-    "xpTotal": 3430000
+    "xpTotal": 5050000
   },
   "60": {
     "rank": 60,
     "rankName": "Colonel Service Star 15",
     "xpRelative": 230000,
-    "xpTotal": 3520000
+    "xpTotal": 5280000
   },
   "61": {
     "rank": 61,
     "rankName": "Colonel Service Star 16",
     "xpRelative": 230000,
-    "xpTotal": 3630000
+    "xpTotal": 5510000
   },
   "62": {
     "rank": 62,
     "rankName": "Colonel Service Star 17",
     "xpRelative": 230000,
-    "xpTotal": 3730000
+    "xpTotal": 5740000
   },
   "63": {
     "rank": 63,
     "rankName": "Colonel Service Star 18",
     "xpRelative": 230000,
-    "xpTotal": 3830000
+    "xpTotal": 5970000
   },
   "64": {
     "rank": 64,
     "rankName": "Colonel Service Star 19",
     "xpRelative": 230000,
-    "xpTotal": 3940000
+    "xpTotal": 6200000
   },
   "65": {
     "rank": 65,
     "rankName": "Colonel Service Star 20",
     "xpRelative": 230000,
-    "xpTotal": 4050000
+    "xpTotal": 6430000
   },
   "66": {
     "rank": 66,
     "rankName": "Colonel Service Star 21",
     "xpRelative": 230000,
-    "xpTotal": 4140000
+    "xpTotal": 6660000
   },
   "67": {
     "rank": 67,
     "rankName": "Colonel Service Star 22",
     "xpRelative": 230000,
-    "xpTotal": 4250000
+    "xpTotal": 6890000
   },
   "68": {
     "rank": 68,
     "rankName": "Colonel Service Star 23",
     "xpRelative": 230000,
-    "xpTotal": 4360000
+    "xpTotal": 7120000
   },
   "69": {
     "rank": 69,
     "rankName": "Colonel Service Star 24",
     "xpRelative": 230000,
-    "xpTotal": 4480000
+    "xpTotal": 7350000
   },
   "70": {
     "rank": 70,
     "rankName": "Colonel Service Star 25",
     "xpRelative": 230000,
-    "xpTotal": 4590000
+    "xpTotal": 7580000
   },
   "71": {
     "rank": 71,
     "rankName": "Colonel Service Star 26",
     "xpRelative": 230000,
-    "xpTotal": 4700000
+    "xpTotal": 7810000
   },
   "72": {
     "rank": 72,
     "rankName": "Colonel Service Star 27",
     "xpRelative": 230000,
-    "xpTotal": 4810000
+    "xpTotal": 8040000
   },
   "73": {
     "rank": 73,
     "rankName": "Colonel Service Star 28",
     "xpRelative": 230000,
-    "xpTotal": 4920000
+    "xpTotal": 8270000
   },
   "74": {
     "rank": 74,
     "rankName": "Colonel Service Star 29",
     "xpRelative": 230000,
-    "xpTotal": 5030000
+    "xpTotal": 8500000
   },
   "75": {
     "rank": 75,
     "rankName": "Colonel Service Star 30",
     "xpRelative": 230000,
-    "xpTotal": 5150000
+    "xpTotal": 8730000
   },
   "76": {
     "rank": 76,
     "rankName": "Colonel Service Star 31",
     "xpRelative": 230000,
-    "xpTotal": 5270000
+    "xpTotal": 8960000
   },
   "77": {
     "rank": 77,
     "rankName": "Colonel Service Star 32",
     "xpRelative": 230000,
-    "xpTotal": 5390000
+    "xpTotal": 9190000
   },
   "78": {
     "rank": 78,
     "rankName": "Colonel Service Star 33",
     "xpRelative": 230000,
-    "xpTotal": 5510000
+    "xpTotal": 9420000
   },
   "79": {
     "rank": 79,
     "rankName": "Colonel Service Star 34",
     "xpRelative": 230000,
-    "xpTotal": 5630000
+    "xpTotal": 9650000
   },
   "80": {
     "rank": 80,
     "rankName": "Colonel Service Star 35",
     "xpRelative": 230000,
-    "xpTotal": 5750000
+    "xpTotal": 9880000
   },
   "81": {
     "rank": 81,
     "rankName": "Colonel Service Star 36",
     "xpRelative": 230000,
-    "xpTotal": 5880000
+    "xpTotal": 10110000
   },
   "82": {
     "rank": 82,
     "rankName": "Colonel Service Star 37",
     "xpRelative": 230000,
-    "xpTotal": 6000000
+    "xpTotal": 10340000
   },
   "83": {
     "rank": 83,
     "rankName": "Colonel Service Star 38",
     "xpRelative": 230000,
-    "xpTotal": 6120000
+    "xpTotal": 10570000
   },
   "84": {
     "rank": 84,
     "rankName": "Colonel Service Star 39",
     "xpRelative": 230000,
-    "xpTotal": 6250000
+    "xpTotal": 10800000
   },
   "85": {
     "rank": 85,
     "rankName": "Colonel Service Star 40",
     "xpRelative": 230000,
-    "xpTotal": 6380000
+    "xpTotal": 11030000
   },
   "86": {
     "rank": 86,
     "rankName": "Colonel Service Star 41",
     "xpRelative": 230000,
-    "xpTotal": 6510000
+    "xpTotal": 11260000
   },
   "87": {
     "rank": 87,
     "rankName": "Colonel Service Star 42",
     "xpRelative": 230000,
-    "xpTotal": 6640000
+    "xpTotal": 11490000
   },
   "88": {
     "rank": 88,
     "rankName": "Colonel Service Star 43",
     "xpRelative": 230000,
-    "xpTotal": 6760000
+    "xpTotal": 11720000
   },
   "89": {
     "rank": 89,
     "rankName": "Colonel Service Star 44",
     "xpRelative": 230000,
-    "xpTotal": 6890000
+    "xpTotal": 11950000
   },
   "90": {
     "rank": 90,
     "rankName": "Colonel Service Star 45",
     "xpRelative": 230000,
-    "xpTotal": 7020000
+    "xpTotal": 12180000
   },
   "91": {
     "rank": 91,
     "rankName": "Colonel Service Star 46",
     "xpRelative": 230000,
-    "xpTotal": 7160000
+    "xpTotal": 12410000
   },
   "92": {
     "rank": 92,
     "rankName": "Colonel Service Star 47",
     "xpRelative": 230000,
-    "xpTotal": 7290000
+    "xpTotal": 12640000
   },
   "93": {
     "rank": 93,
     "rankName": "Colonel Service Star 48",
     "xpRelative": 230000,
-    "xpTotal": 7430000
+    "xpTotal": 12870000
   },
   "94": {
     "rank": 94,
     "rankName": "Colonel Service Star 49",
     "xpRelative": 230000,
-    "xpTotal": 7560000
+    "xpTotal": 13100000
   },
   "95": {
     "rank": 95,
     "rankName": "Colonel Service Star 50",
     "xpRelative": 230000,
-    "xpTotal": 7700000
+    "xpTotal": 13330000
   },
   "96": {
     "rank": 96,
     "rankName": "Colonel Service Star 51",
     "xpRelative": 230000,
-    "xpTotal": 7850000
+    "xpTotal": 13560000
   },
   "97": {
     "rank": 97,
     "rankName": "Colonel Service Star 52",
     "xpRelative": 230000,
-    "xpTotal": 7990000
+    "xpTotal": 13790000
   },
   "98": {
     "rank": 98,
     "rankName": "Colonel Service Star 53",
     "xpRelative": 230000,
-    "xpTotal": 8130000
+    "xpTotal": 14020000
   },
   "99": {
     "rank": 99,
     "rankName": "Colonel Service Star 54",
     "xpRelative": 230000,
-    "xpTotal": 8260000
+    "xpTotal": 14250000
   },
   "100": {
     "rank": 100,
     "rankName": "Colonel Service Star 55",
     "xpRelative": 230000,
-    "xpTotal": 8400000
+    "xpTotal": 14480000
   },
   "101": {
     "rank": 101,
     "rankName": "Colonel Service Star 56",
     "xpRelative": 230000,
-    "xpTotal": 8600000
+    "xpTotal": 14710000
   },
   "102": {
     "rank": 102,
     "rankName": "Colonel Service Star 57",
     "xpRelative": 230000,
-    "xpTotal": 8800000
+    "xpTotal": 14940000
   },
   "103": {
     "rank": 103,
     "rankName": "Colonel Service Star 58",
     "xpRelative": 230000,
-    "xpTotal": 9000000
+    "xpTotal": 15170000
   },
   "104": {
     "rank": 104,
     "rankName": "Colonel Service Star 59",
     "xpRelative": 230000,
-    "xpTotal": 9200000
+    "xpTotal": 15400000
   },
   "105": {
     "rank": 105,
     "rankName": "Colonel Service Star 60",
     "xpRelative": 230000,
-    "xpTotal": 9400000
+    "xpTotal": 15630000
   },
   "106": {
     "rank": 106,
     "rankName": "Colonel Service Star 61",
     "xpRelative": 230000,
-    "xpTotal": 9600000
+    "xpTotal": 15860000
   },
   "107": {
     "rank": 107,
     "rankName": "Colonel Service Star 62",
     "xpRelative": 230000,
-    "xpTotal": 9800000
+    "xpTotal": 16090000
   },
   "108": {
     "rank": 108,
     "rankName": "Colonel Service Star 63",
     "xpRelative": 230000,
-    "xpTotal": 10000000
+    "xpTotal": 16320000
   },
   "109": {
     "rank": 109,
     "rankName": "Colonel Service Star 64",
     "xpRelative": 230000,
-    "xpTotal": 10200000
+    "xpTotal": 16550000
   },
   "110": {
     "rank": 110,
     "rankName": "Colonel Service Star 65",
     "xpRelative": 230000,
-    "xpTotal": 10400000
+    "xpTotal": 16780000
   },
   "111": {
     "rank": 111,
     "rankName": "Colonel Service Star 66",
     "xpRelative": 230000,
-    "xpTotal": 10700000
+    "xpTotal": 17010000
   },
   "112": {
     "rank": 112,
     "rankName": "Colonel Service Star 67",
     "xpRelative": 230000,
-    "xpTotal": 11170000
+    "xpTotal": 17240000
   },
   "113": {
     "rank": 113,
     "rankName": "Colonel Service Star 68",
     "xpRelative": 230000,
-    "xpTotal": 11650000
+    "xpTotal": 17470000
   },
   "114": {
     "rank": 114,
     "rankName": "Colonel Service Star 69",
     "xpRelative": 230000,
-    "xpTotal": 12150000
+    "xpTotal": 17700000
   },
   "115": {
     "rank": 115,
     "rankName": "Colonel Service Star 70",
     "xpRelative": 230000,
-    "xpTotal": 12660000
+    "xpTotal": 17930000
   },
   "116": {
     "rank": 116,
     "rankName": "Colonel Service Star 71",
     "xpRelative": 230000,
-    "xpTotal": 13190000
+    "xpTotal": 18160000
   },
   "117": {
     "rank": 117,
     "rankName": "Colonel Service Star 72",
     "xpRelative": 230000,
-    "xpTotal": 13740000
+    "xpTotal": 18390000
   },
   "118": {
     "rank": 118,
     "rankName": "Colonel Service Star 73",
     "xpRelative": 230000,
-    "xpTotal": 14300000
+    "xpTotal": 18620000
   },
   "119": {
     "rank": 119,
     "rankName": "Colonel Service Star 74",
     "xpRelative": 230000,
-    "xpTotal": 14890000
+    "xpTotal": 18850000
   },
   "120": {
     "rank": 120,
     "rankName": "Colonel Service Star 75",
     "xpRelative": 230000,
-    "xpTotal": 15490000
+    "xpTotal": 19080000
   },
   "121": {
     "rank": 121,
     "rankName": "Colonel Service Star 76",
     "xpRelative": 230000,
-    "xpTotal": 16110000
+    "xpTotal": 19310000
   },
   "122": {
     "rank": 122,
     "rankName": "Colonel Service Star 77",
     "xpRelative": 230000,
-    "xpTotal": 16750000
+    "xpTotal": 19540000
   },
   "123": {
     "rank": 123,
     "rankName": "Colonel Service Star 78",
     "xpRelative": 230000,
-    "xpTotal": 17410000
+    "xpTotal": 19770000
   },
   "124": {
     "rank": 124,
     "rankName": "Colonel Service Star 79",
     "xpRelative": 230000,
-    "xpTotal": 18090000
+    "xpTotal": 20000000
   },
   "125": {
     "rank": 125,
     "rankName": "Colonel Service Star 80",
     "xpRelative": 230000,
-    "xpTotal": 18790000
+    "xpTotal": 20230000
   },
   "126": {
     "rank": 126,
     "rankName": "Colonel Service Star 81",
     "xpRelative": 230000,
-    "xpTotal": 19520000
+    "xpTotal": 20460000
   },
   "127": {
     "rank": 127,
     "rankName": "Colonel Service Star 82",
     "xpRelative": 230000,
-    "xpTotal": 20260000
+    "xpTotal": 20690000
   },
   "128": {
     "rank": 128,
     "rankName": "Colonel Service Star 83",
     "xpRelative": 230000,
-    "xpTotal": 21030000
+    "xpTotal": 20920000
   },
   "129": {
     "rank": 129,
     "rankName": "Colonel Service Star 84",
     "xpRelative": 230000,
-    "xpTotal": 21820000
+    "xpTotal": 21150000
   },
   "130": {
     "rank": 130,
     "rankName": "Colonel Service Star 85",
     "xpRelative": 230000,
-    "xpTotal": 22630000
+    "xpTotal": 21380000
   },
   "131": {
     "rank": 131,
     "rankName": "Colonel Service Star 86",
     "xpRelative": 230000,
-    "xpTotal": 23470000
+    "xpTotal": 21610000
   },
   "132": {
     "rank": 132,
     "rankName": "Colonel Service Star 87",
     "xpRelative": 230000,
-    "xpTotal": 24330000
+    "xpTotal": 21840000
   },
   "133": {
     "rank": 133,
     "rankName": "Colonel Service Star 88",
     "xpRelative": 230000,
-    "xpTotal": 25220000
+    "xpTotal": 22070000
   },
   "134": {
     "rank": 134,
     "rankName": "Colonel Service Star 89",
     "xpRelative": 230000,
-    "xpTotal": 26130000
+    "xpTotal": 22300000
   },
   "135": {
     "rank": 135,
     "rankName": "Colonel Service Star 90",
     "xpRelative": 230000,
-    "xpTotal": 27070000
+    "xpTotal": 22530000
   },
   "136": {
     "rank": 136,
     "rankName": "Colonel Service Star 91",
     "xpRelative": 230000,
-    "xpTotal": 28030000
+    "xpTotal": 22760000
   },
   "137": {
     "rank": 137,
     "rankName": "Colonel Service Star 92",
     "xpRelative": 230000,
-    "xpTotal": 29020000
+    "xpTotal": 22990000
   },
   "138": {
     "rank": 138,
     "rankName": "Colonel Service Star 93",
     "xpRelative": 230000,
-    "xpTotal": 30040000
+    "xpTotal": 23220000
   },
   "139": {
     "rank": 139,
     "rankName": "Colonel Service Star 94",
     "xpRelative": 230000,
-    "xpTotal": 31090000
+    "xpTotal": 23450000
   },
   "140": {
     "rank": 140,
     "rankName": "Colonel Service Star 95",
     "xpRelative": 230000,
-    "xpTotal": 32160000
+    "xpTotal": 23680000
   },
   "141": {
     "rank": 141,
     "rankName": "Colonel Service Star 96",
     "xpRelative": 230000,
-    "xpTotal": 0
+    "xpTotal": 23910000
   },
   "142": {
     "rank": 142,
     "rankName": "Colonel Service Star 97",
     "xpRelative": 230000,
-    "xpTotal": 0
+    "xpTotal": 24140000
   },
   "143": {
     "rank": 143,
     "rankName": "Colonel Service Star 98",
     "xpRelative": 230000,
-    "xpTotal": 0
+    "xpTotal": 24370000
   },
   "144": {
     "rank": 144,
     "rankName": "Colonel Service Star 99",
     "xpRelative": 230000,
-    "xpTotal": 0
+    "xpTotal": 24600000
   },
   "145": {
     "rank": 145,
