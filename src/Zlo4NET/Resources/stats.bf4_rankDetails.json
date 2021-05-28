@@ -1,854 +1,854 @@
-{
-  "0": {
+[
+  {
     "rank": 0,
     "rankName": "Recruit",
     "xpRelative": 0,
     "xpTotal": 0
   },
-  "1": {
+  {
     "rank": 1,
     "rankName": "Private First Class",
     "xpRelative": 3000,
     "xpTotal": 3000
   },
-  "2": {
+  {
     "rank": 2,
     "rankName": "Private First Class II",
     "xpRelative": 8000,
     "xpTotal": 11000
   },
-  "3": {
+  {
     "rank": 3,
     "rankName": "Private First Class III",
     "xpRelative": 11000,
     "xpTotal": 22000
   },
-  "4": {
+  {
     "rank": 4,
     "rankName": "Private First Class IV",
     "xpRelative": 13000,
     "xpTotal": 35000
   },
-  "5": {
+  {
     "rank": 5,
     "rankName": "Private First Class V",
     "xpRelative": 17000,
     "xpTotal": 52000
   },
-  "6": {
+  {
     "rank": 6,
     "rankName": "Lance Corporal",
     "xpRelative": 18000,
     "xpTotal": 70000
   },
-  "7": {
+  {
     "rank": 7,
     "rankName": "Lance Corporal II",
     "xpRelative": 21000,
     "xpTotal": 91000
   },
-  "8": {
+  {
     "rank": 8,
     "rankName": "Lance Corporal III",
     "xpRelative": 24000,
     "xpTotal": 115000
   },
-  "9": {
+  {
     "rank": 9,
     "rankName": "Lance Corporal IV",
     "xpRelative": 25000,
     "xpTotal": 140000
   },
-  "10": {
+  {
     "rank": 10,
     "rankName": "Lance Corporal V",
     "xpRelative": 28000,
     "xpTotal": 168000
   },
-  "11": {
+  {
     "rank": 11,
     "rankName": "Corporal",
     "xpRelative": 29000,
     "xpTotal": 197000
   },
-  "12": {
+  {
     "rank": 12,
     "rankName": "Corporal II",
     "xpRelative": 32000,
     "xpTotal": 229000
   },
-  "13": {
+  {
     "rank": 13,
     "rankName": "Corporal III",
     "xpRelative": 33000,
     "xpTotal": 262000
   },
-  "14": {
+  {
     "rank": 14,
     "rankName": "Corporal IV",
     "xpRelative": 35000,
     "xpTotal": 297000
   },
-  "15": {
+  {
     "rank": 15,
     "rankName": "Corporal V",
     "xpRelative": 37000,
     "xpTotal": 334000
   },
-  "16": {
+  {
     "rank": 16,
     "rankName": "Sergeant",
     "xpRelative": 39000,
     "xpTotal": 373000
   },
-  "17": {
+  {
     "rank": 17,
     "rankName": "Sergeant II",
     "xpRelative": 40000,
     "xpTotal": 413000
   },
-  "18": {
+  {
     "rank": 18,
     "rankName": "Sergeant III",
     "xpRelative": 42000,
     "xpTotal": 455000
   },
-  "19": {
+  {
     "rank": 19,
     "rankName": "Sergeant IV",
     "xpRelative": 44000,
     "xpTotal": 499000
   },
-  "20": {
+  {
     "rank": 20,
     "rankName": "Sergeant V",
     "xpRelative": 46000,
     "xpTotal": 545000
   },
-  "21": {
+  {
     "rank": 21,
     "rankName": "Staff Sergeant",
     "xpRelative": 47000,
     "xpTotal": 592000
   },
-  "22": {
+  {
     "rank": 22,
     "rankName": "Staff Sergeant II",
     "xpRelative": 48000,
     "xpTotal": 640000
   },
-  "23": {
+  {
     "rank": 23,
     "rankName": "Staff Sergeant III",
     "xpRelative": 51000,
     "xpTotal": 691000
   },
-  "24": {
+  {
     "rank": 24,
     "rankName": "Staff Sergeant IV",
     "xpRelative": 51000,
     "xpTotal": 742000
   },
-  "25": {
+  {
     "rank": 25,
     "rankName": "Staff Sergeant V",
     "xpRelative": 54000,
     "xpTotal": 796000
   },
-  "26": {
+  {
     "rank": 26,
     "rankName": "Gunnery Sergeant",
     "xpRelative": 55000,
     "xpTotal": 851000
   },
-  "27": {
+  {
     "rank": 27,
     "rankName": "Gunnery Sergeant II",
     "xpRelative": 56000,
     "xpTotal": 907000
   },
-  "28": {
+  {
     "rank": 28,
     "rankName": "Gunnery Sergeant III",
     "xpRelative": 58000,
     "xpTotal": 965000
   },
-  "29": {
+  {
     "rank": 29,
     "rankName": "Gunnery Sergeant IV",
     "xpRelative": 58000,
     "xpTotal": 1023000
   },
-  "30": {
+  {
     "rank": 30,
     "rankName": "Gunnery Sergeant V",
     "xpRelative": 58000,
     "xpTotal": 1081000
   },
-  "31": {
+  {
     "rank": 31,
     "rankName": "Master Sergeant",
     "xpRelative": 69000,
     "xpTotal": 1150000
   },
-  "32": {
+  {
     "rank": 32,
     "rankName": "Master Sergeant II",
     "xpRelative": 65000,
     "xpTotal": 1215000
   },
-  "33": {
+  {
     "rank": 33,
     "rankName": "Master Sergeant III",
     "xpRelative": 65000,
     "xpTotal": 1280000
   },
-  "34": {
+  {
     "rank": 34,
     "rankName": "Master Sergeant IV",
     "xpRelative": 65000,
     "xpTotal": 1345000
   },
-  "35": {
+  {
     "rank": 35,
     "rankName": "Master Sergeant V",
     "xpRelative": 65000,
     "xpTotal": 1410000
   },
-  "36": {
+  {
     "rank": 36,
     "rankName": "First Sergeant",
     "xpRelative": 70000,
     "xpTotal": 1480000
   },
-  "37": {
+  {
     "rank": 37,
     "rankName": "First Sergeant II",
     "xpRelative": 70000,
     "xpTotal": 1550000
   },
-  "38": {
+  {
     "rank": 38,
     "rankName": "First Sergeant III",
     "xpRelative": 70000,
     "xpTotal": 1620000
   },
-  "39": {
+  {
     "rank": 39,
     "rankName": "First Sergeant IV",
     "xpRelative": 70000,
     "xpTotal": 1690000
   },
-  "40": {
+  {
     "rank": 40,
     "rankName": "First Sergeant V",
     "xpRelative": 80000,
     "xpTotal": 1770000
   },
-  "41": {
+  {
     "rank": 41,
     "rankName": "Master Gunnery Sergeant",
     "xpRelative": 80000,
     "xpTotal": 1850000
   },
-  "42": {
+  {
     "rank": 42,
     "rankName": "Master Gunnery Sergeant II",
     "xpRelative": 75000,
     "xpTotal": 1925000
   },
-  "43": {
+  {
     "rank": 43,
     "rankName": "Master Gunnery Sergeant III",
     "xpRelative": 75000,
     "xpTotal": 2000000
   },
-  "44": {
+  {
     "rank": 44,
     "rankName": "Master Gunnery Sergeant IV",
     "xpRelative": 80000,
     "xpTotal": 2080000
   },
-  "45": {
+  {
     "rank": 45,
     "rankName": "Master Gunnery Sergeant V",
     "xpRelative": 80000,
     "xpTotal": 2160000
   },
-  "46": {
+  {
     "rank": 46,
     "rankName": "Sergeant Major",
     "xpRelative": 80000,
     "xpTotal": 2240000
   },
-  "47": {
+  {
     "rank": 47,
     "rankName": "Sergeant Major II",
     "xpRelative": 90000,
     "xpTotal": 2330000
   },
-  "48": {
+  {
     "rank": 48,
     "rankName": "Sergeant Major III",
     "xpRelative": 80000,
     "xpTotal": 2410000
   },
-  "49": {
+  {
     "rank": 49,
     "rankName": "Sergeant Major IV",
     "xpRelative": 90000,
     "xpTotal": 2500000
   },
-  "50": {
+  {
     "rank": 50,
     "rankName": "Sergeant Major V",
     "xpRelative": 90000,
     "xpTotal": 2590000
   },
-  "51": {
+  {
     "rank": 51,
     "rankName": "Warrant Officer One",
     "xpRelative": 80000,
     "xpTotal": 2670000
   },
-  "52": {
+  {
     "rank": 52,
     "rankName": "Warrant Officer One II",
     "xpRelative": 90000,
     "xpTotal": 2760000
   },
-  "53": {
+  {
     "rank": 53,
     "rankName": "Warrant Officer One III",
     "xpRelative": 100000,
     "xpTotal": 2860000
   },
-  "54": {
+  {
     "rank": 54,
     "rankName": "Warrant Officer One IV",
     "xpRelative": 100000,
     "xpTotal": 2960000
   },
-  "55": {
+  {
     "rank": 55,
     "rankName": "Warrant Officer One V",
     "xpRelative": 90000,
     "xpTotal": 3050000
   },
-  "56": {
+  {
     "rank": 56,
     "rankName": "Chief Warrant Officer Two",
     "xpRelative": 90000,
     "xpTotal": 3140000
   },
-  "57": {
+  {
     "rank": 57,
     "rankName": "Chief Warrant Officer Two II",
     "xpRelative": 90000,
     "xpTotal": 3230000
   },
-  "58": {
+  {
     "rank": 58,
     "rankName": "Chief Warrant Officer Two III",
     "xpRelative": 100000,
     "xpTotal": 3330000
   },
-  "59": {
+  {
     "rank": 59,
     "rankName": "Chief Warrant Officer Two IV",
     "xpRelative": 100000,
     "xpTotal": 3430000
   },
-  "60": {
+  {
     "rank": 60,
     "rankName": "Chief Warrant Officer Two V",
     "xpRelative": 90000,
     "xpTotal": 3520000
   },
-  "61": {
+  {
     "rank": 61,
     "rankName": "Chief Warrant Officer Three",
     "xpRelative": 110000,
     "xpTotal": 3630000
   },
-  "62": {
+  {
     "rank": 62,
     "rankName": "Chief Warrant Officer Three II",
     "xpRelative": 100000,
     "xpTotal": 3730000
   },
-  "63": {
+  {
     "rank": 63,
     "rankName": "Chief Warrant Officer Three III",
     "xpRelative": 100000,
     "xpTotal": 3830000
   },
-  "64": {
+  {
     "rank": 64,
     "rankName": "Chief Warrant Officer Three IV",
     "xpRelative": 110000,
     "xpTotal": 3940000
   },
-  "65": {
+  {
     "rank": 65,
     "rankName": "Chief Warrant Officer Three V",
     "xpRelative": 110000,
     "xpTotal": 4050000
   },
-  "66": {
+  {
     "rank": 66,
     "rankName": "Chief Warrant Officer Four",
     "xpRelative": 90000,
     "xpTotal": 4140000
   },
-  "67": {
+  {
     "rank": 67,
     "rankName": "Chief Warrant Officer Four II",
     "xpRelative": 110000,
     "xpTotal": 4250000
   },
-  "68": {
+  {
     "rank": 68,
     "rankName": "Chief Warrant Officer Four III",
     "xpRelative": 110000,
     "xpTotal": 4360000
   },
-  "69": {
+  {
     "rank": 69,
     "rankName": "Chief Warrant Officer Four IV",
     "xpRelative": 120000,
     "xpTotal": 4480000
   },
-  "70": {
+  {
     "rank": 70,
     "rankName": "Chief Warrant Officer Four V",
     "xpRelative": 110000,
     "xpTotal": 4590000
   },
-  "71": {
+  {
     "rank": 71,
     "rankName": "Chief Warrant Officer Five",
     "xpRelative": 110000,
     "xpTotal": 4700000
   },
-  "72": {
+  {
     "rank": 72,
     "rankName": "Chief Warrant Officer Five II",
     "xpRelative": 110000,
     "xpTotal": 4810000
   },
-  "73": {
+  {
     "rank": 73,
     "rankName": "Chief Warrant Officer Five III",
     "xpRelative": 110000,
     "xpTotal": 4920000
   },
-  "74": {
+  {
     "rank": 74,
     "rankName": "Chief Warrant Officer Five IV",
     "xpRelative": 110000,
     "xpTotal": 5030000
   },
-  "75": {
+  {
     "rank": 75,
     "rankName": "Chief Warrant Officer Five V",
     "xpRelative": 120000,
     "xpTotal": 5150000
   },
-  "76": {
+  {
     "rank": 76,
     "rankName": "Second Lieutenant",
     "xpRelative": 120000,
     "xpTotal": 5270000
   },
-  "77": {
+  {
     "rank": 77,
     "rankName": "Second Lieutenant II",
     "xpRelative": 120000,
     "xpTotal": 5390000
   },
-  "78": {
+  {
     "rank": 78,
     "rankName": "Second Lieutenant III",
     "xpRelative": 120000,
     "xpTotal": 5510000
   },
-  "79": {
+  {
     "rank": 79,
     "rankName": "Second Lieutenant IV",
     "xpRelative": 120000,
     "xpTotal": 5630000
   },
-  "80": {
+  {
     "rank": 80,
     "rankName": "Second Lieutenant V",
     "xpRelative": 120000,
     "xpTotal": 5750000
   },
-  "81": {
+  {
     "rank": 81,
     "rankName": "First Lieutenant",
     "xpRelative": 130000,
     "xpTotal": 5880000
   },
-  "82": {
+  {
     "rank": 82,
     "rankName": "First Lieutenant II",
     "xpRelative": 120000,
     "xpTotal": 6000000
   },
-  "83": {
+  {
     "rank": 83,
     "rankName": "First Lieutenant III",
     "xpRelative": 120000,
     "xpTotal": 6120000
   },
-  "84": {
+  {
     "rank": 84,
     "rankName": "First Lieutenant IV",
     "xpRelative": 130000,
     "xpTotal": 6250000
   },
-  "85": {
+  {
     "rank": 85,
     "rankName": "First Lieutenant V",
     "xpRelative": 130000,
     "xpTotal": 6380000
   },
-  "86": {
+  {
     "rank": 86,
     "rankName": "Captain",
     "xpRelative": 130000,
     "xpTotal": 6510000
   },
-  "87": {
+  {
     "rank": 87,
     "rankName": "Captain II",
     "xpRelative": 130000,
     "xpTotal": 6640000
   },
-  "88": {
+  {
     "rank": 88,
     "rankName": "Captain III",
     "xpRelative": 120000,
     "xpTotal": 6760000
   },
-  "89": {
+  {
     "rank": 89,
     "rankName": "Captain IV",
     "xpRelative": 130000,
     "xpTotal": 6890000
   },
-  "90": {
+  {
     "rank": 90,
     "rankName": "Captain V",
     "xpRelative": 130000,
     "xpTotal": 7020000
   },
-  "91": {
+  {
     "rank": 91,
     "rankName": "Major",
     "xpRelative": 140000,
     "xpTotal": 7160000
   },
-  "92": {
+  {
     "rank": 92,
     "rankName": "Major II",
     "xpRelative": 130000,
     "xpTotal": 7290000
   },
-  "93": {
+  {
     "rank": 93,
     "rankName": "Major III",
     "xpRelative": 140000,
     "xpTotal": 7430000
   },
-  "94": {
+  {
     "rank": 94,
     "rankName": "Major IV",
     "xpRelative": 130000,
     "xpTotal": 7560000
   },
-  "95": {
+  {
     "rank": 95,
     "rankName": "Major V",
     "xpRelative": 140000,
     "xpTotal": 7700000
   },
-  "96": {
+  {
     "rank": 96,
     "rankName": "Lt. Colonel",
     "xpRelative": 150000,
     "xpTotal": 7850000
   },
-  "97": {
+  {
     "rank": 97,
     "rankName": "Lt. Colonel II",
     "xpRelative": 140000,
     "xpTotal": 7990000
   },
-  "98": {
+  {
     "rank": 98,
     "rankName": "Lt. Colonel III",
     "xpRelative": 140000,
     "xpTotal": 8130000
   },
-  "99": {
+  {
     "rank": 99,
     "rankName": "Lt. Colonel IV",
     "xpRelative": 130000,
     "xpTotal": 8260000
   },
-  "100": {
+  {
     "rank": 100,
     "rankName": "Colonel",
     "xpRelative": 140000,
     "xpTotal": 8400000
   },
-  "101": {
+  {
     "rank": 101,
     "rankName": "Colonel II",
     "xpRelative": 200000,
     "xpTotal": 8600000
   },
-  "102": {
+  {
     "rank": 102,
     "rankName": "Colonel III",
     "xpRelative": 200000,
     "xpTotal": 8800000
   },
-  "103": {
+  {
     "rank": 103,
     "rankName": "Colonel IV",
     "xpRelative": 200000,
     "xpTotal": 9000000
   },
-  "104": {
+  {
     "rank": 104,
     "rankName": "Colonel V",
     "xpRelative": 200000,
     "xpTotal": 9200000
   },
-  "105": {
+  {
     "rank": 105,
     "rankName": "Colonel VI",
     "xpRelative": 200000,
     "xpTotal": 9400000
   },
-  "106": {
+  {
     "rank": 106,
     "rankName": "Colonel VII",
     "xpRelative": 200000,
     "xpTotal": 9600000
   },
-  "107": {
+  {
     "rank": 107,
     "rankName": "Colonel VIII",
     "xpRelative": 200000,
     "xpTotal": 9800000
   },
-  "108": {
+  {
     "rank": 108,
     "rankName": "Colonel IX",
     "xpRelative": 200000,
     "xpTotal": 10000000
   },
-  "109": {
+  {
     "rank": 109,
     "rankName": "Colonel X",
     "xpRelative": 200000,
     "xpTotal": 10200000
   },
-  "110": {
+  {
     "rank": 110,
     "rankName": "Brigadier General",
     "xpRelative": 200000,
     "xpTotal": 10400000
   },
-  "111": {
+  {
     "rank": 111,
     "rankName": "Brigadier General II",
     "xpRelative": 300000,
     "xpTotal": 10700000
   },
-  "112": {
+  {
     "rank": 112,
     "rankName": "Brigadier General III",
     "xpRelative": 470000,
     "xpTotal": 11170000
   },
-  "113": {
+  {
     "rank": 113,
     "rankName": "Brigadier General IV",
     "xpRelative": 480000,
     "xpTotal": 11650000
   },
-  "114": {
+  {
     "rank": 114,
     "rankName": "Brigadier General V",
     "xpRelative": 500000,
     "xpTotal": 12150000
   },
-  "115": {
+  {
     "rank": 115,
     "rankName": "Brigadier General VI",
     "xpRelative": 510000,
     "xpTotal": 12660000
   },
-  "116": {
+  {
     "rank": 116,
     "rankName": "Brigadier General VII",
     "xpRelative": 530000,
     "xpTotal": 13190000
   },
-  "117": {
+  {
     "rank": 117,
     "rankName": "Brigadier General VIII",
     "xpRelative": 550000,
     "xpTotal": 13740000
   },
-  "118": {
+  {
     "rank": 118,
     "rankName": "Brigadier General IX",
     "xpRelative": 560000,
     "xpTotal": 14300000
   },
-  "119": {
+  {
     "rank": 119,
     "rankName": "Brigadier General X",
     "xpRelative": 590000,
     "xpTotal": 14890000
   },
-  "120": {
+  {
     "rank": 120,
     "rankName": "Major General",
     "xpRelative": 600000,
     "xpTotal": 15490000
   },
-  "121": {
+  {
     "rank": 121,
     "rankName": "Major General II",
     "xpRelative": 620000,
     "xpTotal": 16110000
   },
-  "122": {
+  {
     "rank": 122,
     "rankName": "Major General III",
     "xpRelative": 640000,
     "xpTotal": 16750000
   },
-  "123": {
+  {
     "rank": 123,
     "rankName": "Major General IV",
     "xpRelative": 660000,
     "xpTotal": 17410000
   },
-  "124": {
+  {
     "rank": 124,
     "rankName": "Major General V",
     "xpRelative": 680000,
     "xpTotal": 18090000
   },
-  "125": {
+  {
     "rank": 125,
     "rankName": "Major General VI",
     "xpRelative": 700000,
     "xpTotal": 18790000
   },
-  "126": {
+  {
     "rank": 126,
     "rankName": "Major General VII",
     "xpRelative": 730000,
     "xpTotal": 19520000
   },
-  "127": {
+  {
     "rank": 127,
     "rankName": "Major General VIII",
     "xpRelative": 740000,
     "xpTotal": 20260000
   },
-  "128": {
+  {
     "rank": 128,
     "rankName": "Major General IX",
     "xpRelative": 770000,
     "xpTotal": 21030000
   },
-  "129": {
+  {
     "rank": 129,
     "rankName": "Major General X",
     "xpRelative": 790000,
     "xpTotal": 21820000
   },
-  "130": {
+  {
     "rank": 130,
     "rankName": "Lieutenant General",
     "xpRelative": 810000,
     "xpTotal": 22630000
   },
-  "131": {
+  {
     "rank": 131,
     "rankName": "Lieutenant General II",
     "xpRelative": 840000,
     "xpTotal": 23470000
   },
-  "132": {
+  {
     "rank": 132,
     "rankName": "Lieutenant General III",
     "xpRelative": 860000,
     "xpTotal": 24330000
   },
-  "133": {
+  {
     "rank": 133,
     "rankName": "Lieutenant General IV",
     "xpRelative": 890000,
     "xpTotal": 25220000
   },
-  "134": {
+  {
     "rank": 134,
     "rankName": "Lieutenant General V",
     "xpRelative": 910000,
     "xpTotal": 26130000
   },
-  "135": {
+  {
     "rank": 135,
     "rankName": "Lieutenant General VI",
     "xpRelative": 940000,
     "xpTotal": 27070000
   },
-  "136": {
+  {
     "rank": 136,
     "rankName": "Lieutenant General VII",
     "xpRelative": 960000,
     "xpTotal": 28030000
   },
-  "137": {
+  {
     "rank": 137,
     "rankName": "Lieutenant General VIII",
     "xpRelative": 990000,
     "xpTotal": 29020000
   },
-  "138": {
+  {
     "rank": 138,
     "rankName": "Lieutenant General IX",
     "xpRelative": 1020000,
     "xpTotal": 30040000
   },
-  "139": {
+  {
     "rank": 139,
     "rankName": "Lieutenant General X",
     "xpRelative": 1050000,
     "xpTotal": 31090000
   },
-  "140": {
+  {
     "rank": 140,
     "rankName": "General",
     "xpRelative": 1070000,
     "xpTotal": 32160000
   },
-  "141": {
+  {
     "rank": 141,
     "rankName": "-",
     "xpRelative": 0,
     "xpTotal": 0
   }
-}
+]
