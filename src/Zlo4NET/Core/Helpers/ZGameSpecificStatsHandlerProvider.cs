@@ -32,7 +32,7 @@ namespace Zlo4NET.Core.Helpers
 
             // calculate some fields
             statsObject.RankCurrentScore = _SumKeys(statsDictionary,
-                "sc_specialkit", "sc_vehiclembt", "sc_vehicleaa", "sc_vehicleah", "sc_vehiclesh", "sc_vehiclejet", "sc_vehiclelbt", "sc_vehicleart", "sc_award", "sc_support", "sc_assault", "sc_engineer", "sc_recon");
+                "sc_specialkit", "sc_unlock", "sc_vehiclembt", "sc_vehicleifv", "sc_vehicleaa", "sc_vehicleah", "sc_vehiclesh", "sc_vehiclejet", "sc_vehiclelbt", "sc_vehicleart", "sc_award", "sc_support", "sc_assault", "sc_engineer", "sc_recon");
             statsObject.RankShortScore = statsObject.RankCurrentScore - currentRank["xpTotal"].ToObject<float>();
             statsObject.ScoreToRankUp = statsObject.RankMaxScore - statsObject.RankShortScore;
             statsObject.ScoreToRankUpPercent = (float) (statsObject.RankMaxScore / statsObject.RankShortScore * 100);
