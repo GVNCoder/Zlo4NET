@@ -14,23 +14,12 @@ namespace Zlo4NET.Core.Data.Parsers
 {
     internal class ZPlayerStatsParser : IZPlayerStatsParser
     {
-        private readonly ZLogger _logger;
-
         private readonly IDictionary<ZGame, Func<IDictionary<string, float>, ZPlayerStatsBase>>
             _gameSpecificStatsHandlers = new Dictionary<ZGame, Func<IDictionary<string, float>, ZPlayerStatsBase>>
             {
                 { ZGame.BF3, ZGameSpecificStatsHandlerProvider.BF3StatsHandler },
                 { ZGame.BF4, ZGameSpecificStatsHandlerProvider.BF4StatsHandler },
             };
-
-        #region Ctor
-
-        public ZPlayerStatsParser()
-        {
-            _logger = ZLogger.Instance;
-        }
-
-        #endregion
 
         #region IZPlayerStatsParser interface
 
