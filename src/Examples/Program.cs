@@ -10,6 +10,8 @@ using Zlo4NET.Api.Models.Shared;
 using Zlo4NET.Api.Service;
 using Zlo4NET.Core.Data;
 
+// ReSharper disable ClassNeverInstantiated.Global
+
 namespace Examples
 {
     public class Program
