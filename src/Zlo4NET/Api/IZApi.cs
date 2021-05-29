@@ -49,6 +49,10 @@ namespace Zlo4NET.Api
         /// Gets API logger
         /// </summary>
         IZLogger Logger { get; }
+        /// <summary>
+        /// Gets installed games service
+        /// </summary>
+        IZInstalledGamesService InstalledGamesService { get; }
 
         #endregion
 

@@ -10,6 +10,7 @@ using Zlo4NET.Core.Helpers;
 using Zlo4NET.Core.Services;
 using Zlo4NET.Api.Models.Shared;
 
+// ReSharper disable ConvertToAutoProperty
 // disable Missing xml doc
 #pragma warning disable 1591
 
@@ -36,6 +37,7 @@ namespace Zlo4NET.Core.Data
         private readonly IZInjectorService _injector;
         private readonly IZPlayerStatsService _playerStatsService;
         private readonly IZGameFactory _gameFactory;
+        private readonly IZInstalledGamesService _installedGamesService;
 
         private ZConfiguration _config;
         private IZServersList _lastCreatedServerListInstance;
@@ -43,10 +45,11 @@ namespace Zlo4NET.Core.Data
         private ZApi()
         {
             // creating a client services
-            _connection         = new ZConnection();
-            _playerStatsService = new ZPlayerStatsService();
-            _gameFactory        = new ZGameFactory(_connection);
-            _injector           = new ZInjectorService();
+            _connection             = new ZConnection();
+            _playerStatsService     = new ZPlayerStatsService();
+            _gameFactory            = new ZGameFactory(_connection);
+            _injector               = new ZInjectorService();
+            _installedGamesService  = new ZInstalledGamesService();
 
             // initializing the static helpers
             ZConnectionHelper.Initialize(_connection);
@@ -59,6 +62,8 @@ namespace Zlo4NET.Core.Data
         public IZConnection Connection => _connection;
 
         public IZLogger Logger => ZLogger.Instance;
+
+        public IZInstalledGamesService InstalledGamesService => _installedGamesService;
 
         public async Task<ZPlayerStatsBase> GetPlayerStatsAsync(ZGame game)
         {

@@ -73,7 +73,7 @@
     <Compile Include="Core\Data\Attributes\ZStatsMapperAttribute.cs" />
     <Compile Include="Core\Data\ZGameEvent.cs" />
     <Compile Include="Core\Data\ZGameState.cs" />
-    <Compile Include="Core\Data\ZInstalledGames.cs" />
+    <Compile Include="Api\DTOs\ZInstalledGames.cs" />
     <Compile Include="Api\Models\Shared\ZLogMessageArgs.cs" />
     <Compile Include="Api\Models\Shared\ZLogLevel.cs" />
     <Compile Include="Api\Models\Shared\ZMultiParams.cs" />
@@ -109,7 +109,7 @@
     <Compile Include="Core\Services\IZGameRunParser.cs" />
     <Compile Include="Core\Services\IZInjectorService.cs" />
     <Compile Include="Core\Services\IZInstalledGamesParser.cs" />
-    <Compile Include="Core\Services\IZInstalledGamesService.cs" />
+    <Compile Include="Api\Service\IZInstalledGamesService.cs" />
     <Compile Include="Core\Services\IZPlayerStatsParser.cs" />
     <Compile Include="Core\Services\IZPlayerStatsService.cs" />
     <Compile Include="Api\Models\Server\ZAttributesBase.cs" />
@@ -119,7 +119,7 @@
     <Compile Include="Api\Models\Server\ZMap.cs" />
     <Compile Include="Api\Models\Server\ZServerBase.cs" />
     <Compile Include="Api\Models\Shared\ZGamePipeArgs.cs" />
-    <Compile Include="Core\Data\ZInstalledGame.cs" />
+    <Compile Include="Api\DTOs\ZInstalledGame.cs" />
     <Compile Include="Api\Service\IZLogger.cs" />
     <Compile Include="Api\Service\IZProcessTracker.cs" />
     <Compile Include="Api\Service\IZConnection.cs" />

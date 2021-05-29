@@ -4,7 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using Newtonsoft.Json.Linq;
+
 using Zlo4NET.Api.DTO;
+using Zlo4NET.Api.DTOs;
 using Zlo4NET.Api.Models.Shared;
 using Zlo4NET.Api.Service;
 using Zlo4NET.Core.Helpers;
@@ -85,9 +87,9 @@ namespace Zlo4NET.Core.Data
             }
 
             var architecture = args.PreferredArchitecture ??
-                               (installedGames.IsX64 ? ZGameArchitecture.x64 : ZGameArchitecture.x32);
-            var compatibleGames = installedGames.InstalledGames
-                .Where(insGame => insGame.EnumGame == args.Game)
+                               (installedGames.IsX64OperatingSystem ? ZGameArchitecture.x64 : ZGameArchitecture.x32);
+            var compatibleGames = installedGames.Games
+                .Where(insGame => insGame.Game == args.Game)
                 .ToArray();
             var targetGame = compatibleGames.Length > 1
                 ? compatibleGames.FirstOrDefault(insGame => insGame.RunnableName.EndsWith(architecture.ToString()))
@@ -126,9 +128,9 @@ namespace Zlo4NET.Core.Data
             }
 
             var architecture = args.PreferredArchitecture ??
-                               (installedGames.IsX64 ? ZGameArchitecture.x64 : ZGameArchitecture.x32);
-            var compatibleGames = installedGames.InstalledGames
-                .Where(insGame => insGame.EnumGame == ZGame.BF3)
+                               (installedGames.IsX64OperatingSystem ? ZGameArchitecture.x64 : ZGameArchitecture.x32);
+            var compatibleGames = installedGames.Games
+                .Where(insGame => insGame.Game == ZGame.BF3)
                 .ToArray();
             var targetGame = compatibleGames.Length > 1
                 ? compatibleGames.FirstOrDefault(insGame => insGame.RunnableName.EndsWith(architecture.ToString()))
@@ -179,9 +181,9 @@ namespace Zlo4NET.Core.Data
             }
 
             var architecture = args.PreferredArchitecture ??
-                               (installedGames.IsX64 ? ZGameArchitecture.x64 : ZGameArchitecture.x32);
-            var compatibleGames = installedGames.InstalledGames
-                .Where(insGame => insGame.EnumGame == args.Game)
+                               (installedGames.IsX64OperatingSystem ? ZGameArchitecture.x64 : ZGameArchitecture.x32);
+            var compatibleGames = installedGames.Games
+                .Where(insGame => insGame.Game == args.Game)
                 .ToArray();
             var targetGame = compatibleGames.Length > 1
                 ? compatibleGames.FirstOrDefault(insGame => insGame.RunnableName.EndsWith(architecture.ToString()))
@@ -215,9 +217,9 @@ namespace Zlo4NET.Core.Data
             }
 
             var architecture = args.PreferredArchitecture ??
-                               (installedGames.IsX64 ? ZGameArchitecture.x64 : ZGameArchitecture.x32);
-            var compatibleGames = installedGames.InstalledGames
-                .Where(insGame => insGame.EnumGame == args.Game)
+                               (installedGames.IsX64OperatingSystem ? ZGameArchitecture.x64 : ZGameArchitecture.x32);
+            var compatibleGames = installedGames.Games
+                .Where(insGame => insGame.Game == args.Game)
                 .ToArray();
             var targetGame = compatibleGames.Length > 1
                 ? compatibleGames.FirstOrDefault(insGame => insGame.RunnableName.EndsWith(architecture.ToString()))
