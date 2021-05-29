@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 
 using Zlo4NET.Core.Extensions;
+using Zlo4NET.Core.ZClientAPI;
 
 namespace Zlo4NET.Core.Data
 {
@@ -18,12 +19,12 @@ namespace Zlo4NET.Core.Data
         private readonly ZLogger _logger;
         private readonly Thread _readThread;
         private readonly NamedPipeClientStream _pipe;
-        private readonly _Buffer _buffer;
+        private readonly ZBuffer _buffer;
 
         public _GamePipe(ZLogger logger, string pipeName)
         {
             _logger = logger;
-            _buffer = new _Buffer();
+            _buffer = new ZBuffer();
             _pipe = new NamedPipeClientStream(".", pipeName, PipeDirection.In);
             _readThread = new Thread(_Reader)
             {
@@ -72,7 +73,7 @@ namespace Zlo4NET.Core.Data
 
             try
             {
-                using (var memoryStream = new MemoryStream(_buffer.BufferData, false))
+                using (var memoryStream = new MemoryStream(_buffer, false))
                 using (var br = new BinaryReader(memoryStream, Encoding.ASCII))
                 {
                     br.ReadBytes(2); // skip two unknown bytes Approved by ZLOFENIX

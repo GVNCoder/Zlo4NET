@@ -93,7 +93,6 @@
     <Compile Include="Core\Data\Attributes\ZMapperPropertyAttribute.cs" />
     <Compile Include="Core\Data\ZResource.cs" />
     <Compile Include="Core\Data\ZGameProcess.cs" />
-    <Compile Include="Core\Data\_Buffer.cs" />
     <Compile Include="Core\Data\_GamePipe.cs" />
     <Compile Include="Core\Data\_GameState.cs" />
     <Compile Include="Core\Data\_GameStateParser.cs" />
