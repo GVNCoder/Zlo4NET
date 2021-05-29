@@ -6,5 +6,6 @@ namespace Zlo4NET.Core.Data.Attributes
     internal class ZStatsMapperAttribute : Attribute
     {
         public string MapFromDictionaryKey { get; set; }
+        public Type TargetType { get; set; }
     }
 }
