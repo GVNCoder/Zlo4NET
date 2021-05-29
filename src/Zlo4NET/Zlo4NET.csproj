@@ -176,7 +176,6 @@
     <EmbeddedResource Include="Resources\run.json" />
     <EmbeddedResource Include="Resources\shared.map.json" />
     <EmbeddedResource Include="Resources\shared.gamemode.json" />
-    <EmbeddedResource Include="Resources\stats.template.json" />
     <EmbeddedResource Include="Resources\stats.bf4_rankDetails.json" />
   </ItemGroup>
   <ItemGroup>

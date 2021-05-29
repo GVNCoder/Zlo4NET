@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-using Newtonsoft.Json.Linq;
-
 using Zlo4NET.Api.DTOs;
 using Zlo4NET.Api.Models.Shared;
 using Zlo4NET.Core.Extensions;
@@ -91,86 +89,6 @@ namespace Zlo4NET.Core.Data.Parsers
             }
 
             return stats;
-        }
-
-        #endregion
-
-        //public ZBF4Stats ParseBF4Stats(ZPacket[] packets)
-        //{
-        //    var packet = packets.First();
-        //    var statsDictionary = _parseStatsDictionary(packet);
-        //    var jStats = _statsTemplates[ZStringConstants.BF4ResourceKey] as JObject;
-        //    var jRanksDetails = _LoadResourceByName("stats.bf4_details.json");
-
-        //    _assign(statsDictionary, jStats);
-
-        //    var scoreValue = jStats["player"]["score"].ToObject<long>();
-        //    var jRank = jStats["player"]["rank"] as JObject;
-        //    var rankValue = jRank.Value<int>("nr");
-
-        //    var jRankDetail = jRanksDetails[rankValue.ToString()] as JObject;
-        //    var jNextRankDetail = jRanksDetails[(rankValue + 1).ToString()] as JObject;
-
-        //    var currentMin = jRankDetail["XP Min Total"].ToObject<long>();
-        //    var relativeScore = scoreValue - currentMin;
-        //    var currentMax = jNextRankDetail["XP Min Relative"].ToObject<long>();
-
-        //    jRank["name"] = jRankDetail["Rank Title"];
-        //    jRank["Unlocks"] = jRankDetail["Unlocks"];
-        //    jRank["Short XP"] = relativeScore;
-        //    jRank["Long XP"] = scoreValue;
-        //    jRank["needed"] = currentMax - relativeScore;
-        //    jRank["Max XP"] = currentMax;
-
-        //    //kits
-        //    foreach (var jKitProperty in ((JObject)jStats["stats"]["kits"]).Properties())
-        //    {
-        //        var jKit = jKitProperty.Value as JObject;
-
-        //        var kitScore = jKit["score"].ToObject<double>();
-        //        var max = jKit["stars"]["Max"].ToObject<double>();
-        //        var kitStars = kitScore / max;
-
-        //        jKit["stars"]["count"] = (int) kitStars;
-
-        //        var shortCurrent = kitScore - ((int) kitStars * max);
-
-        //        jKit["stars"]["shortCurr"] = shortCurrent;
-        //        jKit["stars"]["progress"] = shortCurrent / max * 100;
-        //    }
-
-        //    var resultStats = new ZBF4Stats(jStats);
-        //    return resultStats;
-        //}
-
-        #region Private methods
-
-        private double Sumfrom0to(int index)
-        {
-            float finalsum = 0;
-            for (int i = 0; i < index; ++i)
-            {
-                //finalsum += GetRankMaxScore(i);
-            }
-            return finalsum;
-        }
-
-        public static double SumIfNum(params JToken[] objects)
-        {
-            double final = 0;
-            foreach (var item in objects)
-            {
-                if (IsNum(item))
-                {
-                    final += (double)item;
-                }
-            }
-            return final;
-        }
-
-        public static bool IsNum(object obj)
-        {
-            return double.TryParse(obj.ToString(), out double _);
         }
 
         #endregion
