@@ -45,6 +45,10 @@ namespace Zlo4NET.Core.ZClientAPI
         /// Sets empty buffer
         /// </summary>
         public void Clear() => _buffer = CollectionHelper.GetEmptyEnumerable<byte>().ToArray();
+        /// <summary>
+        /// Gets current buffer size
+        /// </summary>
+        public int Size => _buffer.Length;
 
         #endregion
     }
