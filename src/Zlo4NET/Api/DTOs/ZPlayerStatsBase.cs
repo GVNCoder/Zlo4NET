@@ -10,6 +10,19 @@ namespace Zlo4NET.Api.DTOs
         /// <summary>
         /// Gets or sets player stats dictionary
         /// </summary>
-        public IDictionary<string, float> StatsDictionary { get; set; }
+        public IDictionary<string, float> StatsDictionary { get; }
+
+        #region Ctor
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="statsDictionary"></param>
+        protected ZPlayerStatsBase(IDictionary<string, float> statsDictionary)
+        {
+            StatsDictionary = statsDictionary;
+        }
+
+        #endregion
     }
 }
