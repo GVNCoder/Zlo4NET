@@ -46,6 +46,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\DTOs\ZBF4PlayerStats.cs" />
     <Compile Include="Api\DTOs\ZMapDto.cs" />
     <Compile Include="Api\DTOs\ZMapRotationDto.cs" />
     <Compile Include="Api\DTOs\ZPlayerDto.cs" />
