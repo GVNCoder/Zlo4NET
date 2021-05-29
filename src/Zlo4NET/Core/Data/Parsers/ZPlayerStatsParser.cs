@@ -95,49 +95,6 @@ namespace Zlo4NET.Core.Data.Parsers
 
         #endregion
 
-        //public ZBF3Stats ParseBF3Stats(ZPacket[] packets)
-        //{
-        //    var jStats = _statsTemplates[ZStringConstants.BF3ResourceKey] as JObject;
-
-        //    _assign(statsDictionary, jStats);
-
-        //    var statsToken = jStats["stats"];
-        //    var rank = statsToken.Value<int>("rank");
-
-        //    statsToken["rankname"] = GetBF3RankName(rank);
-
-        //    var scoresToken = statsToken["scores"];
-        //    var vehiclesScoreValue = SumIfNum(
-        //        scoresToken["vehicleaa"],
-        //        scoresToken["vehicleah"],
-        //        scoresToken["vehicleifv"],
-        //        scoresToken["vehiclejet"],
-        //        scoresToken["vehiclembt"],
-        //        scoresToken["vehiclesh"],
-        //        scoresToken["vehiclelbt"],
-        //        scoresToken["vehicleart"]);
-        //    var combatScore = SumIfNum(
-        //                     scoresToken["support"],
-        //                     scoresToken["assault"],
-        //                     scoresToken["engineer"],
-        //                     scoresToken["recon"]) +
-        //                 vehiclesScoreValue;
-        //    var allScore = combatScore + SumIfNum(scoresToken["unlock"], scoresToken["award"], scoresToken["special"]);
-
-        //    scoresToken["maxxp"] = GetRankMaxScore(rank);
-        //    scoresToken["shortxp"] = allScore - Sumfrom0to(rank);
-        //    scoresToken["longxp"] = allScore;
-
-        //    var resultStats = new ZBF3Stats(jStats);
-        //    return resultStats;
-        //}
-
-
-
-
-
-
-
         //public ZBF4Stats ParseBF4Stats(ZPacket[] packets)
         //{
         //    var packet = packets.First();
