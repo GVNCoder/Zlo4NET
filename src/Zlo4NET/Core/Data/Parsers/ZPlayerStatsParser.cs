@@ -14,17 +14,6 @@ namespace Zlo4NET.Core.Data.Parsers
 {
     internal class ZPlayerStatsParser : IZPlayerStatsParser
     {
-        #region Internal types
-
-        // ReSharper disable once InconsistentNaming
-        private class _Stats
-        {
-            public IDictionary<string, float> Stats;
-            public ZGame TargetGame;
-        }
-
-        #endregion
-
         private readonly ZLogger _logger;
 
         private readonly IDictionary<ZGame, Func<IDictionary<string, float>, ZPlayerStatsBase>>
@@ -51,8 +40,8 @@ namespace Zlo4NET.Core.Data.Parsers
             var statsObject = _ParseStatsObject(packet);
 
             // assign stats to object
-            var statsAssignHandler = _gameSpecificStatsHandlers[statsObject.TargetGame];
-            var stats = statsAssignHandler.Invoke(statsObject.Stats);
+            var statsAssignHandler = _gameSpecificStatsHandlers[statsObject.Item2];
+            var stats = statsAssignHandler.Invoke(statsObject.Item1);
 
             return stats;
         }
@@ -61,9 +50,9 @@ namespace Zlo4NET.Core.Data.Parsers
 
         #region Private helpers
 
-        private static _Stats _ParseStatsObject(ZPacket packet)
+        private static Tuple<IDictionary<string, float>, ZGame> _ParseStatsObject(ZPacket packet)
         {
-            _Stats stats = null;
+            Tuple<IDictionary<string, float>, ZGame> stats;
 
             using (var memoryStream = new MemoryStream(packet.Payload, false))
             using (var binaryReader = new BinaryReader(memoryStream, Encoding.ASCII))
@@ -73,7 +62,7 @@ namespace Zlo4NET.Core.Data.Parsers
                 var countOfStats = binaryReader.ReadZUInt16();
                 var statsDictionary = new Dictionary<string, float>(countOfStats);
 
-                for (ushort i = 0; i < countOfStats; i++)
+                for (var i = 0; i < countOfStats; i++)
                 {
                     var name = binaryReader.ReadZString();
                     var value = binaryReader.ReadZFloat();
@@ -81,11 +70,7 @@ namespace Zlo4NET.Core.Data.Parsers
                     statsDictionary.Add(name, value);
                 }
 
-                stats = new _Stats
-                {
-                    Stats = statsDictionary,
-                    TargetGame = targetGame
-                };
+                stats = new Tuple<IDictionary<string, float>, ZGame>(statsDictionary, targetGame);
             }
 
             return stats;

@@ -125,22 +125,18 @@ namespace Zlo4NET.Core.Helpers
 
         private static JArray _LoadJsonByGame(ZGame game)
         {
-            JArray jObject;
+            JArray jArray;
 
             // convert game to resource key
             var resourceKey = game.ToString().ToLowerInvariant();
 
-            // get resource by resource key
             using (var streamReader = new StreamReader(ZInternalResource.GetResourceStream($"stats.{resourceKey}_rankDetails.json")))
             {
-                // load all json content
                 var jsonContent = streamReader.ReadToEnd();
-
-                // parse into jObject
-                jObject = JArray.Parse(jsonContent);
+                jArray = JArray.Parse(jsonContent);
             }
 
-            return jObject;
+            return jArray;
         }
 
         private static void _MapAutoMapperProperties(ZPlayerStatsBase statsInstance, IDictionary<string, float> statsDictionary)
