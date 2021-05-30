@@ -14,6 +14,10 @@ namespace Zlo4NET.Api.DTOs
         /// <summary>
         /// 
         /// </summary>
+        public ZGameArchitecture Architecture { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
         public string ReadableName { get; set; }
         /// <summary>
         /// 

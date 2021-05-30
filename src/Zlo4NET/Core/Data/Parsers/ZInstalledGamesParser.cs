@@ -59,6 +59,7 @@ namespace Zlo4NET.Core.Data.Parsers
                     };
 
                     item.Game = _GetZGameByInternalName(item.InternalName);
+                    item.Architecture = _GetZGameArchitectureByRunnableName(item.RunnableName);
 
                     games.Add(item);
                 }
@@ -80,6 +81,13 @@ namespace Zlo4NET.Core.Data.Parsers
         private ZGame _GetZGameByInternalName(string internalName)
         {
             return _supportedGamesMetadata.TryGetValue(internalName, out var game) ? game : ZGame.None;
+        }
+
+        private static ZGameArchitecture _GetZGameArchitectureByRunnableName(string runnableGame)
+        {
+            return runnableGame.Contains(ZGameArchitecture.x64.ToString())
+                ? ZGameArchitecture.x64
+                : ZGameArchitecture.x32;
         }
 
         #endregion
