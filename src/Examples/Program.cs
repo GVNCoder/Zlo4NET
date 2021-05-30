@@ -70,7 +70,7 @@ namespace Examples
             #region Get target game from User
 
             // select game
-            Console.Write($"Select target game where {ZGame.BF3}[1] {ZGame.BF4}[2] {ZGame.BFH}[3]: ");
+            Console.Write($"Select target game where {ZGame.BF3}[1] {ZGame.BF4}[2] {ZGame.BFHL}[3]: ");
 
             // get user input
             var gameSelectUserInput = Console.ReadLine();
