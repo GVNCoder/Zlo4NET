@@ -3,7 +3,7 @@
     /// <summary>
     /// 
     /// </summary>
-    public class ZInstalledGames
+    public class ZGameCollection
     {
         /// <summary>
         /// 

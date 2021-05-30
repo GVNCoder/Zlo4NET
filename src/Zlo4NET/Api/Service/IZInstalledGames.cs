@@ -7,12 +7,12 @@ namespace Zlo4NET.Api.Service
     /// <summary>
     /// 
     /// </summary>
-    public interface IZInstalledGamesService
+    public interface IZInstalledGames
     {
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
-        Task<ZInstalledGames> GetInstalledGamesAsync();
+        Task<ZGameCollection> GetGamesCollectionAsync();
     }
 }

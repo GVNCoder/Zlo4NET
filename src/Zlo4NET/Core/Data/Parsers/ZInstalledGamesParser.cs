@@ -1,12 +1,14 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Collections.Generic;
+using System.Reflection;
 
 using Zlo4NET.Api.DTOs;
 using Zlo4NET.Api.Models.Shared;
+using Zlo4NET.Core.Data.Attributes;
 using Zlo4NET.Core.Extensions;
-using Zlo4NET.Core.Helpers;
 using Zlo4NET.Core.Services;
 using Zlo4NET.Core.ZClientAPI;
 
@@ -14,19 +16,38 @@ namespace Zlo4NET.Core.Data.Parsers
 {
     internal class ZInstalledGamesParser : IZInstalledGamesParser
     {
-        public ZInstalledGames Parse(ZPacket packet)
+        private readonly IDictionary<string, ZGame> _supportedGamesMetadata;
+
+        #region Ctor
+
+        public ZInstalledGamesParser()
         {
-            var installedGames = new ZInstalledGames();
+            _supportedGamesMetadata = new Dictionary<string, ZGame>();
 
-            List<ZInstalledGame> games;
-
-            using (var memory = new MemoryStream(packet.Payload, false))
-            using (var binaryReader = new BinaryReader(memory, Encoding.ASCII))
+            // cache supported games
+            var enumFields = typeof(ZGame).GetFields(BindingFlags.Public | BindingFlags.Static);
+            foreach (var field in enumFields)
             {
-                installedGames.IsX64OperatingSystem = binaryReader.ReadBoolean();
+                var metadata = field.GetCustomAttribute<ZGameEnumMetadataAttribute>(false);
+                if (metadata != null)
+                {
+                    _supportedGamesMetadata.Add(metadata.InternalName, (ZGame) field.GetRawConstantValue());
+                }
+            }
+        }
 
+        #endregion
+
+        public ZGameCollection Parse(ZPacket packet)
+        {
+            ZGameCollection gameCollection;
+
+            using (var memoryStream = new MemoryStream(packet.Payload, false))
+            using (var binaryReader = new BinaryReader(memoryStream, Encoding.ASCII))
+            {
+                var isX64OperatingSystem = binaryReader.ReadBoolean();
                 var gamesCount = binaryReader.ReadZUInt32();
-                games = new List<ZInstalledGame>((int) gamesCount);
+                var games = new List<ZInstalledGame>((int) gamesCount);
 
                 for (var i = 0; i < gamesCount; i++)
                 {
@@ -37,17 +58,30 @@ namespace Zlo4NET.Core.Data.Parsers
                         ReadableName = binaryReader.ReadZString()
                     };
 
-                    item.Game = ZStringToGameConverter.Convert(item.InternalName);
+                    item.Game = _GetZGameByInternalName(item.InternalName);
 
                     games.Add(item);
                 }
+
+                gameCollection = new ZGameCollection
+                {
+                    IsX64OperatingSystem = isX64OperatingSystem,
+                    Games = games
+                        .Where(i => i.Game != ZGame.None)
+                        .ToArray()
+                };
             }
 
-            installedGames.Games = games
-                .Where(g => g.Game != ZGame.None)
-                .ToArray();
-            
-            return installedGames;
+            return gameCollection;
         }
+
+        #region Private methods
+
+        private ZGame _GetZGameByInternalName(string internalName)
+        {
+            return _supportedGamesMetadata.TryGetValue(internalName, out var game) ? game : ZGame.None;
+        }
+
+        #endregion
     }
 }

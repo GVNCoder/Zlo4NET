@@ -9,32 +9,32 @@ using Zlo4NET.Core.ZClientAPI;
 
 namespace Zlo4NET.Core.Data
 {
-    internal class ZInstalledGamesService : IZInstalledGamesService
+    internal class ZInstalledGames : IZInstalledGames
     {
         private readonly IZInstalledGamesParser _installedGamesParser;
         private readonly ZLogger _logger;
 
-        public ZInstalledGamesService()
+        public ZInstalledGames()
         {
             _installedGamesParser = ZParsersFactory.CreateInstalledGamesInfoParser();
             _logger = ZLogger.Instance;
         }
 
-        public async Task<ZInstalledGames> GetInstalledGamesAsync()
+        public async Task<ZGameCollection> GetGamesCollectionAsync()
         {
-            ZInstalledGames installedGames = null;
+            ZGameCollection installedGames = null;
 
             var request = ZRequestFactory.CreateInstalledGamesRequest();
             var response = await ZRouter.GetResponseAsync(request);
 
-            if (response.StatusCode != ZResponseStatusCode.Ok)
-            {
-                _logger.Warning($"Request fail {request}");
-            }
-            else
+            if (response.StatusCode == ZResponseStatusCode.Ok)
             {
                 var responsePacket = response.ResponsePackets.Single();
                 installedGames = _installedGamesParser.Parse(responsePacket);
+            }
+            else
+            {
+                _logger.Warning($"Request fail {request}");
             }
 
             return installedGames;

@@ -161,7 +161,7 @@ namespace Zlo4NET.Core.Data.Parsers
                     break;
 
                 case ZGame.BF4:
-                case ZGame.BFH:
+                case ZGame.BFHL:
 
                     // skip block
                     binaryReader.SkipBytes(4);

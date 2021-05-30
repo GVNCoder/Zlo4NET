@@ -32,7 +32,7 @@ namespace Zlo4NET.Core.Data
 
         private const string _spectatorValue = "isspectator=\\\"true\\\"";
 
-        private readonly IZInstalledGamesService _installedGamesService;
+        private readonly IZInstalledGames _installedGamesService;
         private readonly IZConnection _connection;
 
         private JObject __runStrings;
@@ -40,7 +40,7 @@ namespace Zlo4NET.Core.Data
 
         public ZGameFactory(IZConnection connection)
         {
-            _installedGamesService = new ZInstalledGamesService();
+            _installedGamesService = new ZInstalledGames();
             _connection = connection;
 
             _loadRunJSON();
@@ -56,7 +56,7 @@ namespace Zlo4NET.Core.Data
                 case ZGame.BF4:
                     return new ZGameProcess(command, target, "warsaw_snowroller",
                         architecture == ZGameArchitecture.x64 ? "bf4" : "bf4_x86");
-                case ZGame.BFH:
+                case ZGame.BFHL:
                     return new ZGameProcess(command, target, "omaha_snowroller",
                         architecture == ZGameArchitecture.x64 ? "bfh" : "bfh_x86");
 
@@ -80,7 +80,7 @@ namespace Zlo4NET.Core.Data
         {
             ZConnectionHelper.MakeSureConnection();
 
-            var installedGames = await _installedGamesService.GetInstalledGamesAsync();
+            var installedGames = await _installedGamesService.GetGamesCollectionAsync();
             if (installedGames == null)
             {
                 throw new Exception("Installed games not received. Check your ZClient connection.");
@@ -121,7 +121,7 @@ namespace Zlo4NET.Core.Data
             else if (ZPlayMode.CooperativeHost == args.Mode && (args.Difficulty == null || args.Level == null))
                 throw new ArgumentException($"For this {args.Mode} mode need to specify {nameof(args.Difficulty)}, {nameof(args.Level)} value.");
 
-            var installedGames = await _installedGamesService.GetInstalledGamesAsync();
+            var installedGames = await _installedGamesService.GetGamesCollectionAsync();
             if (installedGames == null)
             {
                 throw new Exception("Installed games not received. Check your ZClient connection.");
@@ -169,12 +169,12 @@ namespace Zlo4NET.Core.Data
                 throw new NotSupportedException("Battlefield 3 TestRange play mode not supported.");
             }
 
-            if (args.Game == ZGame.BFH)
+            if (args.Game == ZGame.BFHL)
             {
                 throw new NotImplementedException("Battlefield Hardline TestRange not implemented in ZLOEmu.");
             }
 
-            var installedGames = await _installedGamesService.GetInstalledGamesAsync();
+            var installedGames = await _installedGamesService.GetGamesCollectionAsync();
             if (installedGames == null)
             {
                 throw new Exception("Installed games not received. Check your ZClient connection.");
@@ -205,12 +205,12 @@ namespace Zlo4NET.Core.Data
         {
             ZConnectionHelper.MakeSureConnection();
 
-            if ((args.Game == ZGame.BF3 || args.Game == ZGame.BFH) && args.Role == ZRole.Spectator)
+            if ((args.Game == ZGame.BF3 || args.Game == ZGame.BFHL) && args.Role == ZRole.Spectator)
             {
-                throw new ArgumentException("BF3\\BFH is not support Spectator mode.");
+                throw new ArgumentException("BF3\\BFHL is not support Spectator mode.");
             }
 
-            var installedGames = await _installedGamesService.GetInstalledGamesAsync();
+            var installedGames = await _installedGamesService.GetGamesCollectionAsync();
             if (installedGames == null)
             {
                 throw new Exception("Installed games not received. Check your ZClient connection.");

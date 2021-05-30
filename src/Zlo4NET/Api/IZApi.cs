@@ -52,7 +52,7 @@ namespace Zlo4NET.Api
         /// <summary>
         /// Gets installed games service
         /// </summary>
-        IZInstalledGamesService InstalledGamesService { get; }
+        IZInstalledGames InstalledGamesService { get; }
 
         #endregion
 

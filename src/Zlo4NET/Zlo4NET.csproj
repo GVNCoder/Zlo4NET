@@ -67,10 +67,11 @@
     <Compile Include="Api\Models\Shared\ZPlayerRole.cs" />
     <Compile Include="Api\Models\Shared\ZProcessParameters.cs" />
     <Compile Include="Api\Models\Shared\ZServerListAction.cs" />
+    <Compile Include="Core\Data\Attributes\ZGameEnumMetadataAttribute.cs" />
     <Compile Include="Core\Data\Attributes\ZStatsMapperAttribute.cs" />
     <Compile Include="Core\Data\ZGameEvent.cs" />
     <Compile Include="Core\Data\ZGameState.cs" />
-    <Compile Include="Api\DTOs\ZInstalledGames.cs" />
+    <Compile Include="Api\DTOs\ZGameCollection.cs" />
     <Compile Include="Api\Models\Shared\ZLogMessageArgs.cs" />
     <Compile Include="Api\Models\Shared\ZLogLevel.cs" />
     <Compile Include="Api\Models\Shared\ZMultiParams.cs" />
@@ -86,7 +87,7 @@
     <Compile Include="Core\Data\ZActionState.cs" />
     <Compile Include="Core\Data\ZGameFactory.cs" />
     <Compile Include="Core\Data\ZInjectorService.cs" />
-    <Compile Include="Core\Data\ZInstalledGamesService.cs" />
+    <Compile Include="Core\Data\ZInstalledGames.cs" />
     <Compile Include="Core\Data\Attributes\ZMapperPropertyAttribute.cs" />
     <Compile Include="Core\Data\ZResource.cs" />
     <Compile Include="Core\Data\ZGameProcess.cs" />
@@ -99,13 +100,12 @@
     <Compile Include="Core\Helpers\ZGameSpecificStatsHandlerProvider.cs" />
     <Compile Include="Core\Helpers\ZMapperHelper.cs" />
     <Compile Include="Core\Helpers\ZObservableHelper.cs" />
-    <Compile Include="Core\Helpers\ZStringToGameConverter.cs" />
     <Compile Include="Core\Helpers\ZSynchronizationWrapper.cs" />
     <Compile Include="Core\Helpers\ZUnsafeMethods.cs" />
     <Compile Include="Core\Services\IZGameRunParser.cs" />
     <Compile Include="Core\Services\IZInjectorService.cs" />
     <Compile Include="Core\Services\IZInstalledGamesParser.cs" />
-    <Compile Include="Api\Service\IZInstalledGamesService.cs" />
+    <Compile Include="Api\Service\IZInstalledGames.cs" />
     <Compile Include="Core\Services\IZPlayerStatsParser.cs" />
     <Compile Include="Core\Services\IZPlayerStatsService.cs" />
     <Compile Include="Api\Models\Server\ZMap.cs" />

@@ -37,7 +37,7 @@ namespace Zlo4NET.Core.Data
         private readonly IZInjectorService _injector;
         private readonly IZPlayerStatsService _playerStatsService;
         private readonly IZGameFactory _gameFactory;
-        private readonly IZInstalledGamesService _installedGamesService;
+        private readonly IZInstalledGames _installedGamesService;
 
         private ZConfiguration _config;
         private IZServersList _lastCreatedServerListInstance;
@@ -49,7 +49,7 @@ namespace Zlo4NET.Core.Data
             _playerStatsService     = new ZPlayerStatsService();
             _gameFactory            = new ZGameFactory(_connection);
             _injector               = new ZInjectorService();
-            _installedGamesService  = new ZInstalledGamesService();
+            _installedGamesService  = new ZInstalledGames();
 
             // initializing the static helpers
             ZConnectionHelper.Initialize(_connection);
@@ -63,7 +63,7 @@ namespace Zlo4NET.Core.Data
 
         public IZLogger Logger => ZLogger.Instance;
 
-        public IZInstalledGamesService InstalledGamesService => _installedGamesService;
+        public IZInstalledGames InstalledGamesService => _installedGamesService;
 
         public async Task<ZPlayerStatsBase> GetPlayerStatsAsync(ZGame game)
         {
