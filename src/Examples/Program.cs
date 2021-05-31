@@ -1,15 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 using Zlo4NET.Api;
-using Zlo4NET.Api.DTO;
-using Zlo4NET.Api.Models.Shared;
-using Zlo4NET.Api.Service;
 using Zlo4NET.Core.Data;
+using Zlo4NET.Api.Service;
+using Zlo4NET.Api.Models.Shared;
 
+// ReSharper disable InconsistentNaming
+// ReSharper disable AssignNullToNotNullAttribute
 // ReSharper disable ClassNeverInstantiated.Global
 
 namespace Examples
@@ -54,8 +54,7 @@ namespace Examples
             {
                 Console.WriteLine("Connected\n");
 
-                // call async version of Main(...)                  
-                MainAsync(args).GetAwaiter().GetResult();
+                RunGameExampleAsync(args).GetAwaiter().GetResult();
             }
             else
             {
@@ -65,66 +64,43 @@ namespace Examples
             Console.ReadKey();
         }
 
-        private static async Task MainAsync(string[] args)
+        #region Examples
+
+        private static async Task RunGameExampleAsync(string[] args)
         {
-            #region Get target game from User
+            // in fact, the ZApi.Instance class is a layer of access to all the services and capabilities of the API
+            var api = ZApi.Instance;
 
-            // select game
-            Console.Write($"Select target game where {ZGame.BF3}[1] {ZGame.BF4}[2] {ZGame.BFHL}[3]: ");
+            // using a factory, you can create a game process to run it
+            var gameFactory = api.GameFactory;
 
-            // get user input
-            var gameSelectUserInput = Console.ReadLine();
+            // using this service, you can get a list of all available games
+            var installedGames = api.InstalledGamesService;
 
-            // validate input
-            if (! int.TryParse(gameSelectUserInput, out var targetGame) || targetGame <= 0 || targetGame > 3)
-                throw new InvalidOperationException("Invalid input!");
+            // you cannot create a process for a game that is not installed, so first, you need to get a list of all available and supported API games
+            var availableGames = await installedGames.GetGamesCollectionAsync();
 
-            // cuz BF3 = 0
-            var game = (ZGame)targetGame - 1;
+            // print available info
+            Console.WriteLine($"Your operating system: {(availableGames.IsX64OperatingSystem ? ZGameArchitecture.x64 : ZGameArchitecture.x32)}\n");
 
-            #endregion
-
-            #region Get target game mode
-
-            // select game mode
-            Console.Write($"Select game mode where {ZPlayMode.Singleplayer}[1] {ZPlayMode.Multiplayer}[2] \n");
-
-            // get user input
-            var gameModeSelectUserInput = Console.ReadLine();
-
-            // validate input
-            if (! int.TryParse(gameModeSelectUserInput, out var targetGameMode) || targetGameMode <= 0 || targetGameMode > 2)
-                throw new InvalidOperationException("Invalid input!");
-
-            // cuz Singleplayer = 0
-            var gameMode = (ZPlayMode) targetGameMode;
-
-            #endregion
-
-            switch (gameMode)
+            for (var i = 0; i < availableGames.Games.Length; i++)
             {
-                // create and run singleplayer game
-                case ZPlayMode.Singleplayer:
+                var installedGame = availableGames.Games[i];
 
-                    // create game
-                    var gameProcess = await _gameFactory.CreateSingleAsync(new ZSingleLaunchParameters { Game = game });
-
-                    // run and track game pipe
-                    await _RunAndTrack(gameProcess);
-
-                    break;
-                case ZPlayMode.Multiplayer:
-
-                    await _MultiplayerHandler(game);
-
-                    break;
-
-                case ZPlayMode.CooperativeHost:
-                case ZPlayMode.CooperativeClient:
-                case ZPlayMode.TestRange:
-                default:
-                    throw new ArgumentOutOfRangeException();
+                Console.WriteLine($"\tId: {i + 1} Game: {installedGame.ReadableName} Arch: {installedGame.Architecture}");
             }
+
+            Console.Write("\nPlease, select game: ");
+
+            // get user input
+            var userInput = Console.ReadLine();
+            var gameIndex = int.Parse(userInput) - 1;
+            var availableGame = availableGames.Games[gameIndex];
+
+            // create game process
+            var gameProcess = gameFactory.CreateSingle(new ZSingleLaunchParameters { TargetGame = availableGame });
+
+            await _RunAndTrack(gameProcess);
         }
 
         private static async Task _RunAndTrack(IZGameProcess gameProcess)
@@ -146,7 +122,7 @@ namespace Examples
             // run game process
             var runResult = await gameProcess.RunAsync();
 
-            // the result will be an enumeration
+            // the result will be an enum
             // that will help determine if the game was launched successfully (returned directly by the ZClient)
             if (runResult != ZRunResult.Success)
             {
@@ -156,82 +132,175 @@ namespace Examples
             resetEvent.WaitOne();
         }
 
-        private static async Task _MultiplayerHandler(ZGame game)
-        {
-            // build the server list service instance
-            var serverListService = await _zloApi.CreateServersListAsync(game);
-            var serverListCollection = new List<ZServerDto>();
-            var resetEvent = new ManualResetEvent(false);
+        #endregion
 
-            // configure server list service
-            serverListService.ServerListActionCallback = (action, id, server) =>
-            {
-                switch (action)
-                {
-                    case ZServerListAction.ServerAddOrUpdate:
-                        serverListCollection.Add(server);
-                        break;
-                    case ZServerListAction.ServerPlayersList:
+        //private static async Task MainAsync(string[] args)
+        //{
+        //    #region Get target game from User
 
-                        resetEvent.Set();
+        //    // select game
+        //    Console.Write($"Select target game where {ZGame.BF3}[1] {ZGame.BF4}[2] {ZGame.BFHL}[3]: ");
 
-                        var serverModel = serverListCollection.FirstOrDefault(i => i.Id == id);
-                        if (serverModel != null)
-                        {
-                            serverModel.PlayersList = server.PlayersList;
-                        }
-                        break;
-                    case ZServerListAction.ServerRemove:
-                        var index = serverListCollection.FindIndex(i => i.Id == id);
-                        if (index != -1)
-                        {
-                            serverListCollection.RemoveAt(index);
-                        }
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException(nameof(action), action, null);
-                }
-            };
+        //    // get user input
+        //    var gameSelectUserInput = Console.ReadLine();
 
-            await serverListService.StartReceivingAsync();
-            
-            // wait to server list full load
-            resetEvent.WaitOne();
+        //    // validate input
+        //    if (! int.TryParse(gameSelectUserInput, out var targetGame) || targetGame <= 0 || targetGame > 3)
+        //        throw new InvalidOperationException("Invalid input!");
 
-            // draw servers table
-            const string straightLine = "_______________________________________________________________________________________";
+        //    // cuz BF3 = 0
+        //    var game = (ZGame)targetGame - 1;
 
-            // configure console
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.WriteLine("\n {0,88} \n {1,5} {2,50}| {3,30}| \n {4,88}", straightLine, "ID:", "ServerName", "Map:", straightLine);
+        //    #endregion
 
-            foreach (var item in serverListCollection)
-            {
-                Console.WriteLine("{0,5}| {1,50}| {2,30}|", item.Id, item.Name, item.MapRotation.Current.Name);
-            }
+        //    #region Get target game mode
 
-            Console.Write($"{straightLine} \n \nTo join, Enter a server ID: ");
+        //    // select game mode
+        //    Console.Write($"Select game mode where {ZPlayMode.Singleplayer}[1] {ZPlayMode.Multiplayer}[2] \n");
 
-            #region Get target server Id
+        //    // get user input
+        //    var gameModeSelectUserInput = Console.ReadLine();
 
-            // get user input
-            var serverIdUserInput = Console.ReadLine();
+        //    // validate input
+        //    if (! int.TryParse(gameModeSelectUserInput, out var targetGameMode) || targetGameMode <= 0 || targetGameMode > 2)
+        //        throw new InvalidOperationException("Invalid input!");
 
-            // validate input
-            if (! uint.TryParse(serverIdUserInput, out var targetServerId))
-                throw new InvalidOperationException("Invalid input!");
+        //    // cuz Singleplayer = 0
+        //    var gameMode = (ZPlayMode) targetGameMode;
 
-            #endregion
+        //    #endregion
 
-            // add some space between user input and game log
-            Console.ForegroundColor = ConsoleColor.Gray;
-            Console.WriteLine();
+        //    switch (gameMode)
+        //    {
+        //        // create and run singleplayer game
+        //        case ZPlayMode.Singleplayer:
 
-            // create game
-            var gameProcess = await _gameFactory.CreateMultiAsync(new ZMultiLaunchParameters { Game = game, ServerId = targetServerId });
+        //            // create game
+        //            var gameProcess = await _gameFactory.CreateSingleAsync(new ZSingleLaunchParameters { Game = game });
 
-            // run and track game pipe
-            await _RunAndTrack(gameProcess);
-        }
+        //            // run and track game pipe
+        //            await _RunAndTrack(gameProcess);
+
+        //            break;
+        //        case ZPlayMode.Multiplayer:
+
+        //            await _MultiplayerHandler(game);
+
+        //            break;
+
+        //        case ZPlayMode.CooperativeHost:
+        //        case ZPlayMode.CooperativeClient:
+        //        case ZPlayMode.TestRange:
+        //        default:
+        //            throw new ArgumentOutOfRangeException();
+        //    }
+        //}
+
+        //private static async Task _RunAndTrack(IZGameProcess gameProcess)
+        //{
+        //    var resetEvent = new ManualResetEvent(false);
+
+        //    // track game pipe
+        //    gameProcess.StateChanged += (sender, pipeArgs) =>
+        //    {
+        //        Console.WriteLine(pipeArgs.RawFullMessage);
+
+        //        // return from _RunAndTrack if game closed
+        //        if (pipeArgs.Event == ZGameEvent.StateChanged && pipeArgs.States.Contains(ZGameState.State_GameClose))
+        //        {
+        //            resetEvent.Set();
+        //        }
+        //    };
+
+        //    // run game process
+        //    var runResult = await gameProcess.RunAsync();
+
+        //    // the result will be an enumeration
+        //    // that will help determine if the game was launched successfully (returned directly by the ZClient)
+        //    if (runResult != ZRunResult.Success)
+        //    {
+        //        // TODO: Do some stuff here
+        //    }
+
+        //    resetEvent.WaitOne();
+        //}
+
+        //private static async Task _MultiplayerHandler(ZGame game)
+        //{
+        //    // build the server list service instance
+        //    var serverListService = await _zloApi.CreateServersListAsync(game);
+        //    var serverListCollection = new List<ZServerDto>();
+        //    var resetEvent = new ManualResetEvent(false);
+
+        //    // configure server list service
+        //    serverListService.ServerListActionCallback = (action, id, server) =>
+        //    {
+        //        switch (action)
+        //        {
+        //            case ZServerListAction.ServerAddOrUpdate:
+        //                serverListCollection.Add(server);
+        //                break;
+        //            case ZServerListAction.ServerPlayersList:
+
+        //                resetEvent.Set();
+
+        //                var serverModel = serverListCollection.FirstOrDefault(i => i.Id == id);
+        //                if (serverModel != null)
+        //                {
+        //                    serverModel.PlayersList = server.PlayersList;
+        //                }
+        //                break;
+        //            case ZServerListAction.ServerRemove:
+        //                var index = serverListCollection.FindIndex(i => i.Id == id);
+        //                if (index != -1)
+        //                {
+        //                    serverListCollection.RemoveAt(index);
+        //                }
+        //                break;
+        //            default:
+        //                throw new ArgumentOutOfRangeException(nameof(action), action, null);
+        //        }
+        //    };
+
+        //    await serverListService.StartReceivingAsync();
+
+        //    // wait to server list full load
+        //    resetEvent.WaitOne();
+
+        //    // draw servers table
+        //    const string straightLine = "_______________________________________________________________________________________";
+
+        //    // configure console
+        //    Console.ForegroundColor = ConsoleColor.DarkYellow;
+        //    Console.WriteLine("\n {0,88} \n {1,5} {2,50}| {3,30}| \n {4,88}", straightLine, "ID:", "ServerName", "Map:", straightLine);
+
+        //    foreach (var item in serverListCollection)
+        //    {
+        //        Console.WriteLine("{0,5}| {1,50}| {2,30}|", item.Id, item.Name, item.MapRotation.Current.Name);
+        //    }
+
+        //    Console.Write($"{straightLine} \n \nTo join, Enter a server ID: ");
+
+        //    #region Get target server Id
+
+        //    // get user input
+        //    var serverIdUserInput = Console.ReadLine();
+
+        //    // validate input
+        //    if (! uint.TryParse(serverIdUserInput, out var targetServerId))
+        //        throw new InvalidOperationException("Invalid input!");
+
+        //    #endregion
+
+        //    // add some space between user input and game log
+        //    Console.ForegroundColor = ConsoleColor.Gray;
+        //    Console.WriteLine();
+
+        //    // create game
+        //    var gameProcess = await _gameFactory.CreateMultiAsync(new ZMultiLaunchParameters { Game = game, ServerId = targetServerId });
+
+        //    // run and track game pipe
+        //    await _RunAndTrack(gameProcess);
+        //}
     }
 }
