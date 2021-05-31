@@ -85,7 +85,7 @@ namespace Zlo4NET.Core.Data.Parsers
 
         private static ZGameArchitecture _GetZGameArchitectureByRunnableName(string runnableGame)
         {
-            return runnableGame.Contains(ZGameArchitecture.x64.ToString())
+            return runnableGame.EndsWith(ZGameArchitecture.x64.ToString())
                 ? ZGameArchitecture.x64
                 : ZGameArchitecture.x32;
         }

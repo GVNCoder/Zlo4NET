@@ -1,7 +1,7 @@
 ﻿namespace Zlo4NET.Api.Models.Shared
 {
     /// <summary>
-    /// Defines player roles
+    /// 
     /// </summary>
     public enum ZRole
     {

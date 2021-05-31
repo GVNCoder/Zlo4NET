@@ -3,7 +3,7 @@
     /// <summary>
     /// Defines launch options for a multiplayer
     /// </summary>
-    public class ZMultiParams : ZBaseParameters
+    public class ZMultiLaunchParameters : ZBaseLaunchParameters
     {
         /// <summary>
         /// Gets or sets server ZloID. Require

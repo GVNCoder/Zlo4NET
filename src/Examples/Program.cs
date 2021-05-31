@@ -107,7 +107,7 @@ namespace Examples
                 case ZPlayMode.Singleplayer:
 
                     // create game
-                    var gameProcess = await _gameFactory.CreateSingleAsync(new ZSingleParams { Game = game });
+                    var gameProcess = await _gameFactory.CreateSingleAsync(new ZSingleLaunchParameters { Game = game });
 
                     // run and track game pipe
                     await _RunAndTrack(gameProcess);
@@ -228,7 +228,7 @@ namespace Examples
             Console.WriteLine();
 
             // create game
-            var gameProcess = await _gameFactory.CreateMultiAsync(new ZMultiParams { Game = game, ServerId = targetServerId });
+            var gameProcess = await _gameFactory.CreateMultiAsync(new ZMultiLaunchParameters { Game = game, ServerId = targetServerId });
 
             // run and track game pipe
             await _RunAndTrack(gameProcess);

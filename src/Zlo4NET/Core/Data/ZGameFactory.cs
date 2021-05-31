@@ -1,252 +1,260 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 using Newtonsoft.Json.Linq;
 
-using Zlo4NET.Api.DTO;
 using Zlo4NET.Api.DTOs;
-using Zlo4NET.Api.Models.Shared;
 using Zlo4NET.Api.Service;
 using Zlo4NET.Core.Helpers;
-using Zlo4NET.Core.Services;
+using Zlo4NET.Api.Models.Shared;
 
 namespace Zlo4NET.Core.Data
 {
     internal class ZGameFactory : IZGameFactory
     {
-        private const string _SingleKey = "single";
-        private const string _MultiKey = "multi";
-        private const string _CoopHostKey = "coop host";
-        private const string _CoopJoinKey = "coop join";
-        private const string _TestRangeKey = "test range";
+        #region Constants
 
-        private const string _personaRefReplaceable = "[personaRef]";
-        private const string _gameIdReplaceable = "[gameId]";
-        private const string _isSpectatorReplaceable = "[isSpectator]";
-        private const string _roleReplaceable = "[role]";
-        private const string _friendIdReplaceable = "[friendId]";
-        private const string _levelReplaceable = "[level]";
-        private const string _difficultyReplaceable = "[difficulty]";
+        private const string SINGLE_KEY = "single";
+        private const string MULTI_KEY = "multi";
+        private const string COOP_HOST_KEY = "coopHost";
+        private const string COOP_CLIENT_KEY = "coopClient";
+        private const string TEST_RANGE_KEY = "testRange";
 
-        private const string _spectatorValue = "isspectator=\\\"true\\\"";
+        #endregion
 
-        private readonly IZInstalledGames _installedGamesService;
+        private readonly IDictionary<string, string> _argumentsDictionary = new Dictionary<string, string>
+        {
+            { "[personaRef]", string.Empty },
+            { "[gameId]", string.Empty },
+            { "[isSpectator]", string.Empty },
+            { "[role]", string.Empty },
+            { "[friendId]", string.Empty },
+            { "[level]", string.Empty },
+            { "[difficulty]", string.Empty },
+        };
+
         private readonly IZConnection _connection;
+        private readonly JObject _runStrings;
 
-        private JObject __runStrings;
-        private ZUserDto __userContext => _connection.GetCurrentUserInfo();
+        #region Ctor
 
         public ZGameFactory(IZConnection connection)
         {
-            _installedGamesService = new ZInstalledGames();
             _connection = connection;
 
-            _loadRunJSON();
+            using (var streamReader = new StreamReader(ZInternalResource.GetResourceStream("run.json")))
+            {
+                var content = streamReader.ReadToEnd();
+                _runStrings = JObject.Parse(content);
+            }
         }
+
+        #endregion
 
         #region Private methods
 
-        private IZGameProcess _createRunGame(ZInstalledGame target, string command, ZGame game, ZGameArchitecture architecture)
+        private IZGameProcess _createGameProcess(ZInstalledGame targetGame, string commandArguments)
         {
-            switch (game)
+            switch (targetGame.Game)
             {
-                case ZGame.BF3: return new ZGameProcess(command, target, "venice_snowroller", "bf3");
+                case ZGame.BF3: return new ZGameProcess(commandArguments, targetGame, "venice_snowroller", "bf3");
                 case ZGame.BF4:
-                    return new ZGameProcess(command, target, "warsaw_snowroller",
-                        architecture == ZGameArchitecture.x64 ? "bf4" : "bf4_x86");
+                    return new ZGameProcess(commandArguments, targetGame, "warsaw_snowroller",
+                        targetGame.Architecture == ZGameArchitecture.x64 ? "bf4" : "bf4_x86");
                 case ZGame.BFHL:
-                    return new ZGameProcess(command, target, "omaha_snowroller",
-                        architecture == ZGameArchitecture.x64 ? "bfh" : "bfh_x86");
+                    return new ZGameProcess(commandArguments, targetGame, "omaha_snowroller",
+                        targetGame.Architecture == ZGameArchitecture.x64 ? "bfh" : "bfh_x86");
 
                 case ZGame.None:
                 default: throw new Exception();
             }
         }
 
-        private void _loadRunJSON()
+        private string _mapPlaceholders(string template)
         {
-            using (var sr = new StreamReader(ZInternalResource.GetResourceStream("run.json")))
+            const int matchIndex = 0;
+            var matches = Regex.Matches(template, "\\[\\w+\\]");
+
+            foreach (Match match in matches)
             {
-                var content = sr.ReadToEnd();
-                __runStrings = JObject.Parse(content);
+                
+            }
+
+            return template;
+        }
+
+        private static void _ValidateBasicArguments(ZBaseLaunchParameters parameters)
+        {
+            if (parameters == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            if (parameters.TargetGame == null)
+            {
+                throw new ArgumentException($"{nameof(parameters.TargetGame)} is null");
+            }
+        }
+
+        private static void _ValidateCoopClientArguments(ZCoopClientLaunchParameters parameters)
+        {
+            _ValidateBasicArguments(parameters);
+
+            if (parameters.TargetGame.Game != ZGame.BF3)
+            {
+                throw new NotSupportedException($"{parameters.TargetGame.Game} not supported");
+            }
+
+            if (parameters.HostId == null)
+            {
+                throw new ArgumentException($"{nameof(parameters.HostId)} is null");
+            }
+        }
+
+        private static void _ValidateCoopHostArguments(ZCoopHostLaunchParameters parameters)
+        {
+            _ValidateBasicArguments(parameters);
+
+            if (parameters.TargetGame.Game != ZGame.BF3)
+            {
+                throw new NotSupportedException($"{parameters.TargetGame.Game} not supported");
+            }
+
+            if (parameters.Level == null)
+            {
+                throw new ArgumentException($"{nameof(parameters.Level)} is null");
+            }
+
+            if (parameters.Difficulty == null)
+            {
+                throw new ArgumentException($"{nameof(parameters.Difficulty)} is null");
+            }
+        }
+
+        private static void _ValidateTestRangeArguments(ZTestRangeLaunchParameters parameters)
+        {
+            _ValidateBasicArguments(parameters);
+
+            if (parameters.TargetGame.Game != ZGame.BF4)
+            {
+                throw new NotSupportedException($"{parameters.TargetGame.Game} not supported");
+            }
+        }
+
+        private static void _ValidateMultiArguments(ZMultiLaunchParameters parameters)
+        {
+            _ValidateBasicArguments(parameters);
+
+            if (parameters.TargetGame.Game == ZGame.BF3 && parameters.Role == ZRole.Spectator && parameters.Role == ZRole.Commander)
+            {
+                throw new NotSupportedException($"{parameters.TargetGame.Game} doesn't support {parameters.Role} role");
+            }
+
+            if (parameters.TargetGame.Game == ZGame.BFHL && parameters.Role == ZRole.Spectator && parameters.Role == ZRole.Commander)
+            {
+                throw new NotSupportedException($"{parameters.TargetGame.Game} doesn't support {parameters.Role} role");
             }
         }
 
         #endregion
 
-        public async Task<IZGameProcess> CreateSingleAsync(ZSingleParams args)
+        public IZGameProcess CreateSingle(ZSingleLaunchParameters parameters)
         {
             ZConnectionHelper.MakeSureConnection();
+            _ValidateBasicArguments(parameters);
 
-            var installedGames = await _installedGamesService.GetGamesCollectionAsync();
-            if (installedGames == null)
-            {
-                throw new Exception("Installed games not received. Check your ZClient connection.");
-            }
+            var currentUser = _connection.GetCurrentUserInfo();
+            var commandArgumentsTemplate = _runStrings[SINGLE_KEY].Value<string>();
 
-            var architecture = args.PreferredArchitecture ??
-                               (installedGames.IsX64OperatingSystem ? ZGameArchitecture.x64 : ZGameArchitecture.x32);
-            var compatibleGames = installedGames.Games
-                .Where(insGame => insGame.Game == args.Game)
-                .ToArray();
-            var targetGame = compatibleGames.Length > 1
-                ? compatibleGames.FirstOrDefault(insGame => insGame.RunnableName.EndsWith(architecture.ToString()))
-                : compatibleGames.FirstOrDefault();
+            // generate launch arguments
+            _argumentsDictionary["[personaRef]"] = currentUser.UserId.ToString();
 
-            if (targetGame == null)
-            {
-                throw new InvalidOperationException($"The target game {args.Game} not found.");
-            }
+            // replace placeholders
+            var commandParameters = _mapPlaceholders(commandArgumentsTemplate);
+            var gameProcess = _createGameProcess(parameters.TargetGame, commandParameters);
 
-            var commandRun = __runStrings[_SingleKey].ToObject<string>();
-            commandRun = commandRun.Replace(_personaRefReplaceable, __userContext.UserId.ToString());
-
-            var runGame = _createRunGame(targetGame, commandRun, args.Game, architecture);
-            return runGame;
+            return gameProcess;
         }
 
-        public async Task<IZGameProcess> CreateCoOpAsync(ZCoopParams args)
+        public IZGameProcess CreateCoopClient(ZCoopClientLaunchParameters parameters)
         {
             ZConnectionHelper.MakeSureConnection();
+            _ValidateCoopClientArguments(parameters);
 
-            if (args.Mode != ZPlayMode.CooperativeHost && args.Mode != ZPlayMode.CooperativeClient)
-            {
-                throw new ArgumentException("Mode contains wrong value. Allowed values is CooperativeHost or CooperativeClient.");
-            }
+            var currentUser = _connection.GetCurrentUserInfo();
+            var commandArgumentsTemplate = _runStrings[COOP_CLIENT_KEY].Value<string>();
 
-            if (ZPlayMode.CooperativeClient == args.Mode && args.FriendId == null)
-                throw new ArgumentException($"For this {args.Mode} mode need to specify {nameof(args.FriendId)} value.");
-            else if (ZPlayMode.CooperativeHost == args.Mode && (args.Difficulty == null || args.Level == null))
-                throw new ArgumentException($"For this {args.Mode} mode need to specify {nameof(args.Difficulty)}, {nameof(args.Level)} value.");
+            // generate launch arguments
+            _argumentsDictionary["[personaRef]"] = currentUser.UserId.ToString();
+            _argumentsDictionary["[friendId]"] = parameters.HostId.ToString();
 
-            var installedGames = await _installedGamesService.GetGamesCollectionAsync();
-            if (installedGames == null)
-            {
-                throw new Exception("Installed games not received. Check your ZClient connection.");
-            }
+            // replace placeholders
+            var commandParameters = _mapPlaceholders(commandArgumentsTemplate);
+            var gameProcess = _createGameProcess(parameters.TargetGame, commandParameters);
 
-            var architecture = args.PreferredArchitecture ??
-                               (installedGames.IsX64OperatingSystem ? ZGameArchitecture.x64 : ZGameArchitecture.x32);
-            var compatibleGames = installedGames.Games
-                .Where(insGame => insGame.Game == ZGame.BF3)
-                .ToArray();
-            var targetGame = compatibleGames.Length > 1
-                ? compatibleGames.FirstOrDefault(insGame => insGame.RunnableName.EndsWith(architecture.ToString()))
-                : compatibleGames.FirstOrDefault();
-
-            if (targetGame == null)
-            {
-                throw new InvalidOperationException($"The target game {ZGame.BF3} not found.");
-            }
-
-            string commandRun;
-            if (args.Mode == ZPlayMode.CooperativeHost)
-            {
-                commandRun = __runStrings[_CoopHostKey].ToObject<string>();
-                commandRun = commandRun.Replace(_levelReplaceable, args.Level.ToString().ToUpper());
-                commandRun = commandRun.Replace(_difficultyReplaceable, args.Difficulty.ToString().ToUpper());
-                commandRun = commandRun.Replace(_personaRefReplaceable, __userContext.UserId.ToString());
-            }
-            else
-            {
-                commandRun = __runStrings[_CoopJoinKey].ToObject<string>();
-                commandRun = commandRun.Replace(_friendIdReplaceable, args.FriendId.ToString());
-                commandRun = commandRun.Replace(_personaRefReplaceable, __userContext.UserId.ToString());
-            }
-
-            var runGame = _createRunGame(targetGame, commandRun, ZGame.BF3, architecture);
-            return runGame;
+            return gameProcess;
         }
 
-        public async Task<IZGameProcess> CreateTestRangeAsync(ZTestRangeParams args)
+        public IZGameProcess CreateCoopHost(ZCoopHostLaunchParameters parameters)
         {
             ZConnectionHelper.MakeSureConnection();
+            _ValidateCoopHostArguments(parameters);
 
-            if (args.Game == ZGame.BF3)
-            {
-                throw new NotSupportedException("Battlefield 3 TestRange play mode not supported.");
-            }
+            var currentUser = _connection.GetCurrentUserInfo();
+            var commandArgumentsTemplate = _runStrings[COOP_HOST_KEY].Value<string>();
 
-            if (args.Game == ZGame.BFHL)
-            {
-                throw new NotImplementedException("Battlefield Hardline TestRange not implemented in ZLOEmu.");
-            }
+            // generate launch arguments
+            _argumentsDictionary["[personaRef]"] = currentUser.UserId.ToString();
+            _argumentsDictionary["[level]"] = parameters.Level.ToString();
+            _argumentsDictionary["[difficulty]"] = parameters.Difficulty.ToString();
 
-            var installedGames = await _installedGamesService.GetGamesCollectionAsync();
-            if (installedGames == null)
-            {
-                throw new Exception("Installed games not received. Check your ZClient connection.");
-            }
+            // replace placeholders
+            var commandParameters = _mapPlaceholders(commandArgumentsTemplate);
+            var gameProcess = _createGameProcess(parameters.TargetGame, commandParameters);
 
-            var architecture = args.PreferredArchitecture ??
-                               (installedGames.IsX64OperatingSystem ? ZGameArchitecture.x64 : ZGameArchitecture.x32);
-            var compatibleGames = installedGames.Games
-                .Where(insGame => insGame.Game == args.Game)
-                .ToArray();
-            var targetGame = compatibleGames.Length > 1
-                ? compatibleGames.FirstOrDefault(insGame => insGame.RunnableName.EndsWith(architecture.ToString()))
-                : compatibleGames.FirstOrDefault();
-
-            if (targetGame == null)
-            {
-                throw new Exception($"The target game {args.Game} not found.");
-            }
-
-            var commandRun = __runStrings[_TestRangeKey].ToObject<string>();
-            commandRun = commandRun.Replace(_personaRefReplaceable, __userContext.UserId.ToString());
-
-            var runGame = _createRunGame(targetGame, commandRun, args.Game, architecture);
-            return runGame;
+            return gameProcess;
         }
 
-        public async Task<IZGameProcess> CreateMultiAsync(ZMultiParams args)
+        public IZGameProcess CreateTestRange(ZTestRangeLaunchParameters parameters)
         {
             ZConnectionHelper.MakeSureConnection();
+            _ValidateTestRangeArguments(parameters);
 
-            if ((args.Game == ZGame.BF3 || args.Game == ZGame.BFHL) && args.Role == ZRole.Spectator)
-            {
-                throw new ArgumentException("BF3\\BFHL is not support Spectator mode.");
-            }
+            var currentUser = _connection.GetCurrentUserInfo();
+            var commandArgumentsTemplate = _runStrings[TEST_RANGE_KEY].Value<string>();
 
-            var installedGames = await _installedGamesService.GetGamesCollectionAsync();
-            if (installedGames == null)
-            {
-                throw new Exception("Installed games not received. Check your ZClient connection.");
-            }
+            // generate launch arguments
+            _argumentsDictionary["[personaRef]"] = currentUser.UserId.ToString();
 
-            var architecture = args.PreferredArchitecture ??
-                               (installedGames.IsX64OperatingSystem ? ZGameArchitecture.x64 : ZGameArchitecture.x32);
-            var compatibleGames = installedGames.Games
-                .Where(insGame => insGame.Game == args.Game)
-                .ToArray();
-            var targetGame = compatibleGames.Length > 1
-                ? compatibleGames.FirstOrDefault(insGame => insGame.RunnableName.EndsWith(architecture.ToString()))
-                : compatibleGames.FirstOrDefault();
+            // replace placeholders
+            var commandParameters = _mapPlaceholders(commandArgumentsTemplate);
+            var gameProcess = _createGameProcess(parameters.TargetGame, commandParameters);
 
-            if (targetGame == null)
-            {
-                throw new Exception($"The target game {args.Game} not found.");
-            }
+            return gameProcess;
+        }
 
-            var commandRun = __runStrings[_MultiKey].ToObject<string>();
-            commandRun = commandRun.Replace(_gameIdReplaceable, args.ServerId.ToString());
-            commandRun = commandRun.Replace(_personaRefReplaceable, __userContext.UserId.ToString());
+        public IZGameProcess CreateMulti(ZMultiLaunchParameters parameters)
+        {
+            ZConnectionHelper.MakeSureConnection();
+            _ValidateMultiArguments(parameters);
 
-            if (args.Role != ZRole.Spectator)
-            {
-                commandRun = commandRun.Replace(_roleReplaceable, args.Role.ToString().ToLower());
-                commandRun = commandRun.Replace(_isSpectatorReplaceable, string.Empty);
-            }
-            else
-            {
-                commandRun = commandRun.Replace(_roleReplaceable, ZRole.Soldier.ToString().ToLower());
-                commandRun = commandRun.Replace(_isSpectatorReplaceable, _spectatorValue);
-            }
+            var currentUser = _connection.GetCurrentUserInfo();
+            var commandArgumentsTemplate = _runStrings[MULTI_KEY].Value<string>();
 
-            var runGame = _createRunGame(targetGame, commandRun, args.Game, architecture);
-            return runGame;
+            // generate launch arguments
+            _argumentsDictionary["[personaRef]"] = currentUser.UserId.ToString();
+            _argumentsDictionary["[gameId]"] = parameters.ServerId.ToString();
+            _argumentsDictionary["[role]"] = parameters.Role.ToString();
+            _argumentsDictionary["[isSpectator]"] =
+                parameters.Role == ZRole.Spectator ? "isspectator=\\\"true\\\"" : string.Empty;
+
+            // replace placeholders
+            var commandParameters = _mapPlaceholders(commandArgumentsTemplate);
+            var gameProcess = _createGameProcess(parameters.TargetGame, commandParameters);
+
+            return gameProcess;
         }
     }
 }

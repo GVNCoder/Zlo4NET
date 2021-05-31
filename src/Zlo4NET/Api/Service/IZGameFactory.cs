@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Zlo4NET.Api.Models.Shared;
+﻿using Zlo4NET.Api.Models.Shared;
 
 namespace Zlo4NET.Api.Service
 {
@@ -9,34 +8,34 @@ namespace Zlo4NET.Api.Service
     public interface IZGameFactory
     {
         /// <summary>
-        /// Asynchronously creates a game to run
+        /// 
         /// </summary>
-        /// <param name="args">Options for creating a game</param>
-        /// <returns>A task that represents the asynchronous game creation operation</returns>
-        Task<IZGameProcess> CreateSingleAsync(ZSingleParams args);
+        /// <param name="parameters">Options for creating a game</param>
+        /// <returns></returns>
+        IZGameProcess CreateSingle(ZSingleLaunchParameters parameters);
         /// <summary>
-        /// Asynchronously creates a game to run
+        /// 
         /// </summary>
-        /// <param name="args">Options for creating a game</param>
-        /// <returns>A task that represents the asynchronous game creation operation</returns>
-        Task<IZGameProcess> CreateMultiAsync(ZMultiParams args);
+        /// <param name="parameters">Options for creating a game</param>
+        /// <returns></returns>
+        IZGameProcess CreateMulti(ZMultiLaunchParameters parameters);
         /// <summary>
-        /// Asynchronously creates a game to run
+        /// 
         /// </summary>
-        /// <param name="args">Options for creating a game</param>
-        /// <returns>A task that represents the asynchronous game creation operation</returns>
-        Task<IZGameProcess> CreateTestRangeAsync(ZTestRangeParams args);
+        /// <param name="parameters">Options for creating a game</param>
+        /// <returns></returns>
+        IZGameProcess CreateTestRange(ZTestRangeLaunchParameters parameters);
         /// <summary>
-        /// Asynchronously creates a game to run
+        /// 
         /// </summary>
-        /// <param name="args">Options for creating a game</param>
-        /// <returns>A task that represents the asynchronous game creation operation</returns>
-        Task<IZGameProcess> CreateCoOpAsync(ZCoopParams args);
-        ///// <summary>
-        ///// Asynchronously creates a game to track
-        ///// </summary>
-        ///// <param name="args">Options for track game process</param>
-        ///// <returns>A task that represents the asynchronous game creation operation</returns>
-        //Task<IZGameProcess> CreateByProcessNameAsync(ZProcessParameters args);
+        /// <param name="parameters">Options for creating a game</param>
+        /// <returns></returns>
+        IZGameProcess CreateCoopClient(ZCoopClientLaunchParameters parameters);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="parameters">Options for creating a game</param>
+        /// <returns></returns>
+        IZGameProcess CreateCoopHost(ZCoopHostLaunchParameters parameters);
     }
 }
