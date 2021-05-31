@@ -1,8 +1,6 @@
 ﻿namespace Zlo4NET.Api.Models.Shared
 {
-    /// <summary>
-    /// Defines launch options for a multiplayer
-    /// </summary>
+    /// <inheritdoc />
     public class ZMultiLaunchParameters : ZBaseLaunchParameters
     {
         /// <summary>
