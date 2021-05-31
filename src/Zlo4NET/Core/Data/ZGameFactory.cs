@@ -64,8 +64,7 @@ namespace Zlo4NET.Core.Data
                     return new ZGameProcess(commandArguments, targetGame, "warsaw_snowroller",
                         targetGame.Architecture == ZGameArchitecture.x64 ? "bf4" : "bf4_x86");
                 case ZGame.BFHL:
-                    return new ZGameProcess(commandArguments, targetGame, "omaha_snowroller",
-                        targetGame.Architecture == ZGameArchitecture.x64 ? "bfh" : "bfh_x86");
+                    return new ZGameProcess(commandArguments, targetGame, "omaha_snowroller","bfh");
 
                 case ZGame.None:
                 default: throw new Exception();
