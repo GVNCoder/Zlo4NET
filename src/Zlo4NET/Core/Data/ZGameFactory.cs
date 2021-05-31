@@ -74,12 +74,13 @@ namespace Zlo4NET.Core.Data
 
         private string _mapPlaceholders(string template)
         {
-            const int matchIndex = 0;
             var matches = Regex.Matches(template, "\\[\\w+\\]");
-
             foreach (Match match in matches)
             {
-                
+                var placeholderValue = match.Value;
+
+                // process placeholder
+                template = template.Replace(placeholderValue, _argumentsDictionary[placeholderValue]);
             }
 
             return template;
