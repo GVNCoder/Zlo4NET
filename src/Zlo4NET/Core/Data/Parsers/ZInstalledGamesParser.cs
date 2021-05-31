@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Text;
 using System.Collections.Generic;
@@ -16,22 +15,21 @@ namespace Zlo4NET.Core.Data.Parsers
 {
     internal class ZInstalledGamesParser : IZInstalledGamesParser
     {
-        private readonly IDictionary<string, ZGame> _supportedGamesMetadata;
+        private readonly IList<ZGameEnumMetadataAttribute> _supportedGamesMetadata;
 
         #region Ctor
 
         public ZInstalledGamesParser()
         {
-            _supportedGamesMetadata = new Dictionary<string, ZGame>();
+            _supportedGamesMetadata = new List<ZGameEnumMetadataAttribute>();
 
             // cache supported games
-            var enumFields = typeof(ZGame).GetFields(BindingFlags.Public | BindingFlags.Static);
-            foreach (var field in enumFields)
+            foreach (var field in typeof(ZGame).GetFields(BindingFlags.Public | BindingFlags.Static))
             {
                 var metadata = field.GetCustomAttribute<ZGameEnumMetadataAttribute>(false);
                 if (metadata != null)
                 {
-                    _supportedGamesMetadata.Add(metadata.InternalName, (ZGame) field.GetRawConstantValue());
+                    _supportedGamesMetadata.Add(metadata);
                 }
             }
         }
@@ -59,7 +57,7 @@ namespace Zlo4NET.Core.Data.Parsers
                     };
 
                     item.Game = _GetZGameByInternalName(item.InternalName);
-                    item.Architecture = _GetZGameArchitectureByRunnableName(item.RunnableName);
+                    item.Architecture = _GetZGameArchitectureByRunnableName(item.Game, item.RunnableName);
 
                     games.Add(item);
                 }
@@ -80,14 +78,34 @@ namespace Zlo4NET.Core.Data.Parsers
 
         private ZGame _GetZGameByInternalName(string internalName)
         {
-            return _supportedGamesMetadata.TryGetValue(internalName, out var game) ? game : ZGame.None;
+            var metadata = _supportedGamesMetadata.FirstOrDefault(i => i.InternalName == internalName);
+            return metadata?.GameReference ?? ZGame.None;
         }
 
-        private static ZGameArchitecture _GetZGameArchitectureByRunnableName(string runnableGame)
+        private ZGameArchitecture _GetZGameArchitectureByRunnableName(ZGame gameReference, string runnableGame)
         {
-            return runnableGame.EndsWith(ZGameArchitecture.x64.ToString())
-                ? ZGameArchitecture.x64
-                : ZGameArchitecture.x32;
+            var x32 = ZGameArchitecture.x32.ToString();
+            var x64 = ZGameArchitecture.x64.ToString();
+
+            if (runnableGame.EndsWith(x32))
+            {
+                return ZGameArchitecture.x32;
+            }
+            
+            if (runnableGame.EndsWith(x64))
+            {
+                return ZGameArchitecture.x64;
+            }
+
+            var metadata = _supportedGamesMetadata.FirstOrDefault(i => i.GameReference == gameReference);
+
+            // ReSharper disable once ConvertIfStatementToReturnStatement
+            if (metadata != null)
+            {
+                return metadata.DefaultArchitecture;
+            }
+
+            return ZGameArchitecture.None;
         }
 
         #endregion

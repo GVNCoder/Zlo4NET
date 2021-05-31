@@ -1,7 +1,7 @@
 ﻿namespace Zlo4NET.Api.Models.Shared
 {
     /// <summary>
-    /// Defines game architecture
+    /// 
     /// </summary>
     public enum ZGameArchitecture
     {
@@ -12,6 +12,11 @@
         /// <summary>
         /// x86
         /// </summary>
-        x32
+        x32,
+
+        /// <summary>
+        /// Stub
+        /// </summary>
+        None = -1
     }
 }
