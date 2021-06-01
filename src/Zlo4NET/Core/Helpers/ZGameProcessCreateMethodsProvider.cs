@@ -11,18 +11,18 @@ namespace Zlo4NET.Core.Helpers
     {
         public static IZGameProcess CreateBF3GameProcess(ZInstalledGame targetGame, string commandArguments)
         {
-            return new ZGameProcess(commandArguments, targetGame, "venice_snowroller", "bf3");
+            return new ZGameProcess(targetGame, commandArguments, "venice_snowroller", "bf3");
         }
 
         public static IZGameProcess CreateBF4GameProcess(ZInstalledGame targetGame, string commandArguments)
         {
-            return new ZGameProcess(commandArguments, targetGame, "warsaw_snowroller",
+            return new ZGameProcess(targetGame, commandArguments, "warsaw_snowroller",
                 targetGame.Architecture == ZGameArchitecture.x64 ? "bf4" : "bf4_x86");
         }
 
         public static IZGameProcess CreateBFHLGameProcess(ZInstalledGame targetGame, string commandArguments)
         {
-            return new ZGameProcess(commandArguments, targetGame, "omaha_snowroller", "bfh");
+            return new ZGameProcess(targetGame, commandArguments, "omaha_snowroller", "bfh");
         }
     }
 }

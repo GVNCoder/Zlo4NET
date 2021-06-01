@@ -1,16 +1,15 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
+using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Runtime.Remoting.Messaging;
 
 using Zlo4NET.Api.DTOs;
-using Zlo4NET.Api.Models.Shared;
 using Zlo4NET.Api.Service;
-using Zlo4NET.Core.Data.Parsers;
-using Zlo4NET.Core.Helpers;
 using Zlo4NET.Core.Services;
 using Zlo4NET.Core.ZClientAPI;
+using Zlo4NET.Api.Models.Shared;
+using Zlo4NET.Core.Data.Parsers;
 
 namespace Zlo4NET.Core.Data
 {
@@ -21,33 +20,41 @@ namespace Zlo4NET.Core.Data
         private readonly ZInstalledGame _targetGame;
         private readonly string _runArgs;
         private readonly string _pipeName;
-        private readonly ZLogger _logger;
 
-        private _GamePipe _pipe;
+        private ZGamePipe _pipe;
+
+        #region Ctor
 
         public ZGameProcess(
-            string runArgs,
             ZInstalledGame targetGame,
+            string runArgs,
             string pipeName,
             string processName)
         {
             _parser = ZParsersFactory.CreateGameRunInfoParser();
             _runArgs = runArgs;
             _targetGame = targetGame;
-            _logger = ZLogger.Instance;
             _pipeName = pipeName;
 
             _processTracker = new ZProcessTracker(processName, TimeSpan.FromSeconds(1), false, processes => processes.First());
         }
 
-        public event EventHandler<ZGamePipeArgs> StateChanged;
-        public Process GameProcess => _processTracker.Process;
-        public bool IsRun => _processTracker.IsRun;
+        #endregion
+
+        #region IZGameProcess interface
+
+        public event EventHandler<ZGameStateChangedEventArgs> StateChanged;
+        public Process Process => _processTracker.Process;
 
         public bool TryClose()
         {
-            if (! IsRun) return false;
+            // nothing to close
+            if (Process == null)
+            {
+                return false;
+            }
 
+            // try to close
             try
             {
                 _processTracker.Process.Kill();
@@ -60,16 +67,6 @@ namespace Zlo4NET.Core.Data
             return true;
         }
 
-        public bool TryUnfoldGameWindow()
-        {
-            if (! IsRun) return false;
-
-            var setForegroundWnd = ZUnsafeMethods.SetForegroundWindow(_processTracker.Process.MainWindowHandle);
-            var setWndShowState = ZUnsafeMethods.ShowWindow(_processTracker.Process.MainWindowHandle, 1);
-
-            return setForegroundWnd && setWndShowState;
-        }
-
         public async Task<ZRunResult> RunAsync()
         {
             // send request to run the game
@@ -78,54 +75,59 @@ namespace Zlo4NET.Core.Data
 
             if (response.StatusCode != ZResponseStatusCode.Ok)
             {
-                return ZRunResult.Error;
+                return ZRunResult.ApiInternalError;
             }
 
             // parse run results
-            var runResult = _parser.Parse(response.ResponsePackets.Single());
+            var responsePacket = response.ResponsePackets.Single();
+            var runResult = _parser.Parse(responsePacket);
+
             // ReSharper disable once InvertIf
             if (runResult == ZRunResult.Success)
             {
                 // prepare instance state to track game state
-                // begin track 
-                _pipe = new _GamePipe(_logger, _pipeName);
-                _pipe.PipeEvent += _PipeEventHandler;
+                _pipe = new ZGamePipe(_pipeName);
+                _pipe.PipeEvent += _OnGameStateChanged;
 
-                _processTracker.ProcessDetected += _ProcessTrackerOnProcessDetected;
-                _processTracker.ProcessLost += _ProcessTrackerOnProcessLost;
+                _processTracker.ProcessDetected += _OnGameProcessDetected;
+                _processTracker.ProcessLost += _OnGameProcessLost;
 
-                // begin track process tracker
+                // begin track game process
                 _processTracker.StartTrack();
             }
 
             return runResult;
         }
 
+        #endregion
+
         #region Private methods
 
-        private void _PipeEventHandler(_GameState state)
+        private void _OnGameStateChanged(ZGameStateModel state)
         {
-            _onMessage(state.Event, state.RawEvent, state.States, state.RawState);
+            _OnGameStateChangedMessage(state.Event, state.RawEvent, state.States, state.RawState);
         }
 
-        private void _ProcessTrackerOnProcessLost(object sender, EventArgs e)
+        private void _OnGameProcessLost(object sender, EventArgs e)
         {
             _processTracker.StopTrack();
 
-            _processTracker.ProcessDetected -= _ProcessTrackerOnProcessDetected;
-            _processTracker.ProcessLost -= _ProcessTrackerOnProcessLost;
+            _processTracker.ProcessDetected -= _OnGameProcessDetected;
+            _processTracker.ProcessLost -= _OnGameProcessLost;
 
+            // raise custom game state changed event
             _OnCustomPipeEvent("StateChanged", "State_GameClose");
 
-            _pipe.PipeEvent -= _PipeEventHandler;
+            _pipe.PipeEvent -= _OnGameStateChanged;
             _pipe = null;
 
             // after closing the game process,
             // its pipe is destroyed automatically + the thread that processes the reading will be completed
         }
 
-        private void _ProcessTrackerOnProcessDetected(object sender, Process e)
+        private void _OnGameProcessDetected(object sender, Process e)
         {
+            // raise custom game state changed event
             _OnCustomPipeEvent("StateChanged", "State_GameRun");
 
             // begin connect to game pipe
@@ -135,40 +137,35 @@ namespace Zlo4NET.Core.Data
         private void _OnCustomPipeEvent(string eventName, string stateName)
         {
             // parse custom state
-            var state = _GameStateParser.ParseStates(eventName, stateName);
+            var state = ZGameStateParser.ParseStates(eventName, stateName);
 
-            _onMessage(state.Event, state.RawEvent, state.States, state.RawState);
+            _OnGameStateChangedMessage(state.Event, state.RawEvent, state.States, state.RawState);
         }
 
-        private void _onMessage(ZGameEvent eventEnum, string rawEvent, ZGameState[] stateEnums, string rawState)
+        private void _OnGameStateChangedMessage(ZGameEvent eventEnum, string rawEvent, ZGameState[] stateEnums, string rawState)
         {
-            if (StateChanged == null) return;
+            if (StateChanged == null)
+            {
+                return;
+            }
 
             // raise event
             var invocationList = StateChanged.GetInvocationList();
-            var eventArgs = new ZGamePipeArgs(eventEnum, rawEvent, stateEnums, rawState);
+            var eventArgs = new ZGameStateChangedEventArgs(eventEnum, rawEvent, stateEnums, rawState);
 
             foreach (var handler in invocationList)
             {
-                var eventHandler = (EventHandler<ZGamePipeArgs>) handler;
+                var eventHandler = (EventHandler<ZGameStateChangedEventArgs>) handler;
                 eventHandler.BeginInvoke(this, eventArgs, _EndAsyncEvent, null);
             }
         }
 
-        private void _EndAsyncEvent(IAsyncResult iar)
+        private static void _EndAsyncEvent(IAsyncResult iar)
         {
-            var ar = (AsyncResult) iar;
-            var invokedMethod = (EventHandler<ZGamePipeArgs>) ar.AsyncDelegate;
+            var asyncResult = (AsyncResult) iar;
+            var invokedMethod = (EventHandler<ZGameStateChangedEventArgs>) asyncResult.AsyncDelegate;
 
-            try
-            {
-                invokedMethod.EndInvoke(iar);
-            }
-            catch (Exception ex)
-            {
-                _logger.Error($"Pipe event handler throws exception. MSG: {ex.Message}");
-                throw new Exception("Pipe event handler throws exception.", ex);
-            }
+            invokedMethod.EndInvoke(iar);
         }
 
         #endregion

@@ -91,9 +91,9 @@
     <Compile Include="Core\Data\Attributes\ZMapperPropertyAttribute.cs" />
     <Compile Include="Core\Data\ZResource.cs" />
     <Compile Include="Core\Data\ZGameProcess.cs" />
-    <Compile Include="Core\Data\_GamePipe.cs" />
-    <Compile Include="Core\Data\_GameState.cs" />
-    <Compile Include="Core\Data\_GameStateParser.cs" />
+    <Compile Include="Core\Data\ZGamePipe.cs" />
+    <Compile Include="Core\Data\ZGameStateModel.cs" />
+    <Compile Include="Core\Data\ZGameStateParser.cs" />
     <Compile Include="Core\Helpers\ZCollectionWrapper.cs" />
     <Compile Include="Core\Helpers\ZConnectionHelper.cs" />
     <Compile Include="Core\Helpers\ZBitConverter.cs" />
@@ -110,7 +110,7 @@
     <Compile Include="Core\Services\IZPlayerStatsParser.cs" />
     <Compile Include="Core\Services\IZPlayerStatsService.cs" />
     <Compile Include="Api\Models\Server\ZMap.cs" />
-    <Compile Include="Api\Models\Shared\ZGamePipeArgs.cs" />
+    <Compile Include="Api\Models\Shared\ZGameStateChangedEventArgs.cs" />
     <Compile Include="Api\DTOs\ZInstalledGame.cs" />
     <Compile Include="Api\Service\IZLogger.cs" />
     <Compile Include="Api\Service\IZProcessTracker.cs" />

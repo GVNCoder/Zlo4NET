@@ -11,15 +11,15 @@ namespace Zlo4NET.Core.Data.Parsers
     {
         public ZRunResult Parse(ZPacket packet)
         {
-            var runStatus = ZRunResult.None;
+            var runResult = ZRunResult.None;
 
-            using (var memory = new MemoryStream(packet.Payload, false))
-            using (var binaryReader = new BinaryReader(memory, Encoding.ASCII))
+            using (var memoryStream = new MemoryStream(packet.Payload, false))
+            using (var binaryReader = new BinaryReader(memoryStream, Encoding.ASCII))
             {
-                runStatus = (ZRunResult) binaryReader.ReadByte();
+                runResult = (ZRunResult) binaryReader.ReadByte();
             }
 
-            return runStatus;
+            return runResult;
         }
     }
 }

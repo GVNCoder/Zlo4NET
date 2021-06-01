@@ -1,6 +1,6 @@
 ﻿namespace Zlo4NET.Core.Data
 {
-    internal class _GameState
+    internal class ZGameStateModel
     {
         public ZGameEvent Event { get; set; }
         public ZGameState[] States { get; set; }

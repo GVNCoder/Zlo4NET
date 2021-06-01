@@ -2,16 +2,17 @@
 
 using Zlo4NET.Core.Data;
 
+// ReSharper disable InheritdocConsiderUsage
 // disable Missing XML documentation
+
 #pragma warning disable 1591
 
 namespace Zlo4NET.Api.Models.Shared
 {
-    /// <inheritdoc />
     /// <summary>
-    /// Defines game pipe event
+    /// 
     /// </summary>
-    public class ZGamePipeArgs : EventArgs
+    public class ZGameStateChangedEventArgs : EventArgs
     {
         /// <summary>
         /// 
@@ -34,7 +35,7 @@ namespace Zlo4NET.Api.Models.Shared
         /// </summary>
         public ZGameState[] States { get; set; }
 
-        public ZGamePipeArgs(ZGameEvent eventEnum, string rawEvent, ZGameState[] stateEnums, string rawState)
+        public ZGameStateChangedEventArgs(ZGameEvent eventEnum, string rawEvent, ZGameState[] stateEnums, string rawState)
         {
             Event = eventEnum;
             States = stateEnums;

@@ -20,6 +20,10 @@
         /// <summary>
         /// 
         /// </summary>
+        ApiInternalError,
+        /// <summary>
+        /// 
+        /// </summary>
         None
     }
 }

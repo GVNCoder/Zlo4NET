@@ -1,17 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Collections.Generic;
 
 using Zlo4NET.Core.Helpers;
 
+// ReSharper disable InconsistentNaming
+
 namespace Zlo4NET.Core.Data
 {
-    internal static class _GameStateParser
+    internal static class ZGameStateParser
     {
-        #region Private members
-
         // where string is state name
-        private static readonly IReadOnlyDictionary<string, ZGameState> _states = new Dictionary<string, ZGameState>
+        private static readonly IReadOnlyDictionary<string, ZGameState> _statesCollection = new Dictionary<string, ZGameState>
         {
             { "", ZGameState.State_Empty },
             { nameof(ZGameState.State_GameRun), ZGameState.State_GameRun },
@@ -47,8 +47,9 @@ namespace Zlo4NET.Core.Data
             { nameof(ZGameState.State_Sparta), ZGameState.State_Sparta },
             { nameof(ZGameState.State_ShutdownStateMachine), ZGameState.State_ShutdownStateMachine }
         };
+
         // where string is event name
-        private static readonly IReadOnlyDictionary<string, ZGameEvent> _events = new Dictionary<string, ZGameEvent>
+        private static readonly IReadOnlyDictionary<string, ZGameEvent> _eventsCollection = new Dictionary<string, ZGameEvent>
         {
             { nameof(ZGameEvent.GameWaiting), ZGameEvent.GameWaiting },
             { nameof(ZGameEvent.StateChanged), ZGameEvent.StateChanged },
@@ -57,14 +58,14 @@ namespace Zlo4NET.Core.Data
 
         private static readonly ZLogger _log = ZLogger.Instance;
 
-        #endregion
+        #region Interface
 
-        public static _GameState ParseStates(string rawEvent, string rawState)
+        public static ZGameStateModel ParseStates(string rawEvent, string rawState)
         {
             // get pipe game event enum value
-            _events.TryGetValue(rawEvent, out var pipeEvent);
+            _eventsCollection.TryGetValue(rawEvent, out var pipeEvent);
 
-            var resultState = new _GameState
+            var resultState = new ZGameStateModel
             {
                 RawEvent = rawEvent,
                 RawState = rawState,
@@ -87,7 +88,7 @@ namespace Zlo4NET.Core.Data
                     var states = splitStates.Select(state =>
                     {
                         // get game state enum value
-                        _states.TryGetValue(state, out var stateEnum);
+                        _statesCollection.TryGetValue(state, out var stateEnum);
 
                         return stateEnum;
                     }).ToArray();
@@ -103,12 +104,14 @@ namespace Zlo4NET.Core.Data
                 case ZGameEvent.Unknown:
                 default:
 
-                    _log.Warning($"{nameof(_GameStateParser)} event doesn't match ({rawEvent} {rawState})");
+                    _log.Warning($"{nameof(ZGameStateParser)} event doesn't match ({rawEvent} {rawState})");
 
                     break;
             }
 
             return resultState;
         }
+
+        #endregion
     }
 }
