@@ -1,16 +1,27 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Timers;
+using System.Diagnostics;
+
 using Zlo4NET.Api.Service;
+
+// ReSharper disable InconsistentNaming
 
 namespace Zlo4NET.Core.Data
 {
     /// <inheritdoc />
     public class ZProcessTracker : IZProcessTracker
     {
-        private readonly Timer _checkLoopRepeater;
+        #region Constant
+
+        private const int MIN_INTERVAL = 1000;
+
+        #endregion
+
+        private readonly Timer _timer;
         private readonly Func<Process[], Process> _processDetectorFunc;
         private readonly bool _trackAfterLost;
+
+        #region Private helpers
 
         private void _OnProcessDetected(Process detectedProcess)
         {
@@ -26,6 +37,7 @@ namespace Zlo4NET.Core.Data
         {
             StopTrack();
 
+            // raise event
             _OnProcessLost();
 
             if (_trackAfterLost)
@@ -36,13 +48,6 @@ namespace Zlo4NET.Core.Data
 
         private void _checkHandler(object sender, ElapsedEventArgs e)
         {
-            // multi-call protection
-            if (IsRun)
-            {
-                _checkLoopRepeater.Stop();
-                return;
-            }
-
             // get process list
             var processes = Process.GetProcessesByName(TargetProcessName);
 
@@ -55,7 +60,7 @@ namespace Zlo4NET.Core.Data
 
             Process = targetProcess;
 
-            _checkLoopRepeater.Stop();
+            _timer.Stop();
 
             targetProcess.EnableRaisingEvents = true;
             targetProcess.Exited += _processLostHandler;
@@ -63,19 +68,33 @@ namespace Zlo4NET.Core.Data
             _OnProcessDetected(targetProcess);
         }
 
+        #endregion
+
+        #region Ctor
+
         /// <param name="targetProcessName">The target process name.</param>
         /// <param name="checkInterval">The check interval.</param>
         /// <param name="trackAfterLost">The flag who indicates, need to track after process lost.</param>
         /// <param name="processDetectorFunc">The needed process detector func.</param>
         public ZProcessTracker(string targetProcessName, TimeSpan checkInterval, bool trackAfterLost, Func<Process[], Process> processDetectorFunc)
         {
+            // validate parameters
+            if (checkInterval < TimeSpan.FromMilliseconds(MIN_INTERVAL))
+            {
+                throw new ArgumentException($"The minimum interval is {MIN_INTERVAL} ms", nameof(checkInterval));
+            }
+
             _trackAfterLost = trackAfterLost;
-            _checkLoopRepeater = new Timer { Enabled = false, Interval = checkInterval.TotalMilliseconds };
-            _checkLoopRepeater.Elapsed += _checkHandler;
+            _timer = new Timer { Enabled = false, Interval = checkInterval.TotalMilliseconds };
+            _timer.Elapsed += _checkHandler;
             _processDetectorFunc = processDetectorFunc;
 
             TargetProcessName = targetProcessName;
         }
+
+        #endregion
+
+        #region IZProcessTracker interface
 
         /// <inheritdoc />
         public event EventHandler ProcessLost;
@@ -95,14 +114,19 @@ namespace Zlo4NET.Core.Data
         /// <inheritdoc />
         public void StartTrack()
         {
+            if (_timer.Enabled)
+            {
+                return;
+            }
+
             _checkHandler(this, null);
-            _checkLoopRepeater.Start();
+            _timer.Start();
         }
 
         /// <inheritdoc />
         public void StopTrack()
         {
-            _checkLoopRepeater.Stop();
+            _timer.Stop();
 
             if (Process != null)
             {
@@ -112,5 +136,7 @@ namespace Zlo4NET.Core.Data
 
             Process = null;
         }
+
+        #endregion
     }
 }
