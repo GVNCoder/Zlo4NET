@@ -26,13 +26,20 @@ namespace Zlo4NET.Core.Data
 
         private readonly IDictionary<string, string> _argumentsDictionary = new Dictionary<string, string>
         {
-            { "[personaRef]", string.Empty },
-            { "[gameId]", string.Empty },
+            { "[personaRef]",  string.Empty },
+            { "[gameId]",      string.Empty },
             { "[isSpectator]", string.Empty },
-            { "[role]", string.Empty },
-            { "[friendId]", string.Empty },
-            { "[level]", string.Empty },
-            { "[difficulty]", string.Empty },
+            { "[role]",        string.Empty },
+            { "[friendId]",    string.Empty },
+            { "[level]",       string.Empty },
+            { "[difficulty]",  string.Empty },
+        };
+
+        private readonly IDictionary<ZGame, Func<ZInstalledGame, string, IZGameProcess>> _gameProcessCreationMethods = new Dictionary<ZGame, Func<ZInstalledGame, string, IZGameProcess>>
+        {
+            { ZGame.BF3, ZGameProcessCreateMethodsProvider.CreateBF3GameProcess },
+            { ZGame.BF4, ZGameProcessCreateMethodsProvider.CreateBF4GameProcess },
+            { ZGame.BFHL, ZGameProcessCreateMethodsProvider.CreateBFHLGameProcess },
         };
 
         private readonly IZConnection _connection;
@@ -54,22 +61,6 @@ namespace Zlo4NET.Core.Data
         #endregion
 
         #region Private methods
-
-        private IZGameProcess _createGameProcess(ZInstalledGame targetGame, string commandArguments)
-        {
-            switch (targetGame.Game)
-            {
-                case ZGame.BF3: return new ZGameProcess(commandArguments, targetGame, "venice_snowroller", "bf3");
-                case ZGame.BF4:
-                    return new ZGameProcess(commandArguments, targetGame, "warsaw_snowroller",
-                        targetGame.Architecture == ZGameArchitecture.x64 ? "bf4" : "bf4_x86");
-                case ZGame.BFHL:
-                    return new ZGameProcess(commandArguments, targetGame, "omaha_snowroller","bfh");
-
-                case ZGame.None:
-                default: throw new Exception();
-            }
-        }
 
         private string _mapPlaceholders(string template)
         {
@@ -165,6 +156,7 @@ namespace Zlo4NET.Core.Data
             ZConnectionHelper.MakeSureConnection();
             _ValidateBasicArguments(parameters);
 
+            var targetGame = parameters.TargetGame;
             var currentUser = _connection.GetCurrentUserInfo();
             var commandArgumentsTemplate = _runStrings[SINGLE_KEY].Value<string>();
 
@@ -173,7 +165,7 @@ namespace Zlo4NET.Core.Data
 
             // replace placeholders
             var commandParameters = _mapPlaceholders(commandArgumentsTemplate);
-            var gameProcess = _createGameProcess(parameters.TargetGame, commandParameters);
+            var gameProcess = _gameProcessCreationMethods[targetGame.Game].Invoke(targetGame, commandParameters);
 
             return gameProcess;
         }
@@ -183,6 +175,7 @@ namespace Zlo4NET.Core.Data
             ZConnectionHelper.MakeSureConnection();
             _ValidateCoopClientArguments(parameters);
 
+            var targetGame = parameters.TargetGame;
             var currentUser = _connection.GetCurrentUserInfo();
             var commandArgumentsTemplate = _runStrings[COOP_CLIENT_KEY].Value<string>();
 
@@ -192,7 +185,7 @@ namespace Zlo4NET.Core.Data
 
             // replace placeholders
             var commandParameters = _mapPlaceholders(commandArgumentsTemplate);
-            var gameProcess = _createGameProcess(parameters.TargetGame, commandParameters);
+            var gameProcess = _gameProcessCreationMethods[targetGame.Game].Invoke(targetGame, commandParameters);
 
             return gameProcess;
         }
@@ -202,6 +195,7 @@ namespace Zlo4NET.Core.Data
             ZConnectionHelper.MakeSureConnection();
             _ValidateCoopHostArguments(parameters);
 
+            var targetGame = parameters.TargetGame;
             var currentUser = _connection.GetCurrentUserInfo();
             var commandArgumentsTemplate = _runStrings[COOP_HOST_KEY].Value<string>();
 
@@ -212,7 +206,7 @@ namespace Zlo4NET.Core.Data
 
             // replace placeholders
             var commandParameters = _mapPlaceholders(commandArgumentsTemplate);
-            var gameProcess = _createGameProcess(parameters.TargetGame, commandParameters);
+            var gameProcess = _gameProcessCreationMethods[targetGame.Game].Invoke(targetGame, commandParameters);
 
             return gameProcess;
         }
@@ -222,6 +216,7 @@ namespace Zlo4NET.Core.Data
             ZConnectionHelper.MakeSureConnection();
             _ValidateTestRangeArguments(parameters);
 
+            var targetGame = parameters.TargetGame;
             var currentUser = _connection.GetCurrentUserInfo();
             var commandArgumentsTemplate = _runStrings[TEST_RANGE_KEY].Value<string>();
 
@@ -230,7 +225,7 @@ namespace Zlo4NET.Core.Data
 
             // replace placeholders
             var commandParameters = _mapPlaceholders(commandArgumentsTemplate);
-            var gameProcess = _createGameProcess(parameters.TargetGame, commandParameters);
+            var gameProcess = _gameProcessCreationMethods[targetGame.Game].Invoke(targetGame, commandParameters);
 
             return gameProcess;
         }
@@ -240,6 +235,7 @@ namespace Zlo4NET.Core.Data
             ZConnectionHelper.MakeSureConnection();
             _ValidateMultiArguments(parameters);
 
+            var targetGame = parameters.TargetGame;
             var currentUser = _connection.GetCurrentUserInfo();
             var commandArgumentsTemplate = _runStrings[MULTI_KEY].Value<string>();
 
@@ -252,7 +248,7 @@ namespace Zlo4NET.Core.Data
 
             // replace placeholders
             var commandParameters = _mapPlaceholders(commandArgumentsTemplate);
-            var gameProcess = _createGameProcess(parameters.TargetGame, commandParameters);
+            var gameProcess = _gameProcessCreationMethods[targetGame.Game].Invoke(targetGame, commandParameters);
 
             return gameProcess;
         }

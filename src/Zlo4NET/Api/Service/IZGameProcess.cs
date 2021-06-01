@@ -7,7 +7,7 @@ using Zlo4NET.Api.Models.Shared;
 namespace Zlo4NET.Api.Service
 {
     /// <summary>
-    /// Defines game ready for run
+    /// 
     /// </summary>
     public interface IZGameProcess
     {
