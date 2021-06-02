@@ -57,8 +57,6 @@
     <Compile Include="Api\DTOs\ZUser.cs" />
     <Compile Include="Api\Models\Shared\ZAuthorizedEventArgs.cs" />
     <Compile Include="Api\Models\Shared\ZBaseLaunchParameters.cs" />
-    <Compile Include="Api\Models\Shared\ZBF3Stats.cs" />
-    <Compile Include="Api\Models\Shared\ZBF4Stats.cs" />
     <Compile Include="Api\Models\Shared\ZConfiguration.cs" />
     <Compile Include="Api\Models\Shared\ZConnectionChangedEventArgs.cs" />
     <Compile Include="Api\Models\Shared\ZCoopClientLaunchParameters.cs" />
@@ -76,7 +74,6 @@
     <Compile Include="Api\Models\Shared\ZLogLevel.cs" />
     <Compile Include="Api\Models\Shared\ZMultiLaunchParameters.cs" />
     <Compile Include="Api\Models\Shared\ZSingleLaunchParameters.cs" />
-    <Compile Include="Api\Models\Shared\ZStatsBase.cs" />
     <Compile Include="Api\Models\Shared\ZTestRangeLaunchParameters.cs" />
     <Compile Include="Api\IZApi.cs" />
     <Compile Include="Api\Service\IZGameFactory.cs" />
