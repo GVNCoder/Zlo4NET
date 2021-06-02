@@ -6,14 +6,30 @@ using Zlo4NET.Core.ZClientAPI;
 
 namespace Zlo4NET.Core.Data
 {
-    internal class ZInjectorService : IZInjectorService
+    internal class ZInjectorService : IZInjector
     {
-        public async void Inject(ZGame game, IEnumerable<string> dllPaths)
+        private readonly ZLogger _logger;
+
+        #region Ctor
+
+        public ZInjectorService()
         {
-            foreach (var dllPath in dllPaths)
+            _logger = ZLogger.Instance;
+        }
+
+        #endregion
+
+        public async void Inject(ZGame game, IEnumerable<string> dlls)
+        {
+            foreach (var dll in dlls)
             {
-                var request = ZRequestFactory.CreateDllInjectRequest(game, dllPath);
+                var request = ZRequestFactory.CreateDllInjectRequest(game, dll);
                 var response = await ZRouter.GetResponseAsync(request);
+
+                if (response.StatusCode != ZResponseStatusCode.Ok)
+                {
+                    _logger.Warning($"Request failed {request}. Payload string {dll}");
+                }
             }
         }
     }

@@ -102,7 +102,7 @@
     <Compile Include="Core\Helpers\ZSynchronizationWrapper.cs" />
     <Compile Include="Core\Helpers\ZUnsafeMethods.cs" />
     <Compile Include="Core\Services\IZGameRunParser.cs" />
-    <Compile Include="Core\Services\IZInjectorService.cs" />
+    <Compile Include="Core\Services\IZInjector.cs" />
     <Compile Include="Core\Services\IZInstalledGamesParser.cs" />
     <Compile Include="Api\Service\IZInstalledGames.cs" />
     <Compile Include="Core\Services\IZPlayerStatsParser.cs" />

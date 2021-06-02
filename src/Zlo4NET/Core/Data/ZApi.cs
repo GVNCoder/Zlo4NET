@@ -34,7 +34,7 @@ namespace Zlo4NET.Core.Data
         #endregion
 
         private readonly IZConnection _connection;
-        private readonly IZInjectorService _injector;
+        private readonly IZInjector _injector;
         private readonly IZPlayerStatsService _playerStatsService;
         private readonly IZGameFactory _gameFactory;
         private readonly IZInstalledGames _installedGamesService;
@@ -64,6 +64,8 @@ namespace Zlo4NET.Core.Data
         public IZLogger Logger => ZLogger.Instance;
 
         public IZInstalledGames InstalledGamesService => _installedGamesService;
+
+        public IZInjector Injector => _injector;
 
         public async Task<ZPlayerStatsBase> GetPlayerStatsAsync(ZGame game)
         {

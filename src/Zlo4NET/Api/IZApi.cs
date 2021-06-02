@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using Zlo4NET.Api.DTOs;
 using Zlo4NET.Api.Service;
 using Zlo4NET.Api.Models.Shared;
+using Zlo4NET.Core.Services;
 
 namespace Zlo4NET.Api
 {
@@ -38,21 +39,25 @@ namespace Zlo4NET.Api
         #region Properties
 
         /// <summary>
-        /// Gets game factory
+        /// Gets the game factory
         /// </summary>
         IZGameFactory GameFactory { get; }
         /// <summary>
-        /// Gets API connection
+        /// Gets the API connection
         /// </summary>
         IZConnection Connection { get; }
         /// <summary>
-        /// Gets API logger
+        /// Gets the API logger
         /// </summary>
         IZLogger Logger { get; }
         /// <summary>
-        /// Gets installed games service
+        /// Gets the installed games service
         /// </summary>
         IZInstalledGames InstalledGamesService { get; }
+        /// <summary>
+        /// Gets the injector
+        /// </summary>
+        IZInjector Injector { get; }
 
         #endregion
 
