@@ -1,11 +1,13 @@
 ﻿using Zlo4NET.Api.Models.Shared;
 
-namespace Zlo4NET.Api.DTO
+// ReSharper disable ClassNeverInstantiated.Global
+
+namespace Zlo4NET.Api.DTOs
 {
     /// <summary>
     /// 
     /// </summary>
-    public class ZMapDto
+    public class ZMap
     {
         /// <summary>
         /// Gets name of map

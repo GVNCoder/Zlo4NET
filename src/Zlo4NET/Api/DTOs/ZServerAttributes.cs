@@ -1,9 +1,9 @@
-﻿namespace Zlo4NET.Api.DTO
+﻿namespace Zlo4NET.Api.DTOs
 {
     /// <summary>
     /// Represents server attributes
     /// </summary>
-    public class ZServerAttributesDto
+    public class ZServerAttributes
     {
         /// <summary>
         /// Gets banner url

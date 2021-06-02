@@ -7,7 +7,7 @@ using System;
 using System.Net;
 using System.Reflection;
 
-using Zlo4NET.Api.DTO;
+using Zlo4NET.Api.DTOs;
 using Zlo4NET.Api.Models.Shared;
 using Zlo4NET.Core.Extensions;
 using Zlo4NET.Core.Services;
@@ -71,7 +71,7 @@ namespace Zlo4NET.Core.Data.Parsers
                         var action      = (ZServerListAction) binaryReader.ReadByte();
                         var targetGame  = (ZGame) binaryReader.ReadByte();
                         var serverId    = binaryReader.ReadZUInt32();
-                        var serverModel = new ZServerDto { TargetGame = targetGame, Id = serverId };
+                        var serverModel = new ZServer { TargetGame = targetGame, Id = serverId };
 
                         if (_gameContext != targetGame)
                         {
@@ -102,9 +102,9 @@ namespace Zlo4NET.Core.Data.Parsers
                 Thread.Sleep(100);
             }
         }
-        private void _ParsePlayersList(ZServerDto model, BinaryReader binaryReader)
+        private void _ParsePlayersList(ZServer model, BinaryReader binaryReader)
         {
-            var playersList = new List<ZPlayerDto>();
+            var playersList = new List<ZPlayer>();
             var countOfPlayers = binaryReader.ReadByte();
 
             for (var i = 0; i < countOfPlayers; i++)
@@ -113,7 +113,7 @@ namespace Zlo4NET.Core.Data.Parsers
                 var playerId = binaryReader.ReadZUInt32();
                 var playerName = binaryReader.ReadZString();
 
-                var player = new ZPlayerDto
+                var player = new ZPlayer
                 {
                     Slot = playerSlot,
                     Id = playerId,
@@ -134,7 +134,7 @@ namespace Zlo4NET.Core.Data.Parsers
             model.PlayersList = playersList;
             model.CurrentPlayersCount = playersList.Count;
         }
-        private void _ParseServerModel(ZServerDto model, BinaryReader binaryReader)
+        private void _ParseServerModel(ZServer model, BinaryReader binaryReader)
         {
             // parse the underlying data first
             _ParseServerIps(model, binaryReader);
@@ -207,9 +207,9 @@ namespace Zlo4NET.Core.Data.Parsers
                     .Select(int.Parse)
                     .ToArray();
         }
-        private List<ZMapDto> _ParseMapList(string mapsAttributeValue)
+        private List<ZMap> _ParseMapList(string mapsAttributeValue)
         {
-            ZMapDto ParseMap(string[] keyValue)
+            ZMap ParseMap(string[] keyValue)
             {
                 string mapName = null;
                 string gameModeName = null;
@@ -231,11 +231,11 @@ namespace Zlo4NET.Core.Data.Parsers
                     mapName = _mapConverter.GetMapNameByKey(keyValue.Single());
                 }
 
-                ZMapDto mapModel = null;
+                ZMap mapModel = null;
 
                 if (! string.IsNullOrEmpty(mapName))
                 {
-                    mapModel = new ZMapDto
+                    mapModel = new ZMap
                     {
                         Name = mapName,
                         GameModeName = gameModeName,
@@ -261,11 +261,11 @@ namespace Zlo4NET.Core.Data.Parsers
 
             return maps;
         }
-        private ZMapRotationDto _CreateMapRotation(IDictionary<string, string> attributes)
+        private ZMapRotation _CreateMapRotation(IDictionary<string, string> attributes)
         {
             var mapList = _ParseMapList(attributes["maps"]);
             var mapRotationIndexes = _ParseMapRotationIndexes(attributes.ContainsKey("mapsinfo") ? attributes["mapsinfo"] : string.Empty);
-            var rotation = new ZMapRotationDto { Rotation = mapList };
+            var rotation = new ZMapRotation { Rotation = mapList };
 
             // try find out Current and Next maps in map rotation
             if (mapRotationIndexes == null || mapRotationIndexes.Length != 2)
@@ -282,7 +282,7 @@ namespace Zlo4NET.Core.Data.Parsers
                 var mapName = _mapConverter.GetMapNameByKey(attributes["level"]);
                 var gameModeName = _gameModeConverter.GetGameModeNameByKey(attributes["levellocation"]);
 
-                currentMapModel = new ZMapDto
+                currentMapModel = new ZMap
                 {
                     Name = mapName,
                     GameModeName = gameModeName,
@@ -317,10 +317,10 @@ namespace Zlo4NET.Core.Data.Parsers
 
             return value;
         }
-        private static ZServerAttributesDto _CreateAndMapAttributes(IDictionary<string, string> attributes)
+        private static ZServerAttributes _CreateAndMapAttributes(IDictionary<string, string> attributes)
         {
-            var serverAttributes = new ZServerAttributesDto();
-            var properties = typeof(ZServerAttributesDto)
+            var serverAttributes = new ZServerAttributes();
+            var properties = typeof(ZServerAttributes)
                 .GetProperties(BindingFlags.Instance | BindingFlags.Public);
 
             // map attribute key-value to property
@@ -354,7 +354,7 @@ namespace Zlo4NET.Core.Data.Parsers
 
             return attributes;
         }
-        private void _ParseServerAttributes(ZServerDto model, BinaryReader binaryReader)
+        private void _ParseServerAttributes(ZServer model, BinaryReader binaryReader)
         {
             var attributeCount = binaryReader.ReadByte();
             var attributeDictionary = new Dictionary<string, string>(attributeCount);
@@ -376,7 +376,7 @@ namespace Zlo4NET.Core.Data.Parsers
             model.Settings    = _CreateSettings(normalizedAttributes);
             model.MapRotation = _CreateMapRotation(normalizedAttributes);
         }
-        private static void _ParseServerIps(ZServerDto model, BinaryReader binaryReader)
+        private static void _ParseServerIps(ZServer model, BinaryReader binaryReader)
         {
             var ip = ZUIntToIpAddress.Convert(binaryReader.ReadZUInt32());
             var port = binaryReader.ReadZUInt16();
@@ -393,7 +393,7 @@ namespace Zlo4NET.Core.Data.Parsers
 
         #region IZServerListParser interface
 
-        public Action<ZServerDto, ZServerListAction> OnParsingResultCallback { get; set; }
+        public Action<ZServer, ZServerListAction> OnParsingResultCallback { get; set; }
 
         public void Parse(ZPacket[] packets)
         {

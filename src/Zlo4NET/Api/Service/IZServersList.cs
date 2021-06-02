@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-using Zlo4NET.Api.DTO;
+using Zlo4NET.Api.DTOs;
 using Zlo4NET.Api.Models.Shared;
 
 namespace Zlo4NET.Api.Service
@@ -12,7 +12,7 @@ namespace Zlo4NET.Api.Service
     /// <param name="action">Event that happened to the server list</param>
     /// <param name="serverId">Server ID</param>
     /// <param name="server">Server model</param>
-    public delegate void ZServerListActionCallback(ZServerListAction action, uint serverId, ZServerDto server);
+    public delegate void ZServerListActionCallback(ZServerListAction action, uint serverId, ZServer server);
 
     /// <summary>
     /// Represents a service that allows you to get a list of servers

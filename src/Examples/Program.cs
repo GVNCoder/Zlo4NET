@@ -229,7 +229,7 @@ namespace Examples
         //{
         //    // build the server list service instance
         //    var serverListService = await _zloApi.CreateServersListAsync(game);
-        //    var serverListCollection = new List<ZServerDto>();
+        //    var serverListCollection = new List<ZServer>();
         //    var resetEvent = new ManualResetEvent(false);
 
         //    // configure server list service

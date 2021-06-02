@@ -1,24 +1,25 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.InteropServices.ComTypes;
 
-namespace Zlo4NET.Api.DTO
+// ReSharper disable ClassNeverInstantiated.Global
+
+namespace Zlo4NET.Api.DTOs
 {
     /// <summary>
     /// 
     /// </summary>
-    public class ZMapRotationDto
+    public class ZMapRotation
     {
         /// <summary>
         /// 
         /// </summary>
-        public ZMapDto Current { get; set; }
+        public ZMap Current { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public ZMapDto Next { get; set; }
+        public ZMap Next { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public IEnumerable<ZMapDto> Rotation { get; set; }
+        public IEnumerable<ZMap> Rotation { get; set; }
     }
 }

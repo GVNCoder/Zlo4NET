@@ -1,9 +1,9 @@
-﻿namespace Zlo4NET.Api.DTO
+﻿namespace Zlo4NET.Api.DTOs
 {
     /// <summary>
     /// Represents an authorized in ZClient user DTO (Data Transfer Object)
     /// </summary>
-    public class ZUserDto
+    public class ZUser
     {
         /// <summary>
         /// Gets user name that authorized in ZClient

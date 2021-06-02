@@ -1,5 +1,6 @@
 ﻿using System;
-using Zlo4NET.Api.DTO;
+
+using Zlo4NET.Api.DTOs;
 using Zlo4NET.Api.Models.Shared;
 
 namespace Zlo4NET.Api.Service
@@ -22,7 +23,7 @@ namespace Zlo4NET.Api.Service
         /// Gets current authorized in ZClient user
         /// </summary>
         /// <returns>Returns current authorized in ZClient user</returns>
-        ZUserDto GetCurrentUserInfo();
+        ZUser GetCurrentUserInfo();
         /// <summary>
         /// Occurs when the connection changes state
         /// </summary>

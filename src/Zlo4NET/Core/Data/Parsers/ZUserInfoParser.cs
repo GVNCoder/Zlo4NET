@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Text;
 
-using Zlo4NET.Api.DTO;
+using Zlo4NET.Api.DTOs;
 using Zlo4NET.Core.Extensions;
 using Zlo4NET.Core.Services;
 using Zlo4NET.Core.ZClientAPI;
@@ -10,9 +10,9 @@ namespace Zlo4NET.Core.Data.Parsers
 {
     internal class ZUserInfoParser : IZUserInfoParser
     {
-        public ZUserDto Parse(ZPacket packet)
+        public ZUser Parse(ZPacket packet)
         {
-            var user = new ZUserDto();
+            var user = new ZUser();
 
             using (var memory = new MemoryStream(packet.Payload, false))
             using (var binaryReader = new BinaryReader(memory, Encoding.ASCII))

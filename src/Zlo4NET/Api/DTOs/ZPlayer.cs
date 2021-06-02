@@ -1,11 +1,13 @@
 ﻿using Zlo4NET.Api.Models.Shared;
 
-namespace Zlo4NET.Api.DTO
+// ReSharper disable ClassNeverInstantiated.Global
+
+namespace Zlo4NET.Api.DTOs
 {
     /// <summary>
     /// 
     /// </summary>
-    public class ZPlayerDto
+    public class ZPlayer
     {
         /// <summary>
         /// Gets player slot number

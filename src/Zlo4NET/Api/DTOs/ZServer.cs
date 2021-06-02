@@ -3,12 +3,12 @@ using System.Net;
 
 using Zlo4NET.Api.Models.Shared;
 
-namespace Zlo4NET.Api.DTO
+namespace Zlo4NET.Api.DTOs
 {
     /// <summary>
     /// Represents an server DTO (Data Transfer Object)
     /// </summary>
-    public class ZServerDto
+    public class ZServer
     {
         /// <summary>
         /// 
@@ -29,7 +29,7 @@ namespace Zlo4NET.Api.DTO
         /// <summary>
         /// 
         /// </summary>
-        public ZServerAttributesDto Attributes { get; set; }
+        public ZServerAttributes Attributes { get; set; }
         /// <summary>
         /// 
         /// </summary>
@@ -41,11 +41,11 @@ namespace Zlo4NET.Api.DTO
         /// <summary>
         /// 
         /// </summary>
-        public ZMapRotationDto MapRotation { get; set; }
+        public ZMapRotation MapRotation { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public IEnumerable<ZPlayerDto> PlayersList { get; set; }
+        public IEnumerable<ZPlayer> PlayersList { get; set; }
         /// <summary>
         /// 
         /// </summary>

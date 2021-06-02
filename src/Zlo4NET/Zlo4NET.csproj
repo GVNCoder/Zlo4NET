@@ -47,14 +47,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api\DTOs\ZBF4PlayerStats.cs" />
-    <Compile Include="Api\DTOs\ZMapDto.cs" />
-    <Compile Include="Api\DTOs\ZMapRotationDto.cs" />
-    <Compile Include="Api\DTOs\ZPlayerDto.cs" />
+    <Compile Include="Api\DTOs\ZMap.cs" />
+    <Compile Include="Api\DTOs\ZMapRotation.cs" />
+    <Compile Include="Api\DTOs\ZPlayer.cs" />
     <Compile Include="Api\DTOs\ZBF3PlayerStats.cs" />
     <Compile Include="Api\DTOs\ZPlayerStatsBase.cs" />
-    <Compile Include="Api\DTOs\ZServerAttributesDto.cs" />
-    <Compile Include="Api\DTOs\ZServerDto.cs" />
-    <Compile Include="Api\DTOs\ZUserDto.cs" />
+    <Compile Include="Api\DTOs\ZServerAttributes.cs" />
+    <Compile Include="Api\DTOs\ZServer.cs" />
+    <Compile Include="Api\DTOs\ZUser.cs" />
     <Compile Include="Api\Models\Shared\ZAuthorizedEventArgs.cs" />
     <Compile Include="Api\Models\Shared\ZBaseLaunchParameters.cs" />
     <Compile Include="Api\Models\Shared\ZBF3Stats.cs" />

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-using Zlo4NET.Api.DTO;
+using Zlo4NET.Api.DTOs;
 using Zlo4NET.Api.Models.Shared;
 using Zlo4NET.Api.Service;
 using Zlo4NET.Core.Data.Parsers;
@@ -87,7 +87,7 @@ namespace Zlo4NET.Core.Data
             _parser.Parse(packets);
         }
 
-        private void _OnParsingResultCallback(ZServerDto server, ZServerListAction serverListAction)
+        private void _OnParsingResultCallback(ZServer server, ZServerListAction serverListAction)
         {
             ServerListActionCallback?.Invoke(serverListAction, server.Id, server);
         }

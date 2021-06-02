@@ -1,4 +1,4 @@
-﻿using Zlo4NET.Api.DTO;
+﻿using Zlo4NET.Api.DTOs;
 using Zlo4NET.Core.ZClientAPI;
 
 namespace Zlo4NET.Core.Services
@@ -10,6 +10,6 @@ namespace Zlo4NET.Core.Services
         /// </summary>
         /// <param name="packet"></param>
         /// <returns>Parsed data</returns>
-        ZUserDto Parse(ZPacket packet);
+        ZUser Parse(ZPacket packet);
     }
 }
