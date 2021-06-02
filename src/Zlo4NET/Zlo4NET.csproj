@@ -98,6 +98,7 @@
     <Compile Include="Core\Helpers\ZConnectionHelper.cs" />
     <Compile Include="Core\Helpers\ZBitConverter.cs" />
     <Compile Include="Core\Helpers\ZGameProcessCreateMethodsProvider.cs" />
+    <Compile Include="Core\Helpers\ZGameSpecificServerParserMethodsProvider.cs" />
     <Compile Include="Core\Helpers\ZGameSpecificStatsHandlerProvider.cs" />
     <Compile Include="Core\Helpers\ZMapperHelper.cs" />
     <Compile Include="Core\Helpers\ZObservableHelper.cs" />
@@ -120,7 +121,6 @@
     <Compile Include="Core\Data\ZLogger.cs" />
     <Compile Include="Core\Extensions\ZBinaryReaderExtensions.cs" />
     <Compile Include="Core\Helpers\CollectionHelper.cs" />
-    <Compile Include="Core\Helpers\PHPDeserializer.cs" />
     <Compile Include="Core\Helpers\ZPingService.cs" />
     <Compile Include="Core\Helpers\ZUIntToIpAddress.cs" />
     <Compile Include="Api\Models\Shared\ZCoopDifficulty.cs" />
