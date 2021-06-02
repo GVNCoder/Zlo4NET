@@ -168,8 +168,5 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\stats.bf3_rankDetails.json" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="Notes.txt" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
