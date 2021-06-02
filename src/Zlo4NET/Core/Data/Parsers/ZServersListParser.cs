@@ -4,8 +4,6 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System;
-using System.Net;
-using System.Reflection;
 
 using Zlo4NET.Api.DTOs;
 using Zlo4NET.Api.Models.Shared;
@@ -46,6 +44,8 @@ namespace Zlo4NET.Core.Data.Parsers
             _authorizedUserId = authorizedUserId;
             _gameContext = gameContext;
             _logger = logger;
+
+            ZGameSpecificServerParserMethodsProvider.Configure(gameContext);
         }
 
         #region Private helpers

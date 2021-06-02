@@ -10,6 +10,8 @@ using Zlo4NET.Api.Models.Shared;
 using Zlo4NET.Core.Data;
 using Zlo4NET.Core.Extensions;
 
+// ReSharper disable InconsistentNaming
+
 namespace Zlo4NET.Core.Helpers
 {
     internal static class ZGameSpecificServerParserMethodsProvider
@@ -18,13 +20,16 @@ namespace Zlo4NET.Core.Helpers
         private static ZGameModesConverter _gameModeConverter;
         private static readonly ZLogger _logger = ZLogger.Instance;
 
+        public static void Configure(ZGame game)
+        {
+            _mapConverter = new ZMapNameConverter(game);
+            _gameModeConverter = new ZGameModesConverter(game);
+        }
+
         #region Provided methods
 
         public static void ParseBF3ServerModel(BinaryReader binaryReader, ZServer model)
         {
-            _mapConverter = new ZMapNameConverter(ZGame.BF3);
-            _gameModeConverter = new ZGameModesConverter(ZGame.BF3);
-
             // parse the underlying data first
             _ParseServerIps(model, binaryReader);
             _ParseServerAttributes(model, binaryReader);
@@ -47,9 +52,6 @@ namespace Zlo4NET.Core.Helpers
 
         public static void ParseBF4ServerModel(BinaryReader binaryReader, ZServer model)
         {
-            _mapConverter = new ZMapNameConverter(ZGame.BF4);
-            _gameModeConverter = new ZGameModesConverter(ZGame.BF4);
-
             // parse the underlying data first
             _ParseServerIps(model, binaryReader);
             _ParseServerAttributes(model, binaryReader);
@@ -94,9 +96,6 @@ namespace Zlo4NET.Core.Helpers
 
         public static void ParseBFHLServerModel(BinaryReader binaryReader, ZServer model)
         {
-            _mapConverter = new ZMapNameConverter(ZGame.BFHL);
-            _gameModeConverter = new ZGameModesConverter(ZGame.BFHL);
-
             // parse the underlying data first
             _ParseServerIps(model, binaryReader);
             _ParseServerAttributes(model, binaryReader);
