@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
+using System.Collections.Generic;
 
 using Zlo4NET.Api.DTOs;
-using Zlo4NET.Api.Models.Shared;
 using Zlo4NET.Core.Data;
 using Zlo4NET.Core.Extensions;
+using Zlo4NET.Api.Models.Shared;
 
 // ReSharper disable InconsistentNaming
 
@@ -28,8 +28,12 @@ namespace Zlo4NET.Core.Helpers
 
         #region Provided methods
 
-        public static void ParseBF3ServerModel(BinaryReader binaryReader, ZServer model)
+        public static void ParseBF3ServerModel(BinaryReader binaryReader, ZServerBase serverModel)
         {
+            var model = (ZServerBF3) serverModel;
+
+            model.Id = binaryReader.ReadZUInt32();
+
             // parse the underlying data first
             _ParseServerIps(model, binaryReader);
             _ParseServerAttributes(model, binaryReader);
@@ -50,8 +54,12 @@ namespace Zlo4NET.Core.Helpers
             //binaryReader.SkipBytes(4); // skip 4 bytes [TOTAL_SLOTS_NUMBER=4bytes]
         }
 
-        public static void ParseBF4ServerModel(BinaryReader binaryReader, ZServer model)
+        public static void ParseBF4ServerModel(BinaryReader binaryReader, ZServerBase serverModel)
         {
+            var model = (ZServerBF4) serverModel;
+
+            model.Id = binaryReader.ReadZUInt32();
+
             // parse the underlying data first
             _ParseServerIps(model, binaryReader);
             _ParseServerAttributes(model, binaryReader);
@@ -94,8 +102,12 @@ namespace Zlo4NET.Core.Helpers
             //reader.SkipZString();
         }
 
-        public static void ParseBFHLServerModel(BinaryReader binaryReader, ZServer model)
+        public static void ParseBFHLServerModel(BinaryReader binaryReader, ZServerBase serverModel)
         {
+            var model = (ZServerBFHL) serverModel;
+
+            model.Id = binaryReader.ReadZUInt32();
+
             // parse the underlying data first
             _ParseServerIps(model, binaryReader);
             _ParseServerAttributes(model, binaryReader);
@@ -118,7 +130,7 @@ namespace Zlo4NET.Core.Helpers
             // skip block
             binaryReader.SkipBytes(1); // skip 1 byte [ PRIVATE_SLOTS=1byte; ]
 
-            model.SpectatorsCapacity = binaryReader.ReadByte();
+            //model.SpectatorsCapacity = binaryReader.ReadByte();
 
             // skip block
             //reader.SkipBytes(2);  // skip 1 byte [ PRIVATE_SPEC_SLOTS=1byte; GMRG=1byte; ]
@@ -299,7 +311,7 @@ namespace Zlo4NET.Core.Helpers
 
             return attributes;
         }
-        private static void _ParseServerAttributes(ZServer model, BinaryReader binaryReader)
+        private static void _ParseServerAttributes(ZServerBase model, BinaryReader binaryReader)
         {
             var attributeCount = binaryReader.ReadByte();
             var attributeDictionary = new Dictionary<string, string>(attributeCount);
@@ -321,7 +333,7 @@ namespace Zlo4NET.Core.Helpers
             model.Settings = _CreateSettings(normalizedAttributes);
             model.MapRotation = _CreateMapRotation(normalizedAttributes);
         }
-        private static void _ParseServerIps(ZServer model, BinaryReader binaryReader)
+        private static void _ParseServerIps(ZServerBase model, BinaryReader binaryReader)
         {
             var ip = ZUIntToIpAddress.Convert(binaryReader.ReadZUInt32());
             var port = binaryReader.ReadZUInt16();

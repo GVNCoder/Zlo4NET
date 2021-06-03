@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System;
-
+using System.ComponentModel;
 using Zlo4NET.Api.DTOs;
 using Zlo4NET.Api.Models.Shared;
 using Zlo4NET.Core.Extensions;
@@ -27,7 +27,7 @@ namespace Zlo4NET.Core.Data.Parsers
         private readonly Queue<ZPacket[]> _packetsQueue;
         private readonly ZLogger _logger;
 
-        private readonly IDictionary<ZGame, Action<BinaryReader, ZServer>> _serverModelParsingMethods = new Dictionary<ZGame, Action<BinaryReader, ZServer>>
+        private readonly IDictionary<ZGame, Action<BinaryReader, ZServerBase>> _serverModelParsingMethods = new Dictionary<ZGame, Action<BinaryReader, ZServerBase>>
         {
             { ZGame.BF3, ZGameSpecificServerParserMethodsProvider.ParseBF3ServerModel },
             { ZGame.BF4, ZGameSpecificServerParserMethodsProvider.ParseBF4ServerModel },
@@ -49,6 +49,28 @@ namespace Zlo4NET.Core.Data.Parsers
         }
 
         #region Private helpers
+
+        // fabric method
+        private static ZServerBase _CreateServerModelByGame(ZGame targetGame)
+        {
+            ZServerBase model;
+
+            switch (targetGame)
+            {
+                case ZGame.BF3: model = new ZServerBF3();
+                    break;
+                case ZGame.BF4: model = new ZServerBF4();
+                    break;
+                case ZGame.BFHL: model = new ZServerBFHL();
+                    break;
+
+                case ZGame.None:
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(targetGame), targetGame, null);
+            }
+
+            return model;
+        }
 
         private void _ParsingLoop()
         {
@@ -73,8 +95,7 @@ namespace Zlo4NET.Core.Data.Parsers
                     {
                         var action = (ZServerListAction) binaryReader.ReadByte();
                         var targetGame = (ZGame) binaryReader.ReadByte();
-                        var serverId = binaryReader.ReadZUInt32();
-                        var serverModel = new ZServer { TargetGame = targetGame, Id = serverId };
+                        var serverModel = _CreateServerModelByGame(targetGame);
 
                         if (_gameContext != targetGame)
                         {
@@ -109,7 +130,7 @@ namespace Zlo4NET.Core.Data.Parsers
                 Thread.Sleep(100);
             }
         }
-        private void _ParsePlayersList(ZServer model, BinaryReader binaryReader)
+        private void _ParsePlayersList(ZServerBase model, BinaryReader binaryReader)
         {
             var playersList = new List<ZPlayer>();
             var countOfPlayers = binaryReader.ReadByte();
@@ -146,7 +167,7 @@ namespace Zlo4NET.Core.Data.Parsers
 
         #region IZServerListParser interface
 
-        public Action<ZServer, ZServerListAction> OnParsingResultCallback { get; set; }
+        public Action<ZServerBase, ZServerListAction> OnParsingResultCallback { get; set; }
 
         public void Parse(ZPacket[] packets)
         {

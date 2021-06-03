@@ -8,7 +8,7 @@ namespace Zlo4NET.Api.DTOs
     /// <summary>
     /// Represents an server DTO (Data Transfer Object)
     /// </summary>
-    public class ZServer
+    public abstract class ZServerBase
     {
         /// <summary>
         /// 
@@ -58,9 +58,5 @@ namespace Zlo4NET.Api.DTOs
         /// 
         /// </summary>
         public int PlayersCapacity { get; set; }
-        /// <summary>
-        /// 
-        /// </summary>
-        public int SpectatorsCapacity { get; set; }
     }
 }

@@ -8,7 +8,7 @@ namespace Zlo4NET.Core.Services
 {
     internal interface IZServersListParser
     {
-        Action<ZServer, ZServerListAction> OnParsingResultCallback { get; set; }
+        Action<ZServerBase, ZServerListAction> OnParsingResultCallback { get; set; }
         void Parse(ZPacket[] packets);
         void Close();
     }
