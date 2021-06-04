@@ -57,11 +57,11 @@ namespace Zlo4NET.Core.Data.Parsers
 
             switch (targetGame)
             {
-                case ZGame.BF3: model = new ZServerBF3();
+                case ZGame.BF3: model = new ZBF3Server();
                     break;
-                case ZGame.BF4: model = new ZServerBF4();
+                case ZGame.BF4: model = new ZBF4Server();
                     break;
-                case ZGame.BFHL: model = new ZServerBFHL();
+                case ZGame.BFHL: model = new ZBFHLServer();
                     break;
 
                 case ZGame.None:

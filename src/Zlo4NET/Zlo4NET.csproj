@@ -53,10 +53,10 @@
     <Compile Include="Api\DTOs\ZBF3PlayerStats.cs" />
     <Compile Include="Api\DTOs\ZPlayerStatsBase.cs" />
     <Compile Include="Api\DTOs\ZServerAttributes.cs" />
-    <Compile Include="Api\DTOs\ZServerBF3.cs" />
-    <Compile Include="Api\DTOs\ZServerBF4.cs" />
+    <Compile Include="Api\DTOs\ZBF3Server.cs" />
+    <Compile Include="Api\DTOs\ZBF4Server.cs" />
     <Compile Include="Api\DTOs\ZServerBase.cs" />
-    <Compile Include="Api\DTOs\ZServerBFHL.cs" />
+    <Compile Include="Api\DTOs\ZBFHLServer.cs" />
     <Compile Include="Api\DTOs\ZUser.cs" />
     <Compile Include="Api\Models\Shared\ZAuthorizedEventArgs.cs" />
     <Compile Include="Api\Models\Shared\ZBaseLaunchParameters.cs" />

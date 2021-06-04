@@ -30,7 +30,7 @@ namespace Zlo4NET.Core.Helpers
 
         public static void ParseBF3ServerModel(BinaryReader binaryReader, ZServerBase serverModel)
         {
-            var model = (ZServerBF3) serverModel;
+            var model = (ZBF3Server) serverModel;
 
             model.Id = binaryReader.ReadZUInt32();
 
@@ -56,7 +56,7 @@ namespace Zlo4NET.Core.Helpers
 
         public static void ParseBF4ServerModel(BinaryReader binaryReader, ZServerBase serverModel)
         {
-            var model = (ZServerBF4) serverModel;
+            var model = (ZBF4Server) serverModel;
 
             model.Id = binaryReader.ReadZUInt32();
 
@@ -104,7 +104,7 @@ namespace Zlo4NET.Core.Helpers
 
         public static void ParseBFHLServerModel(BinaryReader binaryReader, ZServerBase serverModel)
         {
-            var model = (ZServerBFHL) serverModel;
+            var model = (ZBFHLServer) serverModel;
 
             model.Id = binaryReader.ReadZUInt32();
 

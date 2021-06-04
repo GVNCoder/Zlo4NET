@@ -3,14 +3,14 @@
 namespace Zlo4NET.Api.DTOs
 {
     /// <inheritdoc />
-    public class ZServerBFHL : ZServerBase
+    public class ZBFHLServer : ZServerBase
     {
         #region Ctor
 
         /// <summary>
         /// 
         /// </summary>
-        public ZServerBFHL()
+        public ZBFHLServer()
         {
             TargetGame = ZGame.BFHL;
         }

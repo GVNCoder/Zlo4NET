@@ -5,14 +5,14 @@ using Zlo4NET.Api.Models.Shared;
 namespace Zlo4NET.Api.DTOs
 {
     /// <inheritdoc />
-    public class ZServerBF4 : ZServerBase
+    public class ZBF4Server : ZServerBase
     {
         #region Ctor
 
         /// <summary>
         /// 
         /// </summary>
-        public ZServerBF4()
+        public ZBF4Server()
         {
             TargetGame = ZGame.BF4;
         }
