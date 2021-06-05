@@ -69,13 +69,8 @@ namespace Zlo4NET.Core.Data
 
         public async Task<ZPlayerStatsBase> GetPlayerStatsAsync(ZGame game)
         {
-            // pre-validation
             ZConnectionHelper.ThrowIfNotConnected();
-
-            if (game == ZGame.None)
-            {
-                throw new ArgumentException("Argument out of range", nameof(game));
-            }
+            ZGameHelper.ThrowIfOutOfRange(game);
 
             // get player stats
             var result = await _playerStatsService.GetStatsAsync(game);
@@ -85,13 +80,7 @@ namespace Zlo4NET.Core.Data
 
         public async Task<IZServersList> CreateServersListAsync(ZGame game)
         {
-            // pre-validation
-            ZConnectionHelper.ThrowIfNotConnected();
-
-            if (game == ZGame.None)
-            {
-                throw new InvalidEnumArgumentException(nameof(game), (int)game, typeof(ZGame));
-            }
+            ZGameHelper.ThrowIfOutOfRange(game);
 
             // first of all need to destroy last created instance
             if (_lastCreatedServerListInstance != null && _lastCreatedServerListInstance.IsInstanceAvailable)
@@ -100,7 +89,7 @@ namespace Zlo4NET.Core.Data
             }
 
             // now, we can create a new instance ;)
-            _lastCreatedServerListInstance = new ZServersList(game, Connection);
+            _lastCreatedServerListInstance = new ZServersList(game, _connection);
 
             return _lastCreatedServerListInstance;
         }

@@ -101,6 +101,7 @@
     <Compile Include="Core\Helpers\ZCollectionWrapper.cs" />
     <Compile Include="Core\Helpers\ZConnectionHelper.cs" />
     <Compile Include="Core\Helpers\ZBitConverter.cs" />
+    <Compile Include="Core\Helpers\ZGameHelper.cs" />
     <Compile Include="Core\Helpers\ZGameProcessCreateMethodsProvider.cs" />
     <Compile Include="Core\Helpers\ZGameSpecificStatsHandlerProvider.cs" />
     <Compile Include="Core\Helpers\ZMapperHelper.cs" />
