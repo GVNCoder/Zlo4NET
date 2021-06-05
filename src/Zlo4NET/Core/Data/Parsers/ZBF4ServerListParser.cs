@@ -25,7 +25,7 @@ namespace Zlo4NET.Core.Data.Parsers
 
         #endregion
 
-        #region Parsing method
+        #region Abstract methods
 
         protected override ZServerBase ParseServerModel(BinaryReader binaryReader)
         {
@@ -143,7 +143,7 @@ namespace Zlo4NET.Core.Data.Parsers
         }
         private List<ZMap> _ParseMapList(string mapsAttributeValue)
         {
-            ZMap ParseMap(string[] keyValue)
+            ZMap ParseMap_local(string[] keyValue)
             {
                 string mapName = null;
                 string gameModeName = null;
@@ -165,22 +165,13 @@ namespace Zlo4NET.Core.Data.Parsers
                     mapName = _mapNameConverter.GetMapNameByKey(keyValue.Single());
                 }
 
-                ZMap mapModel = null;
-
-                if (!string.IsNullOrEmpty(mapName))
+                var mapModel = new ZMap
                 {
-                    mapModel = new ZMap
-                    {
-                        Name = mapName,
-                        GameModeName = gameModeName,
-                        InRotationPosition = ZMapInMapRotation.InRotation,
-                        RawKeys = keyValue
-                    };
-                }
-                else
-                {
-                    _logger.Warning($"The string containing the map and game mode data is not in the correct format or key not found: {keyValue.Aggregate((stringSum, i) => stringSum + i)}");
-                }
+                    Name = mapName,
+                    GameModeName = gameModeName,
+                    InRotationPosition = ZMapInMapRotation.InRotation,
+                    RawKeys = keyValue
+                };
 
                 return mapModel;
             }
@@ -189,7 +180,7 @@ namespace Zlo4NET.Core.Data.Parsers
             // get map name and gameMode strings like key-value
             var maps = mapsAttributeValue.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries)
                 .Select(str => str.Split(','))
-                .Select(ParseMap)
+                .Select(ParseMap_local)
                 .Where(i => i != null)
                 .ToList();
 

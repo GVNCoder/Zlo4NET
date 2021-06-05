@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 
 using Newtonsoft.Json.Linq;
 
@@ -8,19 +9,20 @@ namespace Zlo4NET.Core.Data
 {
     internal class ZGameModesConverter
     {
-        private readonly JToken _jGameModeDictionary;
+        private readonly IDictionary<string, string> _gameModesDictionary;
 
         public ZGameModesConverter(ZGame targetGame)
         {
-            using (var sr = new StreamReader(ZInternalResource.GetResourceStream("gameModes.json")))
+            using (var streamReader = new StreamReader(ZInternalResource.GetResourceStream("gameModes.json")))
             {
-                var content = sr.ReadToEnd();
+                var content = streamReader.ReadToEnd();
                 var jObject = JObject.Parse(content);
+                var targetObject = jObject[targetGame.ToString().ToLowerInvariant()];
 
-                _jGameModeDictionary = jObject[targetGame.ToString().ToLowerInvariant()];
+                _gameModesDictionary = targetObject.ToObject<IDictionary<string, string>>();
             }
         }
 
-        public string GetGameModeNameByKey(string gameModeKey) => _jGameModeDictionary[gameModeKey]?.ToObject<string>();
+        public string GetGameModeNameByKey(string key) => _gameModesDictionary.TryGetValue(key, out var value) ? value : key;
     }
 }

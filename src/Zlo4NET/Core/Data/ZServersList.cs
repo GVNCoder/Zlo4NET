@@ -2,11 +2,11 @@
 using System.Threading.Tasks;
 
 using Zlo4NET.Api.DTOs;
-using Zlo4NET.Api.Models.Shared;
 using Zlo4NET.Api.Service;
 using Zlo4NET.Core.Helpers;
 using Zlo4NET.Core.Services;
 using Zlo4NET.Core.ZClientAPI;
+using Zlo4NET.Api.Models.Shared;
 
 // ReSharper disable ConvertToAutoPropertyWithPrivateSetter
 
@@ -14,24 +14,29 @@ namespace Zlo4NET.Core.Data
 {
     internal class ZServersList : IZServersList
     {
-        private readonly ZLogger _logger;
         private readonly IZServerListParser _parser;
-        private readonly ZGame _gameContext;
+        private readonly ZGame _targetGame;
+        private readonly ZLogger _logger;
 
         private bool _isDisposed;
 
-        public ZServersList(ZGame game, IZConnection connection)
+        #region Ctor
+
+        public ZServersList(ZGame targetGame, IZConnection connection)
         {
-            _gameContext = game;
+            _targetGame = targetGame;
             _logger = ZLogger.Instance;
 
-            var authorizedUser = connection.GetCurrentUserInfo();
+            // create and configure server list parser
+            var currentUser = connection.GetCurrentUserInfo();
 
-            _parser = ZParsersFactory.CreateServersListInfoParser(authorizedUser.UserId, game);
+            _parser = ZParsersFactory.CreateServersListInfoParser(currentUser.UserId, targetGame);
             _parser.ResultCallback = _OnParsingResultCallback;
         }
 
-        #region IZServerList
+        #endregion
+
+        #region IZServerList interface
 
         public bool IsInstanceAvailable => _isDisposed;
         
@@ -45,8 +50,8 @@ namespace Zlo4NET.Core.Data
             ZConnectionHelper.ThrowIfNotConnected();
 
             // open stream
-            var openStreamRequest = ZRequestFactory.CreateServerListOpenStreamRequest(_gameContext);
-            await ZRouter.OpenStreamAsync(openStreamRequest, _OnStreamPacketsCallback, _OnStreamRejectedCallback);
+            var request = ZRequestFactory.CreateServerListOpenStreamRequest(_targetGame);
+            await ZRouter.OpenStreamAsync(request, _OnStreamPacketsCallback, _OnStreamRejectedCallback);
         }
         public async Task StopReceivingAsync()
         {
@@ -63,7 +68,7 @@ namespace Zlo4NET.Core.Data
             _parser.Close();
 
             // close stream
-            var closeStreamRequest = ZRequestFactory.CreateServerListCloseStreamRequest(_gameContext);
+            var closeStreamRequest = ZRequestFactory.CreateServerListCloseStreamRequest(_targetGame);
             await ZRouter.CloseStreamAsync(closeStreamRequest);
         }
 

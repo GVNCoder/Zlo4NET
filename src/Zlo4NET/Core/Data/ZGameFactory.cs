@@ -153,7 +153,7 @@ namespace Zlo4NET.Core.Data
 
         public IZGameProcess CreateSingle(ZSingleLaunchParameters parameters)
         {
-            ZConnectionHelper.MakeSureConnection();
+            ZConnectionHelper.ThrowIfNotConnected();
             _ValidateBasicArguments(parameters);
 
             var targetGame = parameters.TargetGame;
@@ -172,7 +172,7 @@ namespace Zlo4NET.Core.Data
 
         public IZGameProcess CreateCoopClient(ZCoopClientLaunchParameters parameters)
         {
-            ZConnectionHelper.MakeSureConnection();
+            ZConnectionHelper.ThrowIfNotConnected();
             _ValidateCoopClientArguments(parameters);
 
             var targetGame = parameters.TargetGame;
@@ -192,7 +192,7 @@ namespace Zlo4NET.Core.Data
 
         public IZGameProcess CreateCoopHost(ZCoopHostLaunchParameters parameters)
         {
-            ZConnectionHelper.MakeSureConnection();
+            ZConnectionHelper.ThrowIfNotConnected();
             _ValidateCoopHostArguments(parameters);
 
             var targetGame = parameters.TargetGame;
@@ -213,7 +213,7 @@ namespace Zlo4NET.Core.Data
 
         public IZGameProcess CreateTestRange(ZTestRangeLaunchParameters parameters)
         {
-            ZConnectionHelper.MakeSureConnection();
+            ZConnectionHelper.ThrowIfNotConnected();
             _ValidateTestRangeArguments(parameters);
 
             var targetGame = parameters.TargetGame;
@@ -232,7 +232,7 @@ namespace Zlo4NET.Core.Data
 
         public IZGameProcess CreateMulti(ZMultiLaunchParameters parameters)
         {
-            ZConnectionHelper.MakeSureConnection();
+            ZConnectionHelper.ThrowIfNotConnected();
             _ValidateMultiArguments(parameters);
 
             var targetGame = parameters.TargetGame;

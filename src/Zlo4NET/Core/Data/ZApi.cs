@@ -107,7 +107,7 @@ namespace Zlo4NET.Core.Data
 
         public void InjectDll(ZGame game, IEnumerable<string> paths)
         {
-            ZConnectionHelper.MakeSureConnection();
+            ZConnectionHelper.ThrowIfNotConnected();
 
             _injector.Inject(game, paths);
         }
