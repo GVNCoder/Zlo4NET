@@ -70,6 +70,10 @@
     <Compile Include="Api\Models\Shared\ZServerListAction.cs" />
     <Compile Include="Core\Data\Attributes\ZGameEnumMetadataAttribute.cs" />
     <Compile Include="Core\Data\Attributes\ZStatsMapperAttribute.cs" />
+    <Compile Include="Core\Data\Parsers\ZBF3ServerListParser.cs" />
+    <Compile Include="Core\Data\Parsers\ZBF4ServerListParser.cs" />
+    <Compile Include="Core\Data\Parsers\ZBFHLServerListParser.cs" />
+    <Compile Include="Core\Data\Parsers\ZServerListParserBase.cs" />
     <Compile Include="Core\Data\ZGameEvent.cs" />
     <Compile Include="Core\Data\ZGameState.cs" />
     <Compile Include="Api\DTOs\ZGameCollection.cs" />
@@ -98,7 +102,6 @@
     <Compile Include="Core\Helpers\ZConnectionHelper.cs" />
     <Compile Include="Core\Helpers\ZBitConverter.cs" />
     <Compile Include="Core\Helpers\ZGameProcessCreateMethodsProvider.cs" />
-    <Compile Include="Core\Helpers\ZGameSpecificServerParserMethodsProvider.cs" />
     <Compile Include="Core\Helpers\ZGameSpecificStatsHandlerProvider.cs" />
     <Compile Include="Core\Helpers\ZMapperHelper.cs" />
     <Compile Include="Core\Helpers\ZObservableHelper.cs" />
@@ -138,14 +141,13 @@
     <Compile Include="Core\ZClientAPI\ZResponse.cs" />
     <Compile Include="Core\ZClientAPI\ZResponseStatusCode.cs" />
     <Compile Include="Core\ZClientAPI\ZRouter.cs" />
-    <Compile Include="Core\Services\IZServersListParser.cs" />
-    <Compile Include="Core\Data\Parsers\ZServersListParser.cs" />
+    <Compile Include="Core\Services\IZServerListParser.cs" />
     <Compile Include="Core\Data\Parsers\ZUserInfoParser.cs" />
     <Compile Include="Core\Services\IZUserInfoParser.cs" />
     <Compile Include="Core\Data\ZGameModeConverter.cs" />
     <Compile Include="Core\Data\ZInternalResource.cs" />
     <Compile Include="Core\Data\ZMapNameConverter.cs" />
-    <Compile Include="Core\Data\Parsers\ZParsersFactory.cs" />
+    <Compile Include="Core\Helpers\ZParsersFactory.cs" />
     <Compile Include="Core\ZClientAPI\ZCommand.cs" />
     <Compile Include="Api\Models\Shared\ZGame.cs" />
     <Compile Include="Core\Data\ZObservableObject.cs" />

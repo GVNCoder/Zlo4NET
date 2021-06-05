@@ -16,7 +16,7 @@ namespace Zlo4NET.Core.Data
     internal class ZServersList : IZServersList
     {
         private readonly ZLogger _logger;
-        private readonly IZServersListParser _parser;
+        private readonly IZServerListParser _parser;
         private readonly ZGame _gameContext;
 
         private bool _isDisposed;
@@ -28,8 +28,8 @@ namespace Zlo4NET.Core.Data
 
             var authorizedUser = connection.GetCurrentUserInfo();
 
-            _parser = ZParsersFactory.CreateServersListInfoParser(authorizedUser.UserId, game, _logger);
-            _parser.OnParsingResultCallback = _OnParsingResultCallback;
+            _parser = ZParsersFactory.CreateServersListInfoParser(authorizedUser.UserId, game);
+            _parser.ResultCallback = _OnParsingResultCallback;
         }
 
         #region IZServerList
@@ -60,7 +60,7 @@ namespace Zlo4NET.Core.Data
             _isDisposed = true;
 
             // free resources
-            _parser.OnParsingResultCallback = null;
+            _parser.ResultCallback = null;
             _parser.Close();
 
             // close stream

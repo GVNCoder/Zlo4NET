@@ -1,37 +1,37 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Net;
+using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
 
 using Zlo4NET.Api.DTOs;
-using Zlo4NET.Core.Data;
-using Zlo4NET.Core.Extensions;
 using Zlo4NET.Api.Models.Shared;
+using Zlo4NET.Core.Extensions;
+using Zlo4NET.Core.Helpers;
 
+// ReSharper disable UseObjectOrCollectionInitializer
 // ReSharper disable InconsistentNaming
 
-namespace Zlo4NET.Core.Helpers
+namespace Zlo4NET.Core.Data.Parsers
 {
-    internal static class ZGameSpecificServerParserMethodsProvider
+    internal class ZBF3ServerListParser : ZServerListParserBase
     {
-        private static ZMapNameConverter _mapConverter;
-        private static ZGameModesConverter _gameModeConverter;
-        private static readonly ZLogger _logger = ZLogger.Instance;
+        #region Ctor
 
-        public static void Configure(ZGame game)
+        public ZBF3ServerListParser(uint currentUserId) : base(currentUserId, ZGame.BF3)
         {
-            _mapConverter = new ZMapNameConverter(game);
-            _gameModeConverter = new ZGameModesConverter(game);
         }
 
-        #region Provided methods
+        #endregion
 
-        public static void ParseBF3ServerModel(BinaryReader binaryReader, ZServerBase serverModel)
+        #region Parsing method
+
+        protected override ZServerBase ParseServerModel(BinaryReader binaryReader)
         {
-            var model = (ZBF3Server) serverModel;
+            var model = new ZBF3Server();
 
+            // begin parse
             model.Id = binaryReader.ReadZUInt32();
 
             // parse the underlying data first
@@ -52,102 +52,58 @@ namespace Zlo4NET.Core.Helpers
 
             // skip block
             //binaryReader.SkipBytes(4); // skip 4 bytes [TOTAL_SLOTS_NUMBER=4bytes]
+
+            return model;
         }
 
-        public static void ParseBF4ServerModel(BinaryReader binaryReader, ZServerBase serverModel)
+        protected override ZServerBase ParseServerPlayers(BinaryReader binaryReader)
         {
-            var model = (ZBF4Server) serverModel;
+            var model = new ZBF3Server();
 
+            // begin parse
             model.Id = binaryReader.ReadZUInt32();
 
-            // parse the underlying data first
-            _ParseServerIps(model, binaryReader);
-            _ParseServerAttributes(model, binaryReader);
+            var playersList = new List<ZPlayer>();
+            var countOfPlayers = binaryReader.ReadByte();
 
-            model.Name = binaryReader.ReadZString();
+            for (var i = 0; i < countOfPlayers; i++)
+            {
+                var playerSlot = binaryReader.ReadByte();
+                var playerId = binaryReader.ReadZUInt32();
+                var playerName = binaryReader.ReadZString();
 
-            // skip data block
-            binaryReader.SkipBytes(17); // skip 17 bytes [ GameSet=4bytes; ServerState=1byte; IGNO=1byte; MaxPlayers=1byte; NNAT=8bytes; NRES=1byte; NTOP=1byte; ]
-            binaryReader.SkipZString(); // skip string [ PGID=String; ]
-            binaryReader.SkipBytes(6); // skip 6 bytes [ PRES=1byte; SlotCapacity=1byte; SEED=4bytes; ]
-            binaryReader.SkipZString(); // skip string [ UUID=String; ]
-            binaryReader.SkipBytes(1); // skip 1 byte [ VOIP=1byte; ]
-            binaryReader.SkipZString(); // skip string [ VSTR=String; ]
+                var player = new ZPlayer
+                {
+                    Slot = playerSlot,
+                    Id = playerId,
+                    Name = playerName,
+                    Role = ZPlayerRole.InServerPlayer
+                };
 
-            // skip block
-            binaryReader.SkipBytes(4);
+                playersList.Add(player);
+            }
 
-            model.PlayersCapacity = binaryReader.ReadByte();
+            // set authorized player
+            var authorizedPlayer = playersList.FirstOrDefault(p => p.Id == _currentUserId);
+            if (authorizedPlayer != null)
+            {
+                authorizedPlayer.Role = ZPlayerRole.AuthorizedPlayer;
+            }
 
-            // skip block
-            binaryReader.SkipBytes(1); // skip 1 byte [ PRIVATE_SLOTS=1byte; ]
+            model.PlayersList = playersList;
+            model.CurrentPlayersCount = playersList.Count;
 
-            model.SpectatorsCapacity = binaryReader.ReadByte();
-
-            // skip block
-            //reader.SkipBytes(2);  // skip 1 byte [ PRIVATE_SPEC_SLOTS=1byte; GMRG=1byte; ]
-            //var skipLength = reader.ReadByte(); // skip more data [ RNFO=bigData; ]
-            //for (var i = 0; i < skipLength; ++i)
-            //{
-            //    reader.SkipZString();
-            //    reader.SkipBytes(4);
-
-            //    var skipLength2 = reader.ReadByte();
-            //    for (var j = 0; j < skipLength2; j++)
-            //    {
-            //        reader.SkipZString();
-            //        reader.SkipZString();
-            //    }
-            //}
-            //reader.SkipZString();
+            return model;
         }
 
-        public static void ParseBFHLServerModel(BinaryReader binaryReader, ZServerBase serverModel)
+        protected override ZServerBase ParseRemovedServerModel(BinaryReader binaryReader)
         {
-            var model = (ZBFHLServer) serverModel;
+            var model = new ZBF3Server();
 
+            // begin parse
             model.Id = binaryReader.ReadZUInt32();
 
-            // parse the underlying data first
-            _ParseServerIps(model, binaryReader);
-            _ParseServerAttributes(model, binaryReader);
-
-            model.Name = binaryReader.ReadZString();
-
-            // skip data block
-            binaryReader.SkipBytes(17); // skip 17 bytes [ GameSet=4bytes; ServerState=1byte; IGNO=1byte; MaxPlayers=1byte; NNAT=8bytes; NRES=1byte; NTOP=1byte; ]
-            binaryReader.SkipZString(); // skip string [ PGID=String; ]
-            binaryReader.SkipBytes(6); // skip 6 bytes [ PRES=1byte; SlotCapacity=1byte; SEED=4bytes; ]
-            binaryReader.SkipZString(); // skip string [ UUID=String; ]
-            binaryReader.SkipBytes(1); // skip 1 byte [ VOIP=1byte; ]
-            binaryReader.SkipZString(); // skip string [ VSTR=String; ]
-
-            // skip block
-            binaryReader.SkipBytes(4);
-
-            model.PlayersCapacity = binaryReader.ReadByte();
-
-            // skip block
-            binaryReader.SkipBytes(1); // skip 1 byte [ PRIVATE_SLOTS=1byte; ]
-
-            //model.SpectatorsCapacity = binaryReader.ReadByte();
-
-            // skip block
-            //reader.SkipBytes(2);  // skip 1 byte [ PRIVATE_SPEC_SLOTS=1byte; GMRG=1byte; ]
-            //var skipLength = reader.ReadByte(); // skip more data [ RNFO=bigData; ]
-            //for (var i = 0; i < skipLength; ++i)
-            //{
-            //    reader.SkipZString();
-            //    reader.SkipBytes(4);
-
-            //    var skipLength2 = reader.ReadByte();
-            //    for (var j = 0; j < skipLength2; j++)
-            //    {
-            //        reader.SkipZString();
-            //        reader.SkipZString();
-            //    }
-            //}
-            //reader.SkipZString();
+            return model;
         }
 
         #endregion
@@ -164,7 +120,7 @@ namespace Zlo4NET.Core.Helpers
                     .Select(int.Parse)
                     .ToArray();
         }
-        private static List<ZMap> _ParseMapList(string mapsAttributeValue)
+        private List<ZMap> _ParseMapList(string mapsAttributeValue)
         {
             ZMap ParseMap(string[] keyValue)
             {
@@ -174,7 +130,7 @@ namespace Zlo4NET.Core.Helpers
                 // key - value
                 if (keyValue.Length == 2)
                 {
-                    mapName = _mapConverter.GetMapNameByKey(keyValue.First());
+                    mapName = _mapNameConverter.GetMapNameByKey(keyValue.First());
                     gameModeName = _gameModeConverter.GetGameModeNameByKey(keyValue.Last());
                 }
                 else if (keyValue.Length == 0 || keyValue.Length > 2)
@@ -185,7 +141,7 @@ namespace Zlo4NET.Core.Helpers
                 {
                     // if it is the map name, then Ok
                     // if no, then wtf ?
-                    mapName = _mapConverter.GetMapNameByKey(keyValue.Single());
+                    mapName = _mapNameConverter.GetMapNameByKey(keyValue.Single());
                 }
 
                 ZMap mapModel = null;
@@ -218,7 +174,7 @@ namespace Zlo4NET.Core.Helpers
 
             return maps;
         }
-        private static ZMapRotation _CreateMapRotation(IDictionary<string, string> attributes)
+        private ZMapRotation _CreateMapRotation(IDictionary<string, string> attributes)
         {
             var mapList = _ParseMapList(attributes["maps"]);
             var mapRotationIndexes = _ParseMapRotationIndexes(attributes.ContainsKey("mapsinfo") ? attributes["mapsinfo"] : string.Empty);
@@ -236,7 +192,7 @@ namespace Zlo4NET.Core.Helpers
 
             if (currentMapModel == null)
             {
-                var mapName = _mapConverter.GetMapNameByKey(attributes["level"]);
+                var mapName = _mapNameConverter.GetMapNameByKey(attributes["level"]);
                 var gameModeName = _gameModeConverter.GetGameModeNameByKey(attributes["levellocation"]);
 
                 currentMapModel = new ZMap
@@ -311,7 +267,7 @@ namespace Zlo4NET.Core.Helpers
 
             return attributes;
         }
-        private static void _ParseServerAttributes(ZServerBase model, BinaryReader binaryReader)
+        private void _ParseServerAttributes(ZServerBase model, BinaryReader binaryReader)
         {
             var attributeCount = binaryReader.ReadByte();
             var attributeDictionary = new Dictionary<string, string>(attributeCount);

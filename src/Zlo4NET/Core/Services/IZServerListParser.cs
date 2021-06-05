@@ -6,9 +6,10 @@ using Zlo4NET.Core.ZClientAPI;
 
 namespace Zlo4NET.Core.Services
 {
-    internal interface IZServersListParser
+    internal interface IZServerListParser
     {
-        Action<ZServerBase, ZServerListAction> OnParsingResultCallback { get; set; }
+        Action<ZServerBase, ZServerListAction> ResultCallback { get; set; }
+
         void Parse(ZPacket[] packets);
         void Close();
     }
