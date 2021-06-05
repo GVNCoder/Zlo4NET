@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Zlo4NET.Api.DTOs;
 using Zlo4NET.Api.Models.Shared;
 using Zlo4NET.Api.Service;
-using Zlo4NET.Core.Data.Parsers;
 using Zlo4NET.Core.Helpers;
 using Zlo4NET.Core.Services;
 using Zlo4NET.Core.ZClientAPI;
@@ -89,6 +88,7 @@ namespace Zlo4NET.Core.Data
 
         private void _OnParsingResultCallback(ZServerBase server, ZServerListAction serverListAction)
         {
+            // I do not wrap it in try ... catch, because the developer must know what is happening in his code and what needs to be fixed
             ServerListActionCallback?.Invoke(serverListAction, server.Id, server);
         }
 
