@@ -29,6 +29,9 @@ namespace Zlo4NET.Core.Data
 
         public async Task<ZPlayerStatsBase> GetStatsAsync(ZGame game)
         {
+            ZConnectionHelper.ThrowIfNotConnected();
+            ZGameHelper.ThrowIfOutOfRange(game);
+
             var request = ZRequestFactory.CreateStatsRequest(game);
             var response = await ZRouter.GetResponseAsync(request);
 

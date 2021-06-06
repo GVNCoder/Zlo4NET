@@ -67,16 +67,7 @@ namespace Zlo4NET.Core.Data
 
         public IZInjector Injector => _injector;
 
-        public async Task<ZPlayerStatsBase> GetPlayerStatsAsync(ZGame game)
-        {
-            ZConnectionHelper.ThrowIfNotConnected();
-            ZGameHelper.ThrowIfOutOfRange(game);
-
-            // get player stats
-            var result = await _playerStatsService.GetStatsAsync(game);
-
-            return result;
-        }
+        public IZPlayerStatsService PlayerStats => _playerStatsService;
 
         public async Task<IZServersList> CreateServersListAsync(ZGame game)
         {
