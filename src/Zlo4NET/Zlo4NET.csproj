@@ -89,7 +89,7 @@
     <Compile Include="Core\Data\Parsers\ZPlayerStatsParser.cs" />
     <Compile Include="Core\Data\ZActionState.cs" />
     <Compile Include="Core\Data\ZGameFactory.cs" />
-    <Compile Include="Core\Data\ZInjectorService.cs" />
+    <Compile Include="Core\Data\ZInjectorImpl.cs" />
     <Compile Include="Core\Data\ZInstalledGames.cs" />
     <Compile Include="Core\Data\Attributes\ZMapperPropertyAttribute.cs" />
     <Compile Include="Core\Data\ZResource.cs" />
@@ -108,7 +108,7 @@
     <Compile Include="Core\Helpers\ZSynchronizationWrapper.cs" />
     <Compile Include="Core\Helpers\ZUnsafeMethods.cs" />
     <Compile Include="Core\Services\IZGameRunParser.cs" />
-    <Compile Include="Core\Services\IZInjector.cs" />
+    <Compile Include="Api\Service\IZInjector.cs" />
     <Compile Include="Core\Services\IZInstalledGamesParser.cs" />
     <Compile Include="Api\Service\IZInstalledGames.cs" />
     <Compile Include="Core\Services\IZPlayerStatsParser.cs" />
