@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 using Zlo4NET.Api.DTOs;
-using Zlo4NET.Api.Models.Shared;
 using Zlo4NET.Core.Helpers;
 using Zlo4NET.Core.Services;
 using Zlo4NET.Core.ZClientAPI;
+using Zlo4NET.Api.Models.Shared;
 
 namespace Zlo4NET.Core.Data
 {
@@ -15,11 +15,17 @@ namespace Zlo4NET.Core.Data
         private readonly IZPlayerStatsParser _parser;
         private readonly ZLogger _logger;
 
+        #region Ctor
+
         public ZPlayerStatsService()
         {
             _parser = ZParsersFactory.CreateStatsInfoParser();
             _logger = ZLogger.Instance;
         }
+
+        #endregion
+
+        #region IZPlayerStatsService interface
 
         public async Task<ZPlayerStatsBase> GetStatsAsync(ZGame game)
         {
@@ -38,6 +44,10 @@ namespace Zlo4NET.Core.Data
             return null;
         }
 
+        #endregion
+
+        #region Private helpers
+
         private ZPlayerStatsBase _ParsePlayerStats(IEnumerable<ZPacket> packets)
         {
             var responsePacket = packets.Single();
@@ -45,5 +55,7 @@ namespace Zlo4NET.Core.Data
 
             return stats;
         }
+
+        #endregion
     }
 }

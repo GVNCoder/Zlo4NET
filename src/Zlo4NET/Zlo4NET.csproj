@@ -58,7 +58,6 @@
     <Compile Include="Api\DTOs\ZServerBase.cs" />
     <Compile Include="Api\DTOs\ZBFHLServer.cs" />
     <Compile Include="Api\DTOs\ZUser.cs" />
-    <Compile Include="Api\Models\Shared\ZAuthorizedEventArgs.cs" />
     <Compile Include="Api\Models\Shared\ZBaseLaunchParameters.cs" />
     <Compile Include="Api\Models\Shared\ZConfiguration.cs" />
     <Compile Include="Api\Models\Shared\ZConnectionChangedEventArgs.cs" />

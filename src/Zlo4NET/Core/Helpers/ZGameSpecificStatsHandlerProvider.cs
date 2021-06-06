@@ -118,6 +118,12 @@ namespace Zlo4NET.Core.Helpers
             statsObject.TimePlayedHours = statsObject.TimeSeconds / 60 / 60;
             statsObject.Rounds = statsObject.Wins + statsObject.Losses;
 
+            // cuz in the case of rank 141, we get division by 0
+            if (statsObject.Rank != BF4_MAX_RANK)
+            {
+                statsObject.ScoreToRankUpPercent = (float) (statsObject.RankCurrentRelativeScore / statsObject.RankMaxRelativeScore * 100);
+            }
+
             return statsObject;
         }
 

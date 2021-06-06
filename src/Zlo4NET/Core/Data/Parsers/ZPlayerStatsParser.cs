@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Collections.Generic;
 
 using Zlo4NET.Api.DTOs;
 using Zlo4NET.Api.Models.Shared;
