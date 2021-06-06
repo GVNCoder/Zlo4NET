@@ -43,7 +43,7 @@ namespace Zlo4NET.Core.Data
 
             public static void ThrowIfNotValid(ZCoopClientLaunchParameters parameters)
             {
-                _ValidateBasicArguments(parameters);
+                ThrowIfNotValid((ZBaseLaunchParameters) parameters);
 
                 if (parameters.TargetGame.Game != ZGame.BF3)
                 {
@@ -58,7 +58,7 @@ namespace Zlo4NET.Core.Data
 
             public static void ThrowIfNotValid(ZCoopHostLaunchParameters parameters)
             {
-                _ValidateBasicArguments(parameters);
+                ThrowIfNotValid((ZBaseLaunchParameters) parameters);
 
                 if (parameters.TargetGame.Game != ZGame.BF3)
                 {
@@ -78,7 +78,7 @@ namespace Zlo4NET.Core.Data
 
             public static void ThrowIfNotValid(ZTestRangeLaunchParameters parameters)
             {
-                _ValidateBasicArguments(parameters);
+                ThrowIfNotValid((ZBaseLaunchParameters) parameters);
 
                 if (parameters.TargetGame.Game != ZGame.BF4)
                 {
@@ -88,7 +88,7 @@ namespace Zlo4NET.Core.Data
 
             public static void ThrowIfNotValid(ZMultiLaunchParameters parameters)
             {
-                _ValidateBasicArguments(parameters);
+                ThrowIfNotValid((ZBaseLaunchParameters) parameters);
 
                 if (parameters.TargetGame.Game == ZGame.BF3 && parameters.Role == ZRole.Spectator && parameters.Role == ZRole.Commander)
                 {
