@@ -1,31 +1,17 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Timers;
+using System.Threading;
+using System.Collections.Generic;
 
 using Zlo4NET.Api.DTOs;
 using Zlo4NET.Api.Service;
-using Zlo4NET.Api.Models.Shared;
-using Zlo4NET.Core.Data.Parsers;
 using Zlo4NET.Core.Helpers;
 using Zlo4NET.Core.Services;
 using Zlo4NET.Core.ZClientAPI;
+using Zlo4NET.Api.Models.Shared;
 
 using Timer = System.Timers.Timer;
-
-//public async Task<bool> CheckMonolithAsync()
-//{
-//    string stringContent;
-//    using (var client = new WebClient())
-//    {
-//        stringContent = await client.DownloadStringTaskAsync("http://zloemu.net/z-test");
-//    }
-
-//    var monolithStatusObject = _phpObjectDeserializer.Deserialize(stringContent) as Hashtable;
-
-//    return true;
-//}
 
 namespace Zlo4NET.Core.Data
 {
@@ -48,6 +34,7 @@ namespace Zlo4NET.Core.Data
         private ZUser _currentUserInfo;
         private bool _raiseOnConnectionChangedEvent = true;
         private bool? _internalConnectionState = null; // where [null] - initial state, [true/false] - concrete state
+        private int _connectionOperationLock = 0;
 
         public ZConnection()
         {
@@ -115,6 +102,9 @@ namespace Zlo4NET.Core.Data
                     _pingTimer.Stop();
                 }
 
+                // clear Connect() method lock
+                Interlocked.Exchange(ref _connectionOperationLock, 0);
+
                 // ReSharper disable once InvertIf
                 if (_raiseOnConnectionChangedEvent)
                 {
@@ -158,20 +148,27 @@ namespace Zlo4NET.Core.Data
 
         public void Connect()
         {
-            // already connected ?
+            // check, if someone trying to connect multiple times
+            // and set connection pending state
+            if (Interlocked.Exchange(ref _connectionOperationLock, 1) != 0)
+            {
+                throw new InvalidOperationException("The connection operation has already been initiated");
+            }
+
+            // check, if we already connected
             if (IsConnected)
             {
-                return;
+                throw new InvalidOperationException("The connection has already been established");
             }
 
             ZRouter.Start();
         }
         public void Disconnect(bool raiseEvent = true)
         {
-            // already disconnected ?
+            // check, if we already disconnected
             if (! IsConnected)
             {
-                return;
+                throw new InvalidOperationException("The connection has already been dropped or not yet established");
             }
 
             // prepare to disconnect
@@ -183,6 +180,7 @@ namespace Zlo4NET.Core.Data
         public ZUser GetCurrentUserInfo() => _currentUserInfo;
 
         public bool IsConnected => _internalConnectionState.GetValueOrDefault(false);
+        public bool IsPending => _connectionOperationLock == 1;
 
         #endregion
     }

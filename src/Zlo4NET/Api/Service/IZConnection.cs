@@ -29,8 +29,12 @@ namespace Zlo4NET.Api.Service
         /// </summary>
         event EventHandler<ZConnectionChangedEventArgs> ConnectionChanged;
         /// <summary>
-        /// Gets current connection state with ZClient
+        /// Gets a value that indicates current connection state with ZClient
         /// </summary>
         bool IsConnected { get; }
+        /// <summary>
+        /// Gets a value that indicates whether the <see cref="IZConnection"/> is in connection pending mode
+        /// </summary>
+        bool IsPending { get; }
     }
 }
