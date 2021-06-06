@@ -9,7 +9,6 @@ using Zlo4NET.Api.Service;
 using Zlo4NET.Core.Services;
 using Zlo4NET.Core.ZClientAPI;
 using Zlo4NET.Api.Models.Shared;
-using Zlo4NET.Core.Data.Parsers;
 using Zlo4NET.Core.Helpers;
 
 namespace Zlo4NET.Core.Data
@@ -70,6 +69,8 @@ namespace Zlo4NET.Core.Data
 
         public async Task<ZRunResult> RunAsync()
         {
+            ZConnectionHelper.ThrowIfNotConnected();
+
             // send request to run the game
             var request = ZRequestFactory.CreateRunGameRequest(_targetGame.RunnableName, _runArgs);
             var response = await ZRouter.GetResponseAsync(request);

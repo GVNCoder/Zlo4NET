@@ -24,6 +24,86 @@ namespace Zlo4NET.Core.Data
 
         #endregion
 
+        #region Internal types
+
+        private static class ParametersValidator
+        {
+            public static void ThrowIfNotValid(ZBaseLaunchParameters parameters)
+            {
+                if (parameters == null)
+                {
+                    throw new ArgumentNullException();
+                }
+
+                if (parameters.TargetGame == null)
+                {
+                    throw new ArgumentException($"{nameof(parameters.TargetGame)} is null");
+                }
+            }
+
+            public static void ThrowIfNotValid(ZCoopClientLaunchParameters parameters)
+            {
+                _ValidateBasicArguments(parameters);
+
+                if (parameters.TargetGame.Game != ZGame.BF3)
+                {
+                    throw new NotSupportedException($"{parameters.TargetGame.Game} not supported");
+                }
+
+                if (parameters.HostId == null)
+                {
+                    throw new ArgumentException($"{nameof(parameters.HostId)} is null");
+                }
+            }
+
+            public static void ThrowIfNotValid(ZCoopHostLaunchParameters parameters)
+            {
+                _ValidateBasicArguments(parameters);
+
+                if (parameters.TargetGame.Game != ZGame.BF3)
+                {
+                    throw new NotSupportedException($"{parameters.TargetGame.Game} not supported");
+                }
+
+                if (parameters.Level == null)
+                {
+                    throw new ArgumentException($"{nameof(parameters.Level)} is null");
+                }
+
+                if (parameters.Difficulty == null)
+                {
+                    throw new ArgumentException($"{nameof(parameters.Difficulty)} is null");
+                }
+            }
+
+            public static void ThrowIfNotValid(ZTestRangeLaunchParameters parameters)
+            {
+                _ValidateBasicArguments(parameters);
+
+                if (parameters.TargetGame.Game != ZGame.BF4)
+                {
+                    throw new NotSupportedException($"{parameters.TargetGame.Game} not supported");
+                }
+            }
+
+            public static void ThrowIfNotValid(ZMultiLaunchParameters parameters)
+            {
+                _ValidateBasicArguments(parameters);
+
+                if (parameters.TargetGame.Game == ZGame.BF3 && parameters.Role == ZRole.Spectator && parameters.Role == ZRole.Commander)
+                {
+                    throw new NotSupportedException($"{parameters.TargetGame.Game} doesn't support {parameters.Role} role");
+                }
+
+                if (parameters.TargetGame.Game == ZGame.BFHL && parameters.Role == ZRole.Spectator && parameters.Role == ZRole.Commander)
+                {
+                    throw new NotSupportedException($"{parameters.TargetGame.Game} doesn't support {parameters.Role} role");
+                }
+            }
+        }
+
+        #endregion
+
         private readonly IDictionary<string, string> _argumentsDictionary = new Dictionary<string, string>
         {
             { "[personaRef]",  string.Empty },
@@ -76,85 +156,12 @@ namespace Zlo4NET.Core.Data
             return template;
         }
 
-        private static void _ValidateBasicArguments(ZBaseLaunchParameters parameters)
-        {
-            if (parameters == null)
-            {
-                throw new ArgumentNullException();
-            }
-
-            if (parameters.TargetGame == null)
-            {
-                throw new ArgumentException($"{nameof(parameters.TargetGame)} is null");
-            }
-        }
-
-        private static void _ValidateCoopClientArguments(ZCoopClientLaunchParameters parameters)
-        {
-            _ValidateBasicArguments(parameters);
-
-            if (parameters.TargetGame.Game != ZGame.BF3)
-            {
-                throw new NotSupportedException($"{parameters.TargetGame.Game} not supported");
-            }
-
-            if (parameters.HostId == null)
-            {
-                throw new ArgumentException($"{nameof(parameters.HostId)} is null");
-            }
-        }
-
-        private static void _ValidateCoopHostArguments(ZCoopHostLaunchParameters parameters)
-        {
-            _ValidateBasicArguments(parameters);
-
-            if (parameters.TargetGame.Game != ZGame.BF3)
-            {
-                throw new NotSupportedException($"{parameters.TargetGame.Game} not supported");
-            }
-
-            if (parameters.Level == null)
-            {
-                throw new ArgumentException($"{nameof(parameters.Level)} is null");
-            }
-
-            if (parameters.Difficulty == null)
-            {
-                throw new ArgumentException($"{nameof(parameters.Difficulty)} is null");
-            }
-        }
-
-        private static void _ValidateTestRangeArguments(ZTestRangeLaunchParameters parameters)
-        {
-            _ValidateBasicArguments(parameters);
-
-            if (parameters.TargetGame.Game != ZGame.BF4)
-            {
-                throw new NotSupportedException($"{parameters.TargetGame.Game} not supported");
-            }
-        }
-
-        private static void _ValidateMultiArguments(ZMultiLaunchParameters parameters)
-        {
-            _ValidateBasicArguments(parameters);
-
-            if (parameters.TargetGame.Game == ZGame.BF3 && parameters.Role == ZRole.Spectator && parameters.Role == ZRole.Commander)
-            {
-                throw new NotSupportedException($"{parameters.TargetGame.Game} doesn't support {parameters.Role} role");
-            }
-
-            if (parameters.TargetGame.Game == ZGame.BFHL && parameters.Role == ZRole.Spectator && parameters.Role == ZRole.Commander)
-            {
-                throw new NotSupportedException($"{parameters.TargetGame.Game} doesn't support {parameters.Role} role");
-            }
-        }
-
         #endregion
 
         public IZGameProcess CreateSingle(ZSingleLaunchParameters parameters)
         {
             ZConnectionHelper.ThrowIfNotConnected();
-            _ValidateBasicArguments(parameters);
+            ParametersValidator.ThrowIfNotValid(parameters);
 
             var targetGame = parameters.TargetGame;
             var currentUser = _connection.GetCurrentUserInfo();
@@ -173,7 +180,7 @@ namespace Zlo4NET.Core.Data
         public IZGameProcess CreateCoopClient(ZCoopClientLaunchParameters parameters)
         {
             ZConnectionHelper.ThrowIfNotConnected();
-            _ValidateCoopClientArguments(parameters);
+            ParametersValidator.ThrowIfNotValid(parameters);
 
             var targetGame = parameters.TargetGame;
             var currentUser = _connection.GetCurrentUserInfo();
@@ -193,7 +200,7 @@ namespace Zlo4NET.Core.Data
         public IZGameProcess CreateCoopHost(ZCoopHostLaunchParameters parameters)
         {
             ZConnectionHelper.ThrowIfNotConnected();
-            _ValidateCoopHostArguments(parameters);
+            ParametersValidator.ThrowIfNotValid(parameters);
 
             var targetGame = parameters.TargetGame;
             var currentUser = _connection.GetCurrentUserInfo();
@@ -214,7 +221,7 @@ namespace Zlo4NET.Core.Data
         public IZGameProcess CreateTestRange(ZTestRangeLaunchParameters parameters)
         {
             ZConnectionHelper.ThrowIfNotConnected();
-            _ValidateTestRangeArguments(parameters);
+            ParametersValidator.ThrowIfNotValid(parameters);
 
             var targetGame = parameters.TargetGame;
             var currentUser = _connection.GetCurrentUserInfo();
@@ -233,7 +240,7 @@ namespace Zlo4NET.Core.Data
         public IZGameProcess CreateMulti(ZMultiLaunchParameters parameters)
         {
             ZConnectionHelper.ThrowIfNotConnected();
-            _ValidateMultiArguments(parameters);
+            ParametersValidator.ThrowIfNotValid(parameters);
 
             var targetGame = parameters.TargetGame;
             var currentUser = _connection.GetCurrentUserInfo();

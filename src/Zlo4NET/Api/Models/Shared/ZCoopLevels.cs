@@ -1,4 +1,7 @@
-﻿namespace Zlo4NET.Api.Models.Shared
+﻿// ReSharper disable UnusedMember.Global
+// ReSharper disable InconsistentNaming
+
+namespace Zlo4NET.Api.Models.Shared
 {
     /// <summary>
     /// Defines CoOp level codes
