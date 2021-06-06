@@ -36,9 +36,9 @@ namespace Zlo4NET.Core.Data.Parsers
 
         #endregion
 
-        public ZGameCollection Parse(ZPacket packet)
+        public ZInstalledGamesCollection Parse(ZPacket packet)
         {
-            ZGameCollection gameCollection;
+            ZInstalledGamesCollection gameCollection;
 
             using (var memoryStream = new MemoryStream(packet.Payload, false))
             using (var binaryReader = new BinaryReader(memoryStream, Encoding.ASCII))
@@ -62,7 +62,7 @@ namespace Zlo4NET.Core.Data.Parsers
                     games.Add(item);
                 }
 
-                gameCollection = new ZGameCollection
+                gameCollection = new ZInstalledGamesCollection
                 {
                     IsX64OperatingSystem = isX64OperatingSystem,
                     Games = games

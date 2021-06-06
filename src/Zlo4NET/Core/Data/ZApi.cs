@@ -85,13 +85,6 @@ namespace Zlo4NET.Core.Data
             return _lastCreatedServerListInstance;
         }
 
-        public void InjectDll(ZGame game, IEnumerable<string> paths)
-        {
-            ZConnectionHelper.ThrowIfNotConnected();
-
-            _injector.Inject(game, paths);
-        }
-
         public void Configure(ZConfiguration config)
         {
             if (_config != null) throw new InvalidOperationException("This method can only be called once.");

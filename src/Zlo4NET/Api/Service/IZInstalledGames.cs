@@ -13,6 +13,6 @@ namespace Zlo4NET.Api.Service
         /// 
         /// </summary>
         /// <returns></returns>
-        Task<ZGameCollection> GetGamesCollectionAsync();
+        Task<ZInstalledGamesCollection> GetGamesCollectionAsync();
     }
 }

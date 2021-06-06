@@ -5,6 +5,6 @@ namespace Zlo4NET.Core.Services
 {
     internal interface IZInstalledGamesParser
     {
-        ZGameCollection Parse(ZPacket packet);
+        ZInstalledGamesCollection Parse(ZPacket packet);
     }
 }

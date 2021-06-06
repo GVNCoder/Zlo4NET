@@ -14,15 +14,32 @@ namespace Zlo4NET.Core.Data
         private readonly IZInstalledGamesParser _installedGamesParser;
         private readonly ZLogger _logger;
 
+        #region Ctor
+
         public ZInstalledGames()
         {
             _installedGamesParser = ZParsersFactory.CreateInstalledGamesInfoParser();
             _logger = ZLogger.Instance;
         }
 
-        public async Task<ZGameCollection> GetGamesCollectionAsync()
+        #endregion
+
+        #region IZInstalledGames interface
+
+        public async Task<ZInstalledGamesCollection> GetGamesCollectionAsync()
         {
-            ZGameCollection installedGames = null;
+            ZConnectionHelper.ThrowIfNotConnected();
+
+            return await _GetGamesCollectionInternal();
+        }
+
+        #endregion
+
+        #region Private helpers
+
+        private async Task<ZInstalledGamesCollection> _GetGamesCollectionInternal()
+        {
+            ZInstalledGamesCollection installedGames = null;
 
             var request = ZRequestFactory.CreateInstalledGamesRequest();
             var response = await ZRouter.GetResponseAsync(request);
@@ -39,5 +56,7 @@ namespace Zlo4NET.Core.Data
 
             return installedGames;
         }
+
+        #endregion
     }
 }

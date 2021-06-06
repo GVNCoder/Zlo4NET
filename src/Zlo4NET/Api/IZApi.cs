@@ -54,13 +54,6 @@ namespace Zlo4NET.Api
         #endregion
 
         /// <summary>
-        /// Makes asynchronous requests to inject specified dlls into the game process
-        /// </summary>
-        /// <param name="game">Game context</param>
-        /// <param name="paths">An array of dll paths for injection</param>
-        /// <exception cref="InvalidOperationException">Occurs when Api is not connected</exception>
-        void InjectDll(ZGame game, IEnumerable<string> paths);
-        /// <summary>
         /// Configures api
         /// </summary>
         /// <param name="config">Configuration instance</param>
