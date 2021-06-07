@@ -9,7 +9,7 @@ namespace Zlo4NET.Core.Helpers
     {
         private static SynchronizationContext _context;
 
-        public static void Initialize(ZConfiguration config) => _context = config.SynchronizationContext;
+        //public static void Initialize(ZConfiguration config) => _context = config.SynchronizationContext;
 
         /// <summary>
         /// Execute action async

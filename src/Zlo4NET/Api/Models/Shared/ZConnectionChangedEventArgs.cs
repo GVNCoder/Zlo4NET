@@ -1,7 +1,6 @@
 ﻿using System;
 
 using Zlo4NET.Api.DTOs;
-using Zlo4NET.Api.Service;
 
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 // ReSharper disable MemberCanBePrivate.Global

@@ -1,23 +1,24 @@
 ﻿using System;
 
+// ReSharper disable InheritdocConsiderUsage
+// ReSharper disable MemberCanBePrivate.Global
+
 namespace Zlo4NET.Api.Models.Shared
 {
-    /// <inheritdoc />
     /// <summary>
-    /// Defines log event args
+    /// 
     /// </summary>
-    public class ZLogMessageArgs : EventArgs
+    public class ZLoggerMessageEventArgs : EventArgs
     {
         /// <summary>
         /// Gets message
         /// </summary>
         public string Message { get; }
-        /// <inheritdoc />
+
         /// <summary>
-        /// Default ctor
+        /// Creates an instance of <see cref="ZLoggerMessageEventArgs"/> class
         /// </summary>
-        /// <param name="message">Message string</param>
-        public ZLogMessageArgs(string message)
+        public ZLoggerMessageEventArgs(string message)
         {
             Message = message;
         }

@@ -63,7 +63,7 @@ namespace Zlo4NET.Core.Data
             }
 
             // now, we can create a new instance ;)
-            _lastCreatedServerListInstance = new ZServersList(game, _connection);
+            _lastCreatedServerListInstance = new ZServersListImpl(game, _connection);
 
             return _lastCreatedServerListInstance;
         }
@@ -80,7 +80,7 @@ namespace Zlo4NET.Core.Data
 
         public IZLogger GetApiLogger()
         {
-            return ZLogger.Instance;
+            return ZLoggerImpl.Instance;
         }
 
         public IZConnection GetApiConnection()

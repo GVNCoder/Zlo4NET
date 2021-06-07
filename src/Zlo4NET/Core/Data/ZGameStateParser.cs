@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
-
+using Zlo4NET.Core.Extensions;
 using Zlo4NET.Core.Helpers;
 
 // ReSharper disable InconsistentNaming
@@ -56,7 +56,7 @@ namespace Zlo4NET.Core.Data
             { nameof(ZGameEvent.Alert), ZGameEvent.Alert }
         };
 
-        private static readonly ZLogger _log = ZLogger.Instance;
+        private static readonly ZLoggerImpl _log = ZLoggerImpl.Instance;
 
         #region Interface
 

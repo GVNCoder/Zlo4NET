@@ -20,7 +20,7 @@ namespace Zlo4NET.Core.Data
         private const int MESSAGE_BUFFER_SIZE = 4096;
         #endregion
 
-        private readonly ZLogger _logger;
+        private readonly ZLoggerImpl _logger;
         private readonly Thread _readThread;
         private readonly NamedPipeClientStream _pipe;
         private readonly ZBuffer _buffer;
@@ -29,7 +29,7 @@ namespace Zlo4NET.Core.Data
 
         public ZGamePipe(string pipeName)
         {
-            _logger = ZLogger.Instance;
+            _logger = ZLoggerImpl.Instance;
             _buffer = new ZBuffer();
             _pipe = new NamedPipeClientStream(".", pipeName, PipeDirection.In);
             _readThread = new Thread(_GamePipeReader)

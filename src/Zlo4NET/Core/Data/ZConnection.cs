@@ -10,7 +10,7 @@ using Zlo4NET.Core.Helpers;
 using Zlo4NET.Core.Services;
 using Zlo4NET.Core.ZClientAPI;
 using Zlo4NET.Api.Models.Shared;
-
+using Zlo4NET.Core.Extensions;
 using Timer = System.Timers.Timer;
 
 namespace Zlo4NET.Core.Data
@@ -29,7 +29,7 @@ namespace Zlo4NET.Core.Data
 
         private readonly IZUserInfoParser _userInfoParser;
         private readonly Timer _pingTimer;
-        private readonly ZLogger _logger;
+        private readonly ZLoggerImpl _logger;
 
         private ZUser _currentUserInfo;
         private bool _raiseOnConnectionChangedEvent = true;
@@ -39,7 +39,7 @@ namespace Zlo4NET.Core.Data
         public ZConnection()
         {
             _userInfoParser = ZParsersFactory.CreateUserInfoParser();
-            _logger         = ZLogger.Instance;
+            _logger         = ZLoggerImpl.Instance;
             _pingTimer      = new Timer(PING_INTERVAL) { Enabled = false, AutoReset = true };
 
             _pingTimer.Elapsed += _OnPingTimerElapsedCallback;

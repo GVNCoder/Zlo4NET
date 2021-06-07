@@ -8,20 +8,21 @@ using Zlo4NET.Core.Services;
 using Zlo4NET.Core.ZClientAPI;
 using Zlo4NET.Api.Models.Shared;
 using Zlo4NET.Api.Service;
+using Zlo4NET.Core.Extensions;
 
 namespace Zlo4NET.Core.Data
 {
     internal class ZPlayerStatsImpl : IZPlayerStats
     {
         private readonly IZPlayerStatsParser _parser;
-        private readonly ZLogger _logger;
+        private readonly ZLoggerImpl _logger;
 
         #region Ctor
 
         public ZPlayerStatsImpl()
         {
             _parser = ZParsersFactory.CreateStatsInfoParser();
-            _logger = ZLogger.Instance;
+            _logger = ZLoggerImpl.Instance;
         }
 
         #endregion

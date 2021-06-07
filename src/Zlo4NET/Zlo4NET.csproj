@@ -64,9 +64,9 @@
     <Compile Include="Api\Models\Shared\ZCoopClientLaunchParameters.cs" />
     <Compile Include="Api\Models\Shared\ZCoopHostLaunchParameters.cs" />
     <Compile Include="Api\Models\Shared\ZMapInMapRotation.cs" />
-    <Compile Include="Api\Models\Shared\ZMapRotation.cs" />
     <Compile Include="Api\Models\Shared\ZPlayerRole.cs" />
     <Compile Include="Api\Models\Shared\ZServerListAction.cs" />
+    <Compile Include="Core\Data\Attributes\ZCoopLevelEnumMetadataAttribute.cs" />
     <Compile Include="Core\Data\Attributes\ZGameEnumMetadataAttribute.cs" />
     <Compile Include="Core\Data\Attributes\ZStatsMapperAttribute.cs" />
     <Compile Include="Core\Data\Parsers\ZBF3ServerListParser.cs" />
@@ -76,8 +76,8 @@
     <Compile Include="Core\Data\ZGameEvent.cs" />
     <Compile Include="Core\Data\ZGameState.cs" />
     <Compile Include="Api\DTOs\ZInstalledGamesCollection.cs" />
-    <Compile Include="Api\Models\Shared\ZLogMessageArgs.cs" />
-    <Compile Include="Api\Models\Shared\ZLogLevel.cs" />
+    <Compile Include="Api\Models\Shared\ZLoggerMessageEventArgs.cs" />
+    <Compile Include="Api\Models\Shared\ZLoggingLevel.cs" />
     <Compile Include="Api\Models\Shared\ZMultiLaunchParameters.cs" />
     <Compile Include="Api\Models\Shared\ZSingleLaunchParameters.cs" />
     <Compile Include="Api\Models\Shared\ZTestRangeLaunchParameters.cs" />
@@ -97,6 +97,7 @@
     <Compile Include="Core\Data\ZGamePipe.cs" />
     <Compile Include="Core\Data\ZGameStateModel.cs" />
     <Compile Include="Core\Data\ZGameStateParser.cs" />
+    <Compile Include="Core\Extensions\ZLoggerExtensions.cs" />
     <Compile Include="Core\Helpers\ZCollectionWrapper.cs" />
     <Compile Include="Core\Helpers\ZConnectionHelper.cs" />
     <Compile Include="Core\Helpers\ZBitConverter.cs" />
@@ -113,7 +114,6 @@
     <Compile Include="Api\Service\IZInstalledGames.cs" />
     <Compile Include="Core\Services\IZPlayerStatsParser.cs" />
     <Compile Include="Api\Service\IZPlayerStats.cs" />
-    <Compile Include="Api\Models\Server\ZMap.cs" />
     <Compile Include="Api\Models\Shared\ZGameStateChangedEventArgs.cs" />
     <Compile Include="Api\DTOs\ZInstalledGame.cs" />
     <Compile Include="Api\Service\IZLogger.cs" />
@@ -121,7 +121,7 @@
     <Compile Include="Api\Service\IZConnection.cs" />
     <Compile Include="Api\Service\IZServersList.cs" />
     <Compile Include="Core\Data\ZChangesMapper.cs" />
-    <Compile Include="Core\Data\ZLogger.cs" />
+    <Compile Include="Core\Data\ZLoggerImpl.cs" />
     <Compile Include="Core\Extensions\ZBinaryReaderExtensions.cs" />
     <Compile Include="Core\Helpers\CollectionHelper.cs" />
     <Compile Include="Core\Helpers\ZPingService.cs" />
@@ -129,7 +129,7 @@
     <Compile Include="Api\Models\Shared\ZCoopDifficulty.cs" />
     <Compile Include="Api\Models\Shared\ZCoopLevels.cs" />
     <Compile Include="Api\Models\Shared\ZGameArchitecture.cs" />
-    <Compile Include="Api\Models\Shared\ZRole.cs" />
+    <Compile Include="Api\Models\Shared\ZJoinPlayerRole.cs" />
     <Compile Include="Api\Models\Shared\ZRunResult.cs" />
     <Compile Include="Core\ZClientAPI\IZClient.cs" />
     <Compile Include="Core\ZClientAPI\ZBuffer.cs" />
@@ -155,7 +155,7 @@
     <Compile Include="Core\Helpers\ZStringConstants.cs" />
     <Compile Include="Core\Data\ZConnection.cs" />
     <Compile Include="Core\Data\ZProcessTracker.cs" />
-    <Compile Include="Core\Data\ZServersList.cs" />
+    <Compile Include="Core\Data\ZServersListImpl.cs" />
     <Compile Include="Core\Data\ZApi.cs" />
     <Compile Include="Core\Data\ZPlayerStatsImpl.cs" />
     <Compile Include="GlobalSuppressions.cs" />

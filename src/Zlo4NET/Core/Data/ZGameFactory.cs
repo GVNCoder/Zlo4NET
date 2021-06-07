@@ -90,12 +90,12 @@ namespace Zlo4NET.Core.Data
             {
                 ThrowIfNotValid((ZBaseLaunchParameters) parameters);
 
-                if (parameters.TargetGame.Game == ZGame.BF3 && parameters.Role == ZRole.Spectator && parameters.Role == ZRole.Commander)
+                if (parameters.TargetGame.Game == ZGame.BF3 && parameters.Role == ZJoinPlayerRole.Spectator && parameters.Role == ZJoinPlayerRole.Commander)
                 {
                     throw new NotSupportedException($"{parameters.TargetGame.Game} doesn't support {parameters.Role} role");
                 }
 
-                if (parameters.TargetGame.Game == ZGame.BFHL && parameters.Role == ZRole.Spectator && parameters.Role == ZRole.Commander)
+                if (parameters.TargetGame.Game == ZGame.BFHL && parameters.Role == ZJoinPlayerRole.Spectator && parameters.Role == ZJoinPlayerRole.Commander)
                 {
                     throw new NotSupportedException($"{parameters.TargetGame.Game} doesn't support {parameters.Role} role");
                 }
@@ -251,7 +251,7 @@ namespace Zlo4NET.Core.Data
             _argumentsDictionary["[gameId]"] = parameters.ServerId.ToString();
             _argumentsDictionary["[role]"] = parameters.Role.ToString();
             _argumentsDictionary["[isSpectator]"] =
-                parameters.Role == ZRole.Spectator ? "isspectator=\\\"true\\\"" : string.Empty;
+                parameters.Role == ZJoinPlayerRole.Spectator ? "isspectator=\\\"true\\\"" : string.Empty;
 
             // replace placeholders
             var commandParameters = _mapPlaceholders(commandArgumentsTemplate);

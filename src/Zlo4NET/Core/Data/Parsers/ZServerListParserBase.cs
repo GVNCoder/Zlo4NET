@@ -32,7 +32,7 @@ namespace Zlo4NET.Core.Data.Parsers
 
         protected readonly ZGameModesConverter _gameModeConverter;
         protected readonly ZMapNameConverter _mapNameConverter;
-        protected readonly ZLogger _logger;
+        protected readonly ZLoggerImpl _logger;
         protected readonly uint _currentUserId;
 
         #region Ctor
@@ -43,7 +43,7 @@ namespace Zlo4NET.Core.Data.Parsers
             _mapNameConverter = new ZMapNameConverter(gameContext);
 
             _currentUserId = currentUserId;
-            _logger = ZLogger.Instance;
+            _logger = ZLoggerImpl.Instance;
             _disposed = false;
 
             _threadCancellationTokenSource = new CancellationTokenSource();

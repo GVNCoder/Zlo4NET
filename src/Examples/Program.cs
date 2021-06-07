@@ -28,8 +28,8 @@ namespace Examples
             var logger = _zloApi.GetApiLogger();
 
             // configure logging
-            logger.SetLogLevelFiltering(ZLogLevel.Debug | ZLogLevel.Warning | ZLogLevel.Error | ZLogLevel.Info);
-            logger.LogMessage += (sender, messageArgs) => Console.WriteLine(messageArgs.Message);
+            logger.SetLoggingLevelFiltering(ZLoggingLevel.Debug | ZLoggingLevel.Warning | ZLoggingLevel.Error | ZLoggingLevel.Info);
+            logger.ApiMessage += (sender, messageArgs) => Console.WriteLine(messageArgs.Message);
 
             var connection = _zloApi.GetApiConnection();
 

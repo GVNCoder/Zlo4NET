@@ -3,7 +3,7 @@
     /// <summary>
     /// 
     /// </summary>
-    public enum ZRole
+    public enum ZJoinPlayerRole
     {
         /// <summary>
         /// Soldier role. Supports on All games

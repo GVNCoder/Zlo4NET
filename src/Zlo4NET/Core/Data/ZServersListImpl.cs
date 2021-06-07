@@ -7,25 +7,26 @@ using Zlo4NET.Core.Helpers;
 using Zlo4NET.Core.Services;
 using Zlo4NET.Core.ZClientAPI;
 using Zlo4NET.Api.Models.Shared;
+using Zlo4NET.Core.Extensions;
 
 // ReSharper disable ConvertToAutoPropertyWithPrivateSetter
 
 namespace Zlo4NET.Core.Data
 {
-    internal class ZServersList : IZServersList
+    internal class ZServersListImpl : IZServersList
     {
         private readonly IZServerListParser _parser;
         private readonly ZGame _targetGame;
-        private readonly ZLogger _logger;
+        private readonly ZLoggerImpl _logger;
 
         private bool _isDisposed;
 
         #region Ctor
 
-        public ZServersList(ZGame targetGame, IZConnection connection)
+        public ZServersListImpl(ZGame targetGame, IZConnection connection)
         {
             _targetGame = targetGame;
-            _logger = ZLogger.Instance;
+            _logger = ZLoggerImpl.Instance;
 
             // create and configure server list parser
             var currentUser = connection.GetCurrentUserInfo();

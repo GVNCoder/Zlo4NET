@@ -4,7 +4,7 @@
 namespace Zlo4NET.Api.Models.Shared
 {
     /// <summary>
-    /// Defines CoOp difficulty level 
+    /// Defines Coop mission difficulty level 
     /// </summary>
     public enum ZCoopDifficulty
     {

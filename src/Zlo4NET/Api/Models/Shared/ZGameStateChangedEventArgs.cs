@@ -2,9 +2,9 @@
 
 using Zlo4NET.Core.Data;
 
+// ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable InheritdocConsiderUsage
 // disable Missing XML documentation
-
 #pragma warning disable 1591
 
 namespace Zlo4NET.Api.Models.Shared
@@ -17,23 +17,23 @@ namespace Zlo4NET.Api.Models.Shared
         /// <summary>
         /// 
         /// </summary>
-        public string RawEvent { get; set; }
+        public string RawEvent { get; }
         /// <summary>
         /// 
         /// </summary>
-        public string RawState { get; set; }
+        public string RawState { get; }
         /// <summary>
         /// 
         /// </summary>
-        public string RawFullMessage { get; set; }
+        public string RawFullMessage { get; }
         /// <summary>
         /// 
         /// </summary>
-        public ZGameEvent Event { get; set; }
+        public ZGameEvent Event { get; }
         /// <summary>
         /// 
         /// </summary>
-        public ZGameState[] States { get; set; }
+        public ZGameState[] States { get; }
 
         public ZGameStateChangedEventArgs(ZGameEvent eventEnum, string rawEvent, ZGameState[] stateEnums, string rawState)
         {

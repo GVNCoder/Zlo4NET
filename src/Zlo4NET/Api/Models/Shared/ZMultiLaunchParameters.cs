@@ -1,4 +1,6 @@
-﻿namespace Zlo4NET.Api.Models.Shared
+﻿// ReSharper disable ClassNeverInstantiated.Global
+
+namespace Zlo4NET.Api.Models.Shared
 {
     /// <inheritdoc />
     public class ZMultiLaunchParameters : ZBaseLaunchParameters
@@ -10,6 +12,6 @@
         /// <summary>
         /// Gets or sets player role
         /// </summary>
-        public ZRole Role { get; set; } = ZRole.Soldier;
+        public ZJoinPlayerRole Role { get; set; } = ZJoinPlayerRole.Soldier;
     }
 }

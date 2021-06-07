@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 using Zlo4NET.Api.DTOs;
 using Zlo4NET.Api.Service;
+using Zlo4NET.Core.Extensions;
 using Zlo4NET.Core.Helpers;
 using Zlo4NET.Core.Services;
 using Zlo4NET.Core.ZClientAPI;
@@ -12,14 +13,14 @@ namespace Zlo4NET.Core.Data
     internal class ZInstalledGames : IZInstalledGames
     {
         private readonly IZInstalledGamesParser _installedGamesParser;
-        private readonly ZLogger _logger;
+        private readonly ZLoggerImpl _logger;
 
         #region Ctor
 
         public ZInstalledGames()
         {
             _installedGamesParser = ZParsersFactory.CreateInstalledGamesInfoParser();
-            _logger = ZLogger.Instance;
+            _logger = ZLoggerImpl.Instance;
         }
 
         #endregion
