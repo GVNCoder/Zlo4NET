@@ -7,17 +7,18 @@ using Zlo4NET.Core.Helpers;
 using Zlo4NET.Core.Services;
 using Zlo4NET.Core.ZClientAPI;
 using Zlo4NET.Api.Models.Shared;
+using Zlo4NET.Api.Service;
 
 namespace Zlo4NET.Core.Data
 {
-    internal class ZPlayerStatsService : IZPlayerStatsService
+    internal class ZPlayerStatsImpl : IZPlayerStats
     {
         private readonly IZPlayerStatsParser _parser;
         private readonly ZLogger _logger;
 
         #region Ctor
 
-        public ZPlayerStatsService()
+        public ZPlayerStatsImpl()
         {
             _parser = ZParsersFactory.CreateStatsInfoParser();
             _logger = ZLogger.Instance;
@@ -25,7 +26,7 @@ namespace Zlo4NET.Core.Data
 
         #endregion
 
-        #region IZPlayerStatsService interface
+        #region IZPlayerStats interface
 
         public async Task<ZPlayerStatsBase> GetStatsAsync(ZGame game)
         {

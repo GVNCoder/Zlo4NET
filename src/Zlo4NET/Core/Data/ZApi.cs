@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Threading.Tasks;
 
 using Zlo4NET.Api;
-using Zlo4NET.Api.DTOs;
 using Zlo4NET.Api.Service;
 using Zlo4NET.Core.Helpers;
-using Zlo4NET.Core.Services;
 using Zlo4NET.Api.Models.Shared;
 
 // ReSharper disable ConvertToAutoProperty
@@ -35,21 +31,20 @@ namespace Zlo4NET.Core.Data
 
         private readonly IZConnection _connection;
         private readonly IZInjector _injector;
-        private readonly IZPlayerStatsService _playerStatsService;
+        private readonly IZPlayerStats _playerStats;
         private readonly IZGameFactory _gameFactory;
-        private readonly IZInstalledGames _installedGamesService;
+        private readonly IZInstalledGames _installedGames;
 
-        private ZConfiguration _config;
         private IZServersList _lastCreatedServerListInstance;
 
         private ZApi()
         {
             // creating a client services
-            _connection             = new ZConnection();
-            _playerStatsService     = new ZPlayerStatsService();
-            _gameFactory            = new ZGameFactory(_connection);
-            _injector               = new ZInjectorImpl();
-            _installedGamesService  = new ZInstalledGames();
+            _connection      = new ZConnection();
+            _playerStats     = new ZPlayerStatsImpl();
+            _gameFactory     = new ZGameFactory(_connection);
+            _injector        = new ZInjectorImpl();
+            _installedGames  = new ZInstalledGames();
 
             // initializing the static helpers
             ZConnectionHelper.Initialize(_connection);
@@ -57,19 +52,7 @@ namespace Zlo4NET.Core.Data
 
         #region IZApi
 
-        public IZGameFactory GameFactory => _gameFactory;
-
-        public IZConnection Connection => _connection;
-
-        public IZLogger Logger => ZLogger.Instance;
-
-        public IZInstalledGames InstalledGamesService => _installedGamesService;
-
-        public IZInjector Injector => _injector;
-
-        public IZPlayerStatsService PlayerStats => _playerStatsService;
-
-        public async Task<IZServersList> CreateServersListAsync(ZGame game)
+        public async Task<IZServersList> CreateServersListServiceAsync(ZGame game)
         {
             ZGameHelper.ThrowIfOutOfRange(game);
 
@@ -85,14 +68,34 @@ namespace Zlo4NET.Core.Data
             return _lastCreatedServerListInstance;
         }
 
-        public void Configure(ZConfiguration config)
+        public IZInjector GetInjectorService()
         {
-            if (_config != null) throw new InvalidOperationException("This method can only be called once.");
-            if (config == null) throw new ArgumentNullException(nameof(config));
-            if (config.SynchronizationContext == null) throw new ArgumentException(nameof(config.SynchronizationContext));
+            return _injector;
+        }
 
-            ZSynchronizationWrapper.Initialize(config);
-            _config = config;
+        public IZInstalledGames GetInstalledGamesService()
+        {
+            return _installedGames;
+        }
+
+        public IZLogger GetApiLogger()
+        {
+            return ZLogger.Instance;
+        }
+
+        public IZConnection GetApiConnection()
+        {
+            return _connection;
+        }
+
+        public IZGameFactory GetGameFactory()
+        {
+            return _gameFactory;
+        }
+
+        public IZPlayerStats GetPlayerStatsService()
+        {
+            return _playerStats;
         }
 
         #endregion

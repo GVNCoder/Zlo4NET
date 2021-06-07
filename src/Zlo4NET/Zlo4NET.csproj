@@ -112,7 +112,7 @@
     <Compile Include="Core\Services\IZInstalledGamesParser.cs" />
     <Compile Include="Api\Service\IZInstalledGames.cs" />
     <Compile Include="Core\Services\IZPlayerStatsParser.cs" />
-    <Compile Include="Core\Services\IZPlayerStatsService.cs" />
+    <Compile Include="Api\Service\IZPlayerStats.cs" />
     <Compile Include="Api\Models\Server\ZMap.cs" />
     <Compile Include="Api\Models\Shared\ZGameStateChangedEventArgs.cs" />
     <Compile Include="Api\DTOs\ZInstalledGame.cs" />
@@ -157,7 +157,7 @@
     <Compile Include="Core\Data\ZProcessTracker.cs" />
     <Compile Include="Core\Data\ZServersList.cs" />
     <Compile Include="Core\Data\ZApi.cs" />
-    <Compile Include="Core\Data\ZPlayerStatsService.cs" />
+    <Compile Include="Core\Data\ZPlayerStatsImpl.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

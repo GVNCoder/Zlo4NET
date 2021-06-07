@@ -3,12 +3,12 @@
 using Zlo4NET.Api.DTOs;
 using Zlo4NET.Api.Models.Shared;
 
-namespace Zlo4NET.Core.Services
+namespace Zlo4NET.Api.Service
 {
     /// <summary>
     /// 
     /// </summary>
-    public interface IZPlayerStatsService
+    public interface IZPlayerStats
     {
         /// <summary>
         /// 

@@ -23,21 +23,21 @@ namespace Examples
         {
             // setup internal state
             _zloApi = ZApi.Instance;
-            _gameFactory = _zloApi.GameFactory;
+            _gameFactory = _zloApi.GetGameFactory();
 
-            var logger = _zloApi.Logger;
+            var logger = _zloApi.GetApiLogger();
 
             // configure logging
             logger.SetLogLevelFiltering(ZLogLevel.Debug | ZLogLevel.Warning | ZLogLevel.Error | ZLogLevel.Info);
             logger.LogMessage += (sender, messageArgs) => Console.WriteLine(messageArgs.Message);
 
-            var connection = _zloApi.Connection;
+            var connection = _zloApi.GetApiConnection();
 
-            // configure api thread synchronization
-            _zloApi.Configure(new ZConfiguration
-            {
-                SynchronizationContext = new SynchronizationContext()
-            });
+            //// configure api thread synchronization
+            //_zloApi.Configure(new ZConfiguration
+            //{
+            //    SynchronizationContext = new SynchronizationContext()
+            //});
 
             Console.WriteLine("Connecting to ZClient...");
 
@@ -50,7 +50,7 @@ namespace Examples
             // wait for connection
             resetEvent.WaitOne();
 
-            if (_zloApi.Connection.IsConnected)
+            if (connection.IsConnected)
             {
                 Console.WriteLine("Connected\n");
 
@@ -72,10 +72,10 @@ namespace Examples
             var api = ZApi.Instance;
 
             // using a factory, you can create a game process to run it
-            var gameFactory = api.GameFactory;
+            var gameFactory = api.GetGameFactory();
 
             // using this service, you can get a list of all available games
-            var installedGames = api.InstalledGamesService;
+            var installedGames = api.GetInstalledGamesService();
 
             // you cannot create a process for a game that is not installed, so first, you need to get a list of all available and supported API games
             var availableGames = await installedGames.GetGamesCollectionAsync();
