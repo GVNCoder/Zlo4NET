@@ -2,7 +2,7 @@
 
 // ReSharper disable InconsistentNaming
 
-namespace Zlo4NET.Api.Models.Shared
+namespace Zlo4NET.Api.Shared
 {
     /// <summary>
     /// Defines supported games

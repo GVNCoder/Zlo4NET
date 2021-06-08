@@ -4,7 +4,7 @@ using System.Text;
 using System.Collections.Generic;
 
 using Zlo4NET.Api.DTOs;
-using Zlo4NET.Api.Models.Shared;
+using Zlo4NET.Api.Shared;
 using Zlo4NET.Core.Extensions;
 using Zlo4NET.Core.Helpers;
 using Zlo4NET.Core.Services;

@@ -3,7 +3,7 @@
 
 using Zlo4NET.Core.Data.Attributes;
 
-namespace Zlo4NET.Api.Models.Shared
+namespace Zlo4NET.Api.Shared
 {
     /// <summary>
     /// Defines CoOp level codes

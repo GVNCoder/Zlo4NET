@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Reflection;
 
 using Zlo4NET.Api.DTOs;
-using Zlo4NET.Api.Models.Shared;
+using Zlo4NET.Api.Shared;
 using Zlo4NET.Core.Data.Attributes;
 using Zlo4NET.Core.Extensions;
 using Zlo4NET.Core.Services;

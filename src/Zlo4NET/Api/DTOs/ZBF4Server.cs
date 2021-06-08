@@ -1,6 +1,6 @@
 ﻿// ReSharper disable InconsistentNaming
 
-using Zlo4NET.Api.Models.Shared;
+using Zlo4NET.Api.Shared;
 
 namespace Zlo4NET.Api.DTOs
 {

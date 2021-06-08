@@ -6,7 +6,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Collections.Generic;
 
-using Zlo4NET.Api.Models.Shared;
+using Zlo4NET.Api.Shared;
 using Zlo4NET.Core.Data;
 using Zlo4NET.Core.Extensions;
 

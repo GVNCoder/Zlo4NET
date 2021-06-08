@@ -1,6 +1,6 @@
 ﻿// ReSharper disable ClassNeverInstantiated.Global
 
-namespace Zlo4NET.Api.Models.Shared
+namespace Zlo4NET.Api.Shared
 {
     /// <inheritdoc />
     public class ZMultiLaunchParameters : ZBaseLaunchParameters

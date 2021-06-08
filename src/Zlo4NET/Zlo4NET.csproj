@@ -58,14 +58,14 @@
     <Compile Include="Api\DTOs\ZServerBase.cs" />
     <Compile Include="Api\DTOs\ZBFHLServer.cs" />
     <Compile Include="Api\DTOs\ZUser.cs" />
-    <Compile Include="Api\Models\Shared\ZBaseLaunchParameters.cs" />
-    <Compile Include="Api\Models\Shared\ZConfiguration.cs" />
-    <Compile Include="Api\Models\Shared\ZConnectionChangedEventArgs.cs" />
-    <Compile Include="Api\Models\Shared\ZCoopClientLaunchParameters.cs" />
-    <Compile Include="Api\Models\Shared\ZCoopHostLaunchParameters.cs" />
-    <Compile Include="Api\Models\Shared\ZMapInMapRotation.cs" />
-    <Compile Include="Api\Models\Shared\ZPlayerRole.cs" />
-    <Compile Include="Api\Models\Shared\ZServerListAction.cs" />
+    <Compile Include="Api\Shared\ZBaseLaunchParameters.cs" />
+    <Compile Include="Api\Shared\ZConfiguration.cs" />
+    <Compile Include="Api\Shared\ZConnectionChangedEventArgs.cs" />
+    <Compile Include="Api\Shared\ZCoopClientLaunchParameters.cs" />
+    <Compile Include="Api\Shared\ZCoopHostLaunchParameters.cs" />
+    <Compile Include="Api\Shared\ZMapInMapRotation.cs" />
+    <Compile Include="Api\Shared\ZPlayerRole.cs" />
+    <Compile Include="Api\Shared\ZServerListAction.cs" />
     <Compile Include="Core\Data\Attributes\ZCoopLevelEnumMetadataAttribute.cs" />
     <Compile Include="Core\Data\Attributes\ZGameEnumMetadataAttribute.cs" />
     <Compile Include="Core\Data\Attributes\ZStatsMapperAttribute.cs" />
@@ -76,12 +76,12 @@
     <Compile Include="Core\Data\ZGameEvent.cs" />
     <Compile Include="Core\Data\ZGameState.cs" />
     <Compile Include="Api\DTOs\ZInstalledGamesCollection.cs" />
-    <Compile Include="Api\Models\Shared\ZLoggerMessageEventArgs.cs" />
-    <Compile Include="Api\Models\Shared\ZLoggingLevel.cs" />
-    <Compile Include="Api\Models\Shared\ZMultiLaunchParameters.cs" />
-    <Compile Include="Api\Models\Shared\ZSingleLaunchParameters.cs" />
-    <Compile Include="Api\Models\Shared\ZTestRangeLaunchParameters.cs" />
-    <Compile Include="Api\IZApi.cs" />
+    <Compile Include="Api\Shared\ZLoggerMessageEventArgs.cs" />
+    <Compile Include="Api\Shared\ZLoggingLevel.cs" />
+    <Compile Include="Api\Shared\ZMultiLaunchParameters.cs" />
+    <Compile Include="Api\Shared\ZSingleLaunchParameters.cs" />
+    <Compile Include="Api\Shared\ZTestRangeLaunchParameters.cs" />
+    <Compile Include="Api\Service\IZApi.cs" />
     <Compile Include="Api\Service\IZGameFactory.cs" />
     <Compile Include="Api\Service\IZGameProcess.cs" />
     <Compile Include="Core\Data\Parsers\ZGameRunParser.cs" />
@@ -114,7 +114,7 @@
     <Compile Include="Api\Service\IZInstalledGames.cs" />
     <Compile Include="Core\Services\IZPlayerStatsParser.cs" />
     <Compile Include="Api\Service\IZPlayerStats.cs" />
-    <Compile Include="Api\Models\Shared\ZGameStateChangedEventArgs.cs" />
+    <Compile Include="Api\Shared\ZGameStateChangedEventArgs.cs" />
     <Compile Include="Api\DTOs\ZInstalledGame.cs" />
     <Compile Include="Api\Service\IZLogger.cs" />
     <Compile Include="Api\Service\IZProcessTracker.cs" />
@@ -126,11 +126,11 @@
     <Compile Include="Core\Helpers\CollectionHelper.cs" />
     <Compile Include="Core\Helpers\ZPingService.cs" />
     <Compile Include="Core\Helpers\ZUIntToIpAddress.cs" />
-    <Compile Include="Api\Models\Shared\ZCoopDifficulty.cs" />
-    <Compile Include="Api\Models\Shared\ZCoopLevels.cs" />
-    <Compile Include="Api\Models\Shared\ZGameArchitecture.cs" />
-    <Compile Include="Api\Models\Shared\ZJoinPlayerRole.cs" />
-    <Compile Include="Api\Models\Shared\ZRunResult.cs" />
+    <Compile Include="Api\Shared\ZCoopDifficulty.cs" />
+    <Compile Include="Api\Shared\ZCoopLevels.cs" />
+    <Compile Include="Api\Shared\ZGameArchitecture.cs" />
+    <Compile Include="Api\Shared\ZJoinPlayerRole.cs" />
+    <Compile Include="Api\Shared\ZRunResult.cs" />
     <Compile Include="Core\ZClientAPI\IZClient.cs" />
     <Compile Include="Core\ZClientAPI\ZBuffer.cs" />
     <Compile Include="Core\ZClientAPI\ZClientImpl.cs" />
@@ -149,7 +149,7 @@
     <Compile Include="Core\Data\ZMapNameConverter.cs" />
     <Compile Include="Core\Helpers\ZParsersFactory.cs" />
     <Compile Include="Core\ZClientAPI\ZCommand.cs" />
-    <Compile Include="Api\Models\Shared\ZGame.cs" />
+    <Compile Include="Api\Shared\ZGame.cs" />
     <Compile Include="Core\Data\ZObservableObject.cs" />
     <Compile Include="Core\Data\Attributes\ZObservablePropertyAttribute.cs" />
     <Compile Include="Core\Helpers\ZStringConstants.cs" />
@@ -171,5 +171,6 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\stats.bf3_rankDetails.json" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

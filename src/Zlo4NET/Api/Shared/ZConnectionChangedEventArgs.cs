@@ -5,7 +5,7 @@ using Zlo4NET.Api.DTOs;
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 // ReSharper disable MemberCanBePrivate.Global
 
-namespace Zlo4NET.Api.Models.Shared
+namespace Zlo4NET.Api.Shared
 {
     /// <inheritdoc />
     /// <summary>
@@ -24,7 +24,7 @@ namespace Zlo4NET.Api.Models.Shared
 
         /// <inheritdoc />
         /// <summary>
-        /// Creates an instance of <see cref="T:Zlo4NET.Api.Models.Shared.ZConnectionChangedEventArgs" />
+        /// Creates an instance of <see cref="T:Zlo4NET.Api.Shared.ZConnectionChangedEventArgs" />
         /// </summary>
         public ZConnectionChangedEventArgs(bool isConnected, ZUser authorizedUserDto)
         {

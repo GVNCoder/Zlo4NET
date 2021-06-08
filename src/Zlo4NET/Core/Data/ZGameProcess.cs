@@ -8,7 +8,7 @@ using Zlo4NET.Api.DTOs;
 using Zlo4NET.Api.Service;
 using Zlo4NET.Core.Services;
 using Zlo4NET.Core.ZClientAPI;
-using Zlo4NET.Api.Models.Shared;
+using Zlo4NET.Api.Shared;
 using Zlo4NET.Core.Helpers;
 
 namespace Zlo4NET.Core.Data

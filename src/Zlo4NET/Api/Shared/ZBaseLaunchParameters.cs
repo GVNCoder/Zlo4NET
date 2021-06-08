@@ -1,6 +1,6 @@
 ﻿using Zlo4NET.Api.DTOs;
 
-namespace Zlo4NET.Api.Models.Shared
+namespace Zlo4NET.Api.Shared
 {
     /// <summary>
     /// 

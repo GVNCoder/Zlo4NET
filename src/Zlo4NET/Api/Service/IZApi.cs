@@ -2,11 +2,9 @@
 using System.ComponentModel;
 using System.Threading.Tasks;
 
-using Zlo4NET.Api.Service;
-using Zlo4NET.Api.Models.Shared;
-using Zlo4NET.Core.Services;
+using Zlo4NET.Api.Shared;
 
-namespace Zlo4NET.Api
+namespace Zlo4NET.Api.Service
 {
     /// <summary>
     /// 

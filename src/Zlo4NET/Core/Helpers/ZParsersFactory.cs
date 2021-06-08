@@ -1,7 +1,7 @@
 ﻿using System;
 
 using Zlo4NET.Core.Services;
-using Zlo4NET.Api.Models.Shared;
+using Zlo4NET.Api.Shared;
 using Zlo4NET.Core.Data.Parsers;
 
 namespace Zlo4NET.Core.Helpers
