@@ -90,21 +90,22 @@
     <Compile Include="Data\ZGameFactory.cs" />
     <Compile Include="Data\ZInjectorImpl.cs" />
     <Compile Include="Data\ZInstalledGamesImpl.cs" />
-    <Compile Include="Data\Attributes\ZMapperPropertyAttribute.cs" />
     <Compile Include="Data\ZResource.cs" />
     <Compile Include="Data\ZGameProcess.cs" />
     <Compile Include="Data\ZGamePipe.cs" />
     <Compile Include="Data\ZGameStateModel.cs" />
     <Compile Include="Data\ZGameStateParser.cs" />
     <Compile Include="Extensions\ZLoggerExtensions.cs" />
-    <Compile Include="Helpers\ZCollectionWrapper.cs" />
     <Compile Include="Helpers\ZConnectionHelper.cs" />
     <Compile Include="Helpers\ZBitConverter.cs" />
     <Compile Include="Helpers\ZGameHelper.cs" />
     <Compile Include="Helpers\ZGameProcessCreateMethodsProvider.cs" />
     <Compile Include="Helpers\ZGameSpecificStatsHandlerProvider.cs" />
-    <Compile Include="Helpers\ZMapperHelper.cs" />
-    <Compile Include="Helpers\ZObservableHelper.cs" />
+    <Compile Include="ReactiveApi\IZReactive.cs" />
+    <Compile Include="ReactiveApi\Mapper\ZMapper.cs" />
+    <Compile Include="ReactiveApi\Mapper\ZMapperPropertyAttribute.cs" />
+    <Compile Include="ReactiveApi\ZReactivePropertyAttribute.cs" />
+    <Compile Include="ReactiveApi\ZReactiveObject.cs" />
     <Compile Include="Services\IZGameRunParser.cs" />
     <Compile Include="Api\Service\IZInjector.cs" />
     <Compile Include="Services\IZInstalledGamesParser.cs" />
@@ -117,7 +118,6 @@
     <Compile Include="Api\Service\IZProcessTracker.cs" />
     <Compile Include="Api\Service\IZConnection.cs" />
     <Compile Include="Api\Service\IZServersList.cs" />
-    <Compile Include="Data\ZChangesMapper.cs" />
     <Compile Include="Data\ZLoggerImpl.cs" />
     <Compile Include="Extensions\ZBinaryReaderExtensions.cs" />
     <Compile Include="Helpers\CollectionHelper.cs" />
@@ -147,8 +147,6 @@
     <Compile Include="Helpers\ZParsersFactory.cs" />
     <Compile Include="ZClientAPI\ZCommand.cs" />
     <Compile Include="Api\Shared\ZGame.cs" />
-    <Compile Include="Data\ZObservableObject.cs" />
-    <Compile Include="Data\Attributes\ZObservablePropertyAttribute.cs" />
     <Compile Include="Data\ZConnection.cs" />
     <Compile Include="Data\ZProcessTracker.cs" />
     <Compile Include="Data\ZServersListImpl.cs" />
@@ -167,6 +165,8 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\stats.bf3_rankDetails.json" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="ReactiveApi\Model\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
