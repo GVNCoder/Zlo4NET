@@ -90,7 +90,7 @@
     <Compile Include="Core\Data\ZActionState.cs" />
     <Compile Include="Core\Data\ZGameFactory.cs" />
     <Compile Include="Core\Data\ZInjectorImpl.cs" />
-    <Compile Include="Core\Data\ZInstalledGames.cs" />
+    <Compile Include="Core\Data\ZInstalledGamesImpl.cs" />
     <Compile Include="Core\Data\Attributes\ZMapperPropertyAttribute.cs" />
     <Compile Include="Core\Data\ZResource.cs" />
     <Compile Include="Core\Data\ZGameProcess.cs" />
@@ -163,8 +163,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <EmbeddedResource Include="Resources\gameModes.json" />
-    <EmbeddedResource Include="Resources\maps.json" />
+    <EmbeddedResource Include="Resources\shared.gamemode.json" />
+    <EmbeddedResource Include="Resources\shared.gamemap.json" />
     <EmbeddedResource Include="Resources\run.json" />
     <EmbeddedResource Include="Resources\stats.bf4_rankDetails.json" />
   </ItemGroup>

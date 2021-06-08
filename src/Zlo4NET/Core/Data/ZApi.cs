@@ -44,7 +44,7 @@ namespace Zlo4NET.Core.Data
             _playerStats     = new ZPlayerStatsImpl();
             _gameFactory     = new ZGameFactory(_connection);
             _injector        = new ZInjectorImpl();
-            _installedGames  = new ZInstalledGames();
+            _installedGames  = new ZInstalledGamesImpl();
 
             // initializing the static helpers
             ZConnectionHelper.Initialize(_connection);

@@ -10,14 +10,14 @@ using Zlo4NET.Core.ZClientAPI;
 
 namespace Zlo4NET.Core.Data
 {
-    internal class ZInstalledGames : IZInstalledGames
+    internal class ZInstalledGamesImpl : IZInstalledGames
     {
         private readonly IZInstalledGamesParser _installedGamesParser;
         private readonly ZLoggerImpl _logger;
 
         #region Ctor
 
-        public ZInstalledGames()
+        public ZInstalledGamesImpl()
         {
             _installedGamesParser = ZParsersFactory.CreateInstalledGamesInfoParser();
             _logger = ZLoggerImpl.Instance;

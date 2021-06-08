@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading;
-using Zlo4NET.Api.Models.Shared;
+
 using Zlo4NET.Core.Data;
 
 namespace Zlo4NET.Core.Helpers
