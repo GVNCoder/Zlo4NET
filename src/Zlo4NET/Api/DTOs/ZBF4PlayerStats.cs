@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-using Zlo4NET.Core.Data.Attributes;
+using Zlo4NET.Data.Attributes;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable IdentifierTypo

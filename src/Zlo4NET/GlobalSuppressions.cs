@@ -5,5 +5,4 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-[assembly: SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>", Scope = "type", Target = "~T:Zlo4NET.Core.Data.Parsers.ZPlayerStatsParser._Stats")]
-[assembly: SuppressMessage("Style", "IDE0017:Simplify object initialization", Justification = "<Pending>", Scope = "member", Target = "~M:Zlo4NET.Core.Data.Parsers.ZBF3ServerListParser.ParseServerModel(System.IO.BinaryReader)~Zlo4NET.Api.DTOs.ZServerBase")]
+[assembly: SuppressMessage("Style", "IDE0017:Simplify object initialization", Justification = "<Pending>", Scope = "member", Target = "~M:Zlo4NET.Data.Parsers.ZBF3ServerListParser.ParseServerModel(System.IO.BinaryReader)~Zlo4NET.Api.DTOs.ZServerBase")]

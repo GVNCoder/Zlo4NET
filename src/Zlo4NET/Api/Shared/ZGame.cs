@@ -1,4 +1,4 @@
-﻿using Zlo4NET.Core.Data.Attributes;
+﻿using Zlo4NET.Data.Attributes;
 
 // ReSharper disable InconsistentNaming
 

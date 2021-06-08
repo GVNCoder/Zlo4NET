@@ -1,7 +1,7 @@
 ﻿// ReSharper disable UnusedMember.Global
 // ReSharper disable InconsistentNaming
 
-using Zlo4NET.Core.Data.Attributes;
+using Zlo4NET.Data.Attributes;
 
 namespace Zlo4NET.Api.Shared
 {

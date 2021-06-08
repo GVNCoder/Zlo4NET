@@ -1,6 +1,6 @@
 ﻿using System;
 
-using Zlo4NET.Core.Data;
+using Zlo4NET.Data;
 
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable InheritdocConsiderUsage

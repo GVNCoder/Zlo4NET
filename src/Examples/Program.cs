@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Zlo4NET.Api;
-using Zlo4NET.Core.Data;
+using Zlo4NET.Data;
 using Zlo4NET.Api.Service;
 using Zlo4NET.Api.Shared;
 
