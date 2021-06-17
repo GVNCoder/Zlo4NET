@@ -101,11 +101,6 @@
     <Compile Include="Helpers\ZGameHelper.cs" />
     <Compile Include="Helpers\ZGameProcessCreateMethodsProvider.cs" />
     <Compile Include="Helpers\ZGameSpecificStatsHandlerProvider.cs" />
-    <Compile Include="ReactiveApi\IZReactive.cs" />
-    <Compile Include="ReactiveApi\Mapper\ZMapper.cs" />
-    <Compile Include="ReactiveApi\Mapper\ZMapperPropertyAttribute.cs" />
-    <Compile Include="ReactiveApi\ZReactivePropertyAttribute.cs" />
-    <Compile Include="ReactiveApi\ZReactiveObject.cs" />
     <Compile Include="Services\IZGameRunParser.cs" />
     <Compile Include="Api\Service\IZInjector.cs" />
     <Compile Include="Services\IZInstalledGamesParser.cs" />
@@ -165,8 +160,6 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\stats.bf3_rankDetails.json" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ReactiveApi\Model\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
