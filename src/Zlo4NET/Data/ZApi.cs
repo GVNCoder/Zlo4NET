@@ -45,16 +45,13 @@ namespace Zlo4NET.Data
             _gameFactory     = new ZGameFactory(_connection);
             _injector        = new ZInjectorImpl();
             _installedGames  = new ZInstalledGamesImpl();
-
-            // initializing the static helpers
-            ZConnectionHelper.Initialize(_connection);
         }
 
         #region IZApi
 
         public async Task<IZServersList> CreateServersListServiceAsync(ZGame game)
         {
-            ZGameHelper.ThrowIfOutOfRange(game);
+            ZThrowHelper.ThrowIfNone(game);
 
             // first of all need to destroy last created instance
             if (_lastCreatedServerListInstance != null && _lastCreatedServerListInstance.IsInstanceAvailable)

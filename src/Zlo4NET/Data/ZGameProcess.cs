@@ -69,7 +69,7 @@ namespace Zlo4NET.Data
 
         public async Task<ZRunResult> RunAsync()
         {
-            ZConnectionHelper.ThrowIfNotConnected();
+            ZThrowHelper.ThrowIfNotConnected();
 
             // send request to run the game
             var request = ZRequestFactory.CreateRunGameRequest(_targetGame.RunnableName, _runArgs);

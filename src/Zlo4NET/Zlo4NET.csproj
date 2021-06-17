@@ -96,11 +96,10 @@
     <Compile Include="Data\ZGameStateModel.cs" />
     <Compile Include="Data\ZGameStateParser.cs" />
     <Compile Include="Extensions\ZLoggerExtensions.cs" />
-    <Compile Include="Helpers\ZConnectionHelper.cs" />
     <Compile Include="Helpers\ZBitConverter.cs" />
-    <Compile Include="Helpers\ZGameHelper.cs" />
     <Compile Include="Helpers\ZGameProcessCreateMethodsProvider.cs" />
     <Compile Include="Helpers\ZGameSpecificStatsHandlerProvider.cs" />
+    <Compile Include="Helpers\ZThrowHelper.cs" />
     <Compile Include="Services\IZGameRunParser.cs" />
     <Compile Include="Api\Service\IZInjector.cs" />
     <Compile Include="Services\IZInstalledGamesParser.cs" />

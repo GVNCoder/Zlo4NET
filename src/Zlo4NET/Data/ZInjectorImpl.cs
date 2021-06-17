@@ -25,8 +25,8 @@ namespace Zlo4NET.Data
 
         public async Task InjectAsync(ZGame targetGame, string filePath)
         {
-            ZConnectionHelper.ThrowIfNotConnected();
-            ZGameHelper.ThrowIfOutOfRange(targetGame);
+            ZThrowHelper.ThrowIfNotConnected();
+            ZThrowHelper.ThrowIfNone(targetGame);
 
             await _InjectInternal(targetGame, filePath);
         }

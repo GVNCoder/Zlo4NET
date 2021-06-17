@@ -48,7 +48,7 @@ namespace Zlo4NET.Data
                 throw new InvalidOperationException("This server list instance is disposed. Please, create a new one.");
             }
 
-            ZConnectionHelper.ThrowIfNotConnected();
+            ZThrowHelper.ThrowIfNotConnected();
 
             // open stream
             var request = ZRequestFactory.CreateServerListOpenStreamRequest(_targetGame);

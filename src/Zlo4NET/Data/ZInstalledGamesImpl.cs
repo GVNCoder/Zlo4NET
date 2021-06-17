@@ -29,7 +29,7 @@ namespace Zlo4NET.Data
 
         public async Task<ZInstalledGamesCollection> GetGamesCollectionAsync()
         {
-            ZConnectionHelper.ThrowIfNotConnected();
+            ZThrowHelper.ThrowIfNotConnected();
 
             return await _GetGamesCollectionInternal();
         }
