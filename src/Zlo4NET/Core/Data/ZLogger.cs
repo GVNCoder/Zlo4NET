@@ -30,7 +30,7 @@ namespace Zlo4NET.Core.Data
         {
             if ((_lastLogMessage != message || passDuplicates) && _levelFilter.HasFlag(level))
             {
-                LogMessage?.Invoke(this, new ZLogMessageArgs(message));
+                LogMessage?.Invoke(this, new ZLogMessageArgs(level, message));
 
                 // save last log message
                 _lastLogMessage = message;
