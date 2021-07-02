@@ -5,17 +5,40 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 using Zlo4NET.Api.Shared;
 using Zlo4NET.Data;
 using Zlo4NET.Extensions;
 
+// ReSharper disable InvertIf
 // ReSharper disable InconsistentNaming
 
 namespace Zlo4NET.ZClientAPI
 {
     internal class ZClientImpl : IZClient
     {
+        #region Internal types
+
+        private class SocketAsyncState
+        {
+            public SocketAsyncState(Socket workSocket)
+            {
+                WorkSocket = workSocket;
+            }
+
+            public SocketAsyncState(Socket workSocket, byte[] buffer) : this(workSocket)
+            {
+                Buffer = buffer;
+            }
+
+            public Socket WorkSocket { get; }
+            public byte[] Buffer { get; }
+            public long BufferSize => Buffer.Length;
+        }
+
+        #endregion
+
         #region Constants
 
         // size of static buffer 8 KBytes
@@ -25,22 +48,22 @@ namespace Zlo4NET.ZClientAPI
 
         #endregion
 
+        private readonly LingerOption _lingerOption;
         private readonly IPEndPoint _endPoint;
         private readonly ZBuffer _buffer;       // used for accumulate message data if it size is more then BUFFER_SIZE constant
         private readonly ZLoggerImpl _logger;
-        private readonly byte[] _readBuffer;    // used for each read operation
 
-        private Socket _socket;
+        private Socket _currentSocket;
         private bool _socketCloseInitiated = false;
 
         #region Ctors
-
+         
         public ZClientImpl()
         {
-            _endPoint   = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 48486);
-            _buffer     = new ZBuffer();
-            _logger     = ZLoggerImpl.Instance;
-            _readBuffer = new byte[BUFFER_SIZE];
+            _lingerOption   = new LingerOption(false, 0);
+            _endPoint       = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 48486);
+            _buffer         = new ZBuffer();
+            _logger         = ZLoggerImpl.Instance;
         }
 
         #endregion
@@ -48,24 +71,29 @@ namespace Zlo4NET.ZClientAPI
         #region Socket operations
 
         private Socket _createSocket()
-            => new Socket(_endPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-        private IAsyncResult _socketBeginConnect()
-            => _socket.BeginConnect(_endPoint,
+            => new Socket(_endPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp)
+                { LingerState = _lingerOption };
+
+        private IAsyncResult _socketBeginConnect(Socket workSocket)
+            => _currentSocket.BeginConnect(_endPoint,
                 new AsyncCallback(_EndConnectCallback),
-                null);
-        private IAsyncResult _socketBeginReceive()
-            => _socket.BeginReceive(_readBuffer, 0, BUFFER_SIZE, SocketFlags.None,
+                new SocketAsyncState(workSocket));
+
+        private IAsyncResult _socketBeginReceive(Socket workSocket, byte[] buffer)
+            => _currentSocket.BeginReceive(buffer, 0, buffer.Length, SocketFlags.None,
                 new AsyncCallback(_EndReceiveCallback),
-                null);
-        private IAsyncResult _socketBeginSend(byte[] buffer)
-            => _socket.BeginSend(buffer, 0, buffer.Length, SocketFlags.None,
+                new SocketAsyncState(workSocket, buffer));
+
+        private IAsyncResult _socketBeginSend(Socket workSocket, byte[] buffer)
+            => _currentSocket.BeginSend(buffer, 0, buffer.Length, SocketFlags.None,
                 new AsyncCallback(_EndSendCallback),
-                buffer);
-        private void _closeSocket()
+                new SocketAsyncState(workSocket, buffer));
+
+        private void _closeSocket(Socket workSocket)
         {
             try
             {
-                _socket.Shutdown(SocketShutdown.Both);
+                workSocket.Shutdown(SocketShutdown.Both);
             }
             catch
             {
@@ -73,10 +101,10 @@ namespace Zlo4NET.ZClientAPI
             }
             finally
             {
-                _socketCloseInitiated = false;
+                workSocket.Close();
 
                 _buffer.Clear();
-                _socket.Close();
+                _socketCloseInitiated = false;
             }
         }
 
@@ -86,64 +114,28 @@ namespace Zlo4NET.ZClientAPI
 
         private void _EndConnectCallback(IAsyncResult asyncResult)
         {
+            var socketState = (SocketAsyncState) asyncResult.AsyncState;
+            var socket = socketState.WorkSocket;
+
             try
             {
-                _socket.EndConnect(asyncResult);
+                // complete socket connection
+                socket.EndConnect(asyncResult);
 
-                if (_socket.Connected)
+                // wait to data receive if connected
+                if (socket.Connected)
                 {
-                    _socketBeginReceive();
+                    // create read buffer
+                    var buffer = new byte[BUFFER_SIZE];
+
+                    // lets go
+                    _socketBeginReceive(socket, buffer);
                 }
             }
             catch (SocketException ex)
             {
                 _logSocketMessage(ZLoggingLevel.Error, $"Socket connection error {ex.SocketErrorCode} {ex.ErrorCode}");
-            }
-            catch (Exception ex)
-            {
-                _logSocketMessage(ZLoggingLevel.Error, $"Socket unexpected error {ex.Message}");
-            }
-            finally
-            {
-                // can`t connect to endPoint
-                if (! _socket.Connected)
-                {
-                    _closeSocket();
-                }
-
-                _OnConnectionStateChanged(_socket.Connected);
-            }
-        }
-        private void _EndReceiveCallback(IAsyncResult asyncResult)
-        {
-            var bytesReceived = 0;
-
-            try
-            {
-                bytesReceived = _socket.EndReceive(asyncResult);
-
-                if (bytesReceived == 0)
-                {
-                    throw new Exception("The sender has closed their connection");
-                }
-
-                var receivedBytes = _readBuffer.Take(bytesReceived);
-
-                // append received bytes to internal buffer
-                _buffer.Append(receivedBytes);
-
-                // process internal buffer
-                _OnBytesReceived();
-
-                // I need more bytes! if we still connected
-                if (_socket.Connected)
-                {
-                    _socketBeginReceive();
-                }
-            }
-            catch (SocketException ex)
-            {
-                _logSocketMessage(ZLoggingLevel.Error, $"Socket receive error {ex.SocketErrorCode} {ex.ErrorCode}");
+                _closeSocket(socket);
             }
             catch (ObjectDisposedException)
             {
@@ -153,27 +145,80 @@ namespace Zlo4NET.ZClientAPI
             catch (Exception ex)
             {
                 _logSocketMessage(ZLoggingLevel.Error, $"Socket unexpected error {ex.Message}");
+                _closeSocket(socket);
             }
             finally
             {
-                // the sender has closed their connection
-                if (!_socket.Connected || bytesReceived == 0)
+                // it is the same socket
+                if (_currentSocket == socket)
                 {
-                    _closeSocket();
+                    _OnConnectionStateChanged(socket.Connected);
+                }
+            }
+        }
+        private void _EndReceiveCallback(IAsyncResult asyncResult)
+        {
+            var socketState = (SocketAsyncState) asyncResult.AsyncState;
+            var socket = socketState.WorkSocket;
+
+            try
+            {
+                // complete socket receive
+                var bytesReceived = socket.EndReceive(asyncResult);
+                if (bytesReceived == 0)
+                {
+                    throw new Exception("The sender has closed their connection");
+                }
+
+                var readBuffer = socketState.Buffer;
+                var receivedBytes = readBuffer.Take(bytesReceived);
+
+                // append received bytes to internal buffer
+                _buffer.Append(receivedBytes);
+
+                // process internal buffer
+                _OnBytesReceived();
+
+                // I need more bytes! if we still connected ofcourse
+                if (socket.Connected)
+                {
+                    _socketBeginReceive(socket, readBuffer);
+                }
+            }
+            catch (SocketException ex)
+            {
+                _logSocketMessage(ZLoggingLevel.Error, $"Socket receive error {ex.SocketErrorCode} {ex.ErrorCode}");
+                _closeSocket(socket);
+            }
+            catch (ObjectDisposedException)
+            {
+                // ignore
+                // we do not need to log it, see the next catch
+            }
+            catch (Exception ex)
+            {
+                _logSocketMessage(ZLoggingLevel.Error, $"Socket unexpected error {ex.Message}");
+                _closeSocket(socket);
+            }
+            finally
+            {
+                // it is the same socket
+                if (_currentSocket == socket && socket.Connected == false)
+                {
                     _OnConnectionStateChanged(false);
                 }
             }
         }
         private void _EndSendCallback(IAsyncResult asyncResult)
         {
-            var requestBytes = (byte[]) asyncResult.AsyncState;
-            var bytesSent = 0;
+            var socketState = (SocketAsyncState) asyncResult.AsyncState;
+            var socket = socketState.WorkSocket;
 
             try
             {
-                bytesSent = _socket.EndSend(asyncResult);
-
-                if (bytesSent != requestBytes.Length)
+                // complete socket send
+                var bytesSent = socket.EndSend(asyncResult);
+                if (bytesSent != socketState.BufferSize)
                 {
                     throw new Exception("The sender has closed their connection");
                 }
@@ -181,6 +226,7 @@ namespace Zlo4NET.ZClientAPI
             catch (SocketException ex)
             {
                 _logSocketMessage(ZLoggingLevel.Error, $"Socket send error {ex.ErrorCode} {ex.SocketErrorCode}");
+                _closeSocket(socket);
             }
             catch (ObjectDisposedException)
             {
@@ -190,12 +236,13 @@ namespace Zlo4NET.ZClientAPI
             catch (Exception ex)
             {
                 _logSocketMessage(ZLoggingLevel.Error, $"Socket unexpected error {ex.Message}");
+                _closeSocket(socket);
             }
             finally
             {
-                if (! _socket.Connected || bytesSent == 0)
+                // it is the same socket
+                if (_currentSocket == socket && socket.Connected == false)
                 {
-                    _closeSocket();
                     _OnConnectionStateChanged(false);
                 }
             }
@@ -252,11 +299,11 @@ namespace Zlo4NET.ZClientAPI
         private void _OnPacketsReceived(IEnumerable<ZPacket> packets) => PacketsReceived?.Invoke(packets);
 
         // solves the problem that when we disconnect the socket of our own free will, then it is not necessary to log related errors
-        private void _logSocketMessage(ZLoggingLevel level, string message)
+        private void _logSocketMessage(ZLoggingLevel level, string message, [CallerMemberName] string callerName = null)
         {
-            if (! _socketCloseInitiated)
+            if (_socketCloseInitiated == false)
             {
-                _logger.Log(level, message);
+                _logger.Log(level, $"{callerName} {message}");
             }
         }
 
@@ -270,17 +317,23 @@ namespace Zlo4NET.ZClientAPI
 
         public void Run()
         {
-            _socket = _createSocket();
-            _socketBeginConnect();
+            // this helps complete all asynchronous pendings for the current socket
+            if (_currentSocket != null)
+            {
+                Close();
+            }
+
+            _currentSocket = _createSocket();
+            _socketBeginConnect(_currentSocket);
         }
         public void Close()
         {
             _socketCloseInitiated = true;
-            _closeSocket();
+            _closeSocket(_currentSocket);
         }
         public void SendRequest(byte[] requestBytes)
         {
-            _socketBeginSend(requestBytes);
+            _socketBeginSend(_currentSocket, requestBytes);
         }
 
         #endregion

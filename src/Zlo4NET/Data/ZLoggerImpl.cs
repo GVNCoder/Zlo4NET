@@ -31,7 +31,7 @@ namespace Zlo4NET.Data
             // check is it duplicate and can it pass filter
             if ((_lastLogMessage != message || passDuplicates) && _levelFilteringFlags.HasFlag(level))
             {
-                ApiMessage?.Invoke(this, new ZLoggerMessageEventArgs(message));
+                ApiMessage?.Invoke(this, new ZLoggerMessageEventArgs(level, message));
 
                 // save last log message
                 _lastLogMessage = message;

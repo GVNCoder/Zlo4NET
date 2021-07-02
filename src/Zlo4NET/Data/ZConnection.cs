@@ -77,6 +77,7 @@ namespace Zlo4NET.Data
                 {
                     var userRequest = ZRequestFactory.CreateUserInfoRequest();
                     var response = await ZRouter.GetResponseAsync(userRequest);
+                    //var response = new ZResponse(null) { StatusCode = ZResponseStatusCode.Declined };
 
                     if (response.StatusCode == ZResponseStatusCode.Ok)
                     {
