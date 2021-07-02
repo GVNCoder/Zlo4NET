@@ -299,7 +299,7 @@ namespace Zlo4NET.ZClientAPI
         private void _OnPacketsReceived(IEnumerable<ZPacket> packets) => PacketsReceived?.Invoke(packets);
 
         // solves the problem that when we disconnect the socket of our own free will, then it is not necessary to log related errors
-        private void _logSocketMessage(ZLogLevel level, string message, [CallerMemberName] string callerName = null)
+        private void _logSocketMessage(ZLoggingLevel level, string message, [CallerMemberName] string callerName = null)
         {
             if (_socketCloseInitiated == false)
             {
