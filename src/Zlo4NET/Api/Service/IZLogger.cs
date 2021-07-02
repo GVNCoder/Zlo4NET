@@ -1,22 +1,22 @@
 ﻿using System;
 
-using Zlo4NET.Api.Models.Shared;
+using Zlo4NET.Api.Shared;
 
 namespace Zlo4NET.Api.Service
 {
     /// <summary>
-    /// Defines logger
+    /// 
     /// </summary>
     public interface IZLogger
     {
         /// <summary>
-        /// Occurs when a message has been received for the log.
+        /// Occurs when a message has been received
         /// </summary>
-        event EventHandler<ZLogMessageArgs> LogMessage;
+        event EventHandler<ZLoggerMessageEventArgs> ApiMessage;
         /// <summary>
-        /// Sets message display filtering
+        /// 
         /// </summary>
-        /// <param name="level">Levels for filtering</param>
-        void SetLogLevelFiltering(ZLogLevel level);
+        /// <param name="levelFlags"></param>
+        void SetLoggingLevelFiltering(ZLoggingLevel levelFlags);
     }
 }

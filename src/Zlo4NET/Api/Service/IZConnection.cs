@@ -1,6 +1,7 @@
 ﻿using System;
-using Zlo4NET.Api.DTO;
-using Zlo4NET.Api.Models.Shared;
+
+using Zlo4NET.Api.DTOs;
+using Zlo4NET.Api.Shared;
 
 namespace Zlo4NET.Api.Service
 {
@@ -22,14 +23,18 @@ namespace Zlo4NET.Api.Service
         /// Gets current authorized in ZClient user
         /// </summary>
         /// <returns>Returns current authorized in ZClient user</returns>
-        ZUserDto GetCurrentUserInfo();
+        ZUser GetCurrentUserInfo();
         /// <summary>
         /// Occurs when the connection changes state
         /// </summary>
         event EventHandler<ZConnectionChangedEventArgs> ConnectionChanged;
         /// <summary>
-        /// Gets current connection state with ZClient
+        /// Gets a value that indicates current connection state with ZClient
         /// </summary>
         bool IsConnected { get; }
+        /// <summary>
+        /// Gets a value that indicates whether the <see cref="IZConnection"/> is in connection pending mode
+        /// </summary>
+        bool IsPending { get; }
     }
 }
