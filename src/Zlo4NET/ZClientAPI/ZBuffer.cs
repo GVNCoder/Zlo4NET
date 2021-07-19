@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Zlo4NET.Helpers;
@@ -13,8 +14,7 @@ namespace Zlo4NET.ZClientAPI
 
         public ZBuffer()
         {
-            _buffer = CollectionHelper.GetEmptyEnumerable<byte>()
-                .ToArray();
+            _buffer = Array.Empty<byte>();
         }
         public ZBuffer(byte[] buffer) : this()
         {
@@ -44,7 +44,7 @@ namespace Zlo4NET.ZClientAPI
         /// <summary>
         /// Sets empty buffer
         /// </summary>
-        public void Clear() => _buffer = CollectionHelper.GetEmptyEnumerable<byte>().ToArray();
+        public void Clear() => _buffer = Array.Empty<byte>();
         /// <summary>
         /// Gets current buffer size
         /// </summary>

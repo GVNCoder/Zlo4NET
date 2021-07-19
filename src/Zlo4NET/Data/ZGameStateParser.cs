@@ -70,7 +70,7 @@ namespace Zlo4NET.Data
                 RawEvent = rawEvent,
                 RawState = rawState,
                 Event = pipeEvent,
-                States = CollectionHelper.GetEmptyEnumerable<ZGameState>().ToArray()
+                States = Array.Empty<ZGameState>()
             };
 
             // select handle paths
