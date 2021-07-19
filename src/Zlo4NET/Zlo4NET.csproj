@@ -114,7 +114,6 @@
     <Compile Include="Api\Service\IZServersList.cs" />
     <Compile Include="Data\ZLoggerImpl.cs" />
     <Compile Include="Extensions\ZBinaryReaderExtensions.cs" />
-    <Compile Include="Helpers\CollectionHelper.cs" />
     <Compile Include="Helpers\ZPingHelper.cs" />
     <Compile Include="Helpers\ZUIntToIpAddress.cs" />
     <Compile Include="Api\Shared\ZCoopDifficulty.cs" />
