@@ -1,163 +1,32 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B7B8B004-CB76-442F-BCAB-7F0DBCF11BDD}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Zlo4NET</RootNamespace>
+    <TargetFramework>net5.0</TargetFramework>
+    <PackageId>Zlo4NET</PackageId>
+    <Authors>Zlo4NET</Authors>
+    <Product>Zlo4NET</Product>
     <AssemblyName>Zlo4NET</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
+    <RootNamespace>Zlo4NET</RootNamespace>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\Zlo4NET.xml</DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
-    <Reference Include="WindowsBase" />
+    <None Remove="Resources\run.json" />
+    <None Remove="Resources\shared.gamemap.json" />
+    <None Remove="Resources\shared.gamemode.json" />
+    <None Remove="Resources\stats.bf3_rankDetails.json" />
+    <None Remove="Resources\stats.bf4_rankDetails.json" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="Api\DTOs\ZBF4PlayerStats.cs" />
-    <Compile Include="Api\DTOs\ZMap.cs" />
-    <Compile Include="Api\DTOs\ZMapRotation.cs" />
-    <Compile Include="Api\DTOs\ZPlayer.cs" />
-    <Compile Include="Api\DTOs\ZBF3PlayerStats.cs" />
-    <Compile Include="Api\DTOs\ZPlayerStatsBase.cs" />
-    <Compile Include="Api\DTOs\ZServerAttributes.cs" />
-    <Compile Include="Api\DTOs\ZBF3Server.cs" />
-    <Compile Include="Api\DTOs\ZBF4Server.cs" />
-    <Compile Include="Api\DTOs\ZServerBase.cs" />
-    <Compile Include="Api\DTOs\ZBFHLServer.cs" />
-    <Compile Include="Api\DTOs\ZUser.cs" />
-    <Compile Include="Api\Shared\ZBaseLaunchParameters.cs" />
-    <Compile Include="Api\Shared\ZConnectionChangedEventArgs.cs" />
-    <Compile Include="Api\Shared\ZCoopClientLaunchParameters.cs" />
-    <Compile Include="Api\Shared\ZCoopHostLaunchParameters.cs" />
-    <Compile Include="Api\Shared\ZMapInMapRotation.cs" />
-    <Compile Include="Api\Shared\ZPlayerRole.cs" />
-    <Compile Include="Api\Shared\ZServerListAction.cs" />
-    <Compile Include="Data\Attributes\ZCoopLevelEnumMetadataAttribute.cs" />
-    <Compile Include="Data\Attributes\ZGameEnumMetadataAttribute.cs" />
-    <Compile Include="Data\Attributes\ZStatsMapperAttribute.cs" />
-    <Compile Include="Data\Parsers\ZBF3ServerListParser.cs" />
-    <Compile Include="Data\Parsers\ZBF4ServerListParser.cs" />
-    <Compile Include="Data\Parsers\ZBFHLServerListParser.cs" />
-    <Compile Include="Data\Parsers\ZServerListParserBase.cs" />
-    <Compile Include="Data\ZGameEvent.cs" />
-    <Compile Include="Data\ZGameState.cs" />
-    <Compile Include="Api\DTOs\ZInstalledGamesCollection.cs" />
-    <Compile Include="Api\Shared\ZLoggerMessageEventArgs.cs" />
-    <Compile Include="Api\Shared\ZLoggingLevel.cs" />
-    <Compile Include="Api\Shared\ZMultiLaunchParameters.cs" />
-    <Compile Include="Api\Shared\ZSingleLaunchParameters.cs" />
-    <Compile Include="Api\Shared\ZTestRangeLaunchParameters.cs" />
-    <Compile Include="Api\Service\IZApi.cs" />
-    <Compile Include="Api\Service\IZGameFactory.cs" />
-    <Compile Include="Api\Service\IZGameProcess.cs" />
-    <Compile Include="Data\Parsers\ZGameRunParser.cs" />
-    <Compile Include="Data\Parsers\ZInstalledGamesParser.cs" />
-    <Compile Include="Data\Parsers\ZPlayerStatsParser.cs" />
-    <Compile Include="Data\ZActionState.cs" />
-    <Compile Include="Data\ZGameFactory.cs" />
-    <Compile Include="Data\ZInjectorImpl.cs" />
-    <Compile Include="Data\ZInstalledGamesImpl.cs" />
-    <Compile Include="Data\ZResource.cs" />
-    <Compile Include="Data\ZGameProcess.cs" />
-    <Compile Include="Data\ZGamePipe.cs" />
-    <Compile Include="Data\ZGameStateModel.cs" />
-    <Compile Include="Data\ZGameStateParser.cs" />
-    <Compile Include="Extensions\ZLoggerExtensions.cs" />
-    <Compile Include="Helpers\ZBitConverter.cs" />
-    <Compile Include="Helpers\ZGameProcessCreateMethodsProvider.cs" />
-    <Compile Include="Helpers\ZGameSpecificStatsHandlerProvider.cs" />
-    <Compile Include="Helpers\ZThrowHelper.cs" />
-    <Compile Include="Services\IZGameRunParser.cs" />
-    <Compile Include="Api\Service\IZInjector.cs" />
-    <Compile Include="Services\IZInstalledGamesParser.cs" />
-    <Compile Include="Api\Service\IZInstalledGames.cs" />
-    <Compile Include="Services\IZPlayerStatsParser.cs" />
-    <Compile Include="Api\Service\IZPlayerStats.cs" />
-    <Compile Include="Api\Shared\ZGameStateChangedEventArgs.cs" />
-    <Compile Include="Api\DTOs\ZInstalledGame.cs" />
-    <Compile Include="Api\Service\IZLogger.cs" />
-    <Compile Include="Api\Service\IZProcessTracker.cs" />
-    <Compile Include="Api\Service\IZConnection.cs" />
-    <Compile Include="Api\Service\IZServersList.cs" />
-    <Compile Include="Data\ZLoggerImpl.cs" />
-    <Compile Include="Extensions\ZBinaryReaderExtensions.cs" />
-    <Compile Include="Helpers\ZPingHelper.cs" />
-    <Compile Include="Helpers\ZUIntToIpAddress.cs" />
-    <Compile Include="Api\Shared\ZCoopDifficulty.cs" />
-    <Compile Include="Api\Shared\ZCoopLevels.cs" />
-    <Compile Include="Api\Shared\ZGameArchitecture.cs" />
-    <Compile Include="Api\Shared\ZJoinPlayerRole.cs" />
-    <Compile Include="Api\Shared\ZRunResult.cs" />
-    <Compile Include="ZClientAPI\IZClient.cs" />
-    <Compile Include="ZClientAPI\ZBuffer.cs" />
-    <Compile Include="ZClientAPI\ZClientImpl.cs" />
-    <Compile Include="ZClientAPI\ZPacket.cs" />
-    <Compile Include="ZClientAPI\ZRequest.cs" />
-    <Compile Include="ZClientAPI\ZRequestMethod.cs" />
-    <Compile Include="ZClientAPI\ZRequestFactory.cs" />
-    <Compile Include="ZClientAPI\ZResponse.cs" />
-    <Compile Include="ZClientAPI\ZResponseStatusCode.cs" />
-    <Compile Include="ZClientAPI\ZRouter.cs" />
-    <Compile Include="Services\IZServerListParser.cs" />
-    <Compile Include="Data\Parsers\ZUserInfoParser.cs" />
-    <Compile Include="Services\IZUserInfoParser.cs" />
-    <Compile Include="Data\ZGameModeConverter.cs" />
-    <Compile Include="Data\ZInternalResource.cs" />
-    <Compile Include="Data\ZMapNameConverter.cs" />
-    <Compile Include="Helpers\ZParsersFactory.cs" />
-    <Compile Include="ZClientAPI\ZCommand.cs" />
-    <Compile Include="Api\Shared\ZGame.cs" />
-    <Compile Include="Data\ZConnection.cs" />
-    <Compile Include="Data\ZProcessTracker.cs" />
-    <Compile Include="Data\ZServersListImpl.cs" />
-    <Compile Include="Data\ZApi.cs" />
-    <Compile Include="Data\ZPlayerStatsImpl.cs" />
-    <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-    <EmbeddedResource Include="Resources\shared.gamemode.json" />
-    <EmbeddedResource Include="Resources\shared.gamemap.json" />
     <EmbeddedResource Include="Resources\run.json" />
+    <EmbeddedResource Include="Resources\shared.gamemap.json" />
+    <EmbeddedResource Include="Resources\shared.gamemode.json" />
+    <EmbeddedResource Include="Resources\stats.bf3_rankDetails.json" />
     <EmbeddedResource Include="Resources\stats.bf4_rankDetails.json" />
   </ItemGroup>
+
   <ItemGroup>
-    <EmbeddedResource Include="Resources\stats.bf3_rankDetails.json" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+
 </Project>

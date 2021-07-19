@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using System.Runtime.Remoting.Messaging;
 
 using Zlo4NET.Api.DTOs;
 using Zlo4NET.Api.Service;
@@ -158,16 +157,14 @@ namespace Zlo4NET.Data
             foreach (var handler in invocationList)
             {
                 var eventHandler = (EventHandler<ZGameStateChangedEventArgs>) handler;
-                eventHandler.BeginInvoke(this, eventArgs, _EndAsyncEvent, null);
+                eventHandler.BeginInvoke(this, eventArgs, _EndAsyncEvent, eventHandler);
             }
         }
 
-        private static void _EndAsyncEvent(IAsyncResult iar)
+        private static void _EndAsyncEvent(IAsyncResult asyncResult)
         {
-            var asyncResult = (AsyncResult) iar;
-            var invokedMethod = (EventHandler<ZGameStateChangedEventArgs>) asyncResult.AsyncDelegate;
-
-            invokedMethod.EndInvoke(iar);
+            var invokedMethod = (EventHandler<ZGameStateChangedEventArgs>) asyncResult.AsyncState;
+            invokedMethod.EndInvoke(asyncResult);
         }
 
         #endregion
