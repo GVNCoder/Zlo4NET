@@ -3,10 +3,11 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <PackageId>Zlo4NET</PackageId>
-    <Authors>Zlo4NET</Authors>
-    <Product>Zlo4NET</Product>
+    <Authors>X_V</Authors>
+    <Product>API Zlo4NET</Product>
     <AssemblyName>Zlo4NET</AssemblyName>
     <RootNamespace>Zlo4NET</RootNamespace>
+    <Version>0.8.2.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
