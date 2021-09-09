@@ -3,10 +3,7 @@ using System.Net.NetworkInformation;
 
 namespace Zlo4NET.Core.Helpers
 {
-    /// <summary>
-    /// Helps calculate roundtrip delay of the server
-    /// </summary>
-    public static class ZPingService
+    internal static class ZPingService
     {
         /// <summary>
         /// Calculate roundtrip delay of the <paramref name="address"/>

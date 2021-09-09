@@ -160,7 +160,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
     <EmbeddedResource Include="Resources\gameModes.json" />
     <EmbeddedResource Include="Resources\maps.json" />
     <EmbeddedResource Include="Resources\run.json" />
@@ -169,6 +168,8 @@
     <EmbeddedResource Include="Resources\stats.template.json" />
     <EmbeddedResource Include="Resources\stats.bf4_details.json" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
