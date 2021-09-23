@@ -26,7 +26,7 @@ namespace Zlo4NET.Helpers
 
         public static void ThrowIfNotConnected()
         {
-            if (_connection.IsConnected || _connection.IsPending)
+            if (_connection.IsConnected == false || _connection.IsPending)
             {
                 throw new InvalidOperationException("There is no connection to the ZClient.");
             }
