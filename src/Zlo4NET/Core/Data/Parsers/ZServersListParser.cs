@@ -174,6 +174,8 @@ namespace Zlo4NET.Core.Data.Parsers
 
             // build map rotation from normalized dictionary
             model.MapRotation = BuildMapRotation(model.Game, normalizedAttributes);
+
+            model.Ping = ZPingService.GetPing(model.Ip);
         }
 
         private IDictionary<string, string> BuildSettings(IDictionary<string, string> attributes)

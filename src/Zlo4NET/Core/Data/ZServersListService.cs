@@ -56,7 +56,7 @@ namespace Zlo4NET.Core.Data
 
             // close stream
             var request = ZRequestFactory.CreateServerListCloseStreamRequest(_gameContext);
-            await ZRouter.CloseStreamAsync(request);
+            var response = await ZRouter.CloseStreamAsync(request);
         }
 
         public void StopReceiving()
