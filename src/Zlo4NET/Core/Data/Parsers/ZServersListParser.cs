@@ -129,13 +129,14 @@ namespace Zlo4NET.Core.Data.Parsers
                     reader.SkipBytes(4);
 
                     // parse specific data
-                    model.PlayersCapacity = reader.ReadByte();
+                    var fullPlayersCapacity = reader.ReadByte();
 
                     // skip block
                     reader.SkipBytes(1); // skip 1 byte [ PRIVATE_SLOTS=1byte; ]
 
                     // parse specific data
                     model.SpectatorsCapacity = reader.ReadByte();
+                    model.PlayersCapacity = (byte) (fullPlayersCapacity - model.SpectatorsCapacity);
 
                     // skip block
                     //reader.SkipBytes(2);  // skip 1 byte [ PRIVATE_SPEC_SLOTS=1byte; GMRG=1byte; ]

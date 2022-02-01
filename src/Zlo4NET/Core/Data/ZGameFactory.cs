@@ -203,9 +203,9 @@ namespace Zlo4NET.Core.Data
         {
             ZConnectionHelper.MakeSureConnection();
 
-            if ((args.Game == ZGame.BF3 || args.Game == ZGame.BFH) && args.Role == ZRole.Spectator)
+            if (args.Game == ZGame.BF3 && args.Role == ZRole.Spectator)
             {
-                throw new ArgumentException("BF3\\BFH is not support Spectator mode.");
+                throw new ArgumentException("BF3 is not support Spectator mode.");
             }
 
             var installedGames = await _installedGamesService.GetInstalledGamesAsync();
