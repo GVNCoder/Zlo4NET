@@ -23,12 +23,14 @@ namespace Zlo4NET.Core.Data
         private const string _personaRefReplaceable = "[personaRef]";
         private const string _gameIdReplaceable = "[gameId]";
         private const string _isSpectatorReplaceable = "[isSpectator]";
+        private const string _isPasswordReplaceable = "[password]";
         private const string _roleReplaceable = "[role]";
         private const string _friendIdReplaceable = "[friendId]";
         private const string _levelReplaceable = "[level]";
         private const string _difficultyReplaceable = "[difficulty]";
 
         private const string _spectatorValue = "isspectator=\\\"true\\\"";
+        private const string _passwordValue = "password=\\\"{0}\\\"";
 
         private readonly IZInstalledGamesService _installedGamesService;
         private readonly IZConnection _connection;
@@ -232,6 +234,7 @@ namespace Zlo4NET.Core.Data
             commandRun = commandRun.Replace(_gameIdReplaceable, args.ServerId.ToString());
             commandRun = commandRun.Replace(_personaRefReplaceable, __userContext.UserId.ToString());
 
+            // handle spectator role
             if (args.Role != ZRole.Spectator)
             {
                 commandRun = commandRun.Replace(_roleReplaceable, args.Role.ToString().ToLower());
@@ -241,6 +244,17 @@ namespace Zlo4NET.Core.Data
             {
                 commandRun = commandRun.Replace(_roleReplaceable, ZRole.Soldier.ToString().ToLower());
                 commandRun = commandRun.Replace(_isSpectatorReplaceable, _spectatorValue);
+            }
+
+            // handle private server
+            if (string.IsNullOrWhiteSpace(args.Password) == false)
+            {
+                var passwordPart = string.Format(_passwordValue, args.Password);
+                commandRun = commandRun.Replace(_isPasswordReplaceable, passwordPart);
+            }
+            else
+            {
+                commandRun = commandRun.Replace(_isPasswordReplaceable, string.Empty);
             }
 
             var runGame = _createRunGame(targetGame, commandRun, args.Game, architecture);

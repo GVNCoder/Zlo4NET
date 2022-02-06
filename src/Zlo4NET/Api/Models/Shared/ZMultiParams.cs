@@ -13,5 +13,9 @@
         /// Gets or sets player role
         /// </summary>
         public ZRole Role { get; set; } = ZRole.Soldier;
+        /// <summary>
+        /// Gets or sets server password
+        /// </summary>
+        public string Password { get; set; }
     }
 }

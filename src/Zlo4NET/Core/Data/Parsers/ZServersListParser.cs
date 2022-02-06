@@ -80,7 +80,6 @@ namespace Zlo4NET.Core.Data.Parsers
         {
             // at first parse bytes from reader
             // parse some basic info
-            //model.Id = reader.ReadZUInt32();
             model.Ip = UIntToIPAddress.Convert(reader.ReadZUInt32());
             model.Port = reader.ReadZUInt16();
 

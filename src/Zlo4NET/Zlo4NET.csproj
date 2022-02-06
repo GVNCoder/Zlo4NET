@@ -60,6 +60,7 @@
     <Compile Include="Api\Models\Shared\ZMapRole.cs" />
     <Compile Include="Api\Models\Shared\ZMapRotation.cs" />
     <Compile Include="Api\Models\Shared\ZPlayerRole.cs" />
+    <Compile Include="Api\Models\Shared\ZServerPassword.cs" />
     <Compile Include="Core\Data\ZGameEvent.cs" />
     <Compile Include="Core\Data\ZGameState.cs" />
     <Compile Include="Core\Data\ZInstalledGames.cs" />

@@ -61,6 +61,10 @@ namespace Zlo4NET.Api.Models.Server
         [ZObservableProperty]
         public string Description => _getValue("description");
         /// <summary>
+        /// Gets server secret. If the value is not defined, the default value "Not Received" will be returned.
+        /// </summary>
+        public string ServerSecret => _getValue("secret");
+        /// <summary>
         /// Gets an indication of the presence of a PangBuster. If the value is not defined, the default value "Not Received" will be returned.
         /// </summary>
         public string PunkBuster => _getValue("punkbuster");
@@ -71,7 +75,7 @@ namespace Zlo4NET.Api.Models.Server
         /// <summary>
         /// Gets type of server. If the value is not defined, the default value "Not Received" will be returned.
         /// </summary>
-        public abstract string ServerType { get; }
+        public string ServerType => _getValue("servertype");
         /// <summary>
         /// Gets tick rate. If the value is not defined, the default value "Not Received" will be returned.
         /// </summary>

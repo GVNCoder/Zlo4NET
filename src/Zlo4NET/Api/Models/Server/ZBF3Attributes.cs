@@ -15,11 +15,6 @@ namespace Zlo4NET.Api.Models.Server
         /// The Battlefield 3 not supported this attribute.
         /// </summary>
         /// <exception cref="NotSupportedException"></exception>
-        public override string ServerType => throw new NotSupportedException();
-        /// <summary>
-        /// The Battlefield 3 not supported this attribute.
-        /// </summary>
-        /// <exception cref="NotSupportedException"></exception>
         public override string FairFight => throw new NotSupportedException();
         /// <summary>
         /// The Battlefield 3 not supported this attribute.

@@ -12,8 +12,6 @@ namespace Zlo4NET.Api.Models.Server
         { }
 
         /// <inheritdoc />
-        public override string ServerType => _getValue("servertype");
-        /// <inheritdoc />
         [ZObservableProperty]
         public override string FairFight => _getValue("fairfight");
         /// <inheritdoc />
